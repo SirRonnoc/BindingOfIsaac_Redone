@@ -31,9 +31,6 @@ public class Main extends JFrame{
 		//starts up the window with specified preferences
 		this.setSize(windowX,windowY);
 		this.setVisible(true);
-<<<<<<< HEAD
-
-=======
 		
 	}
 	
@@ -51,7 +48,6 @@ public class Main extends JFrame{
 			}
 			
 		};
->>>>>>> origin/master
 	}
 	
 	/**
