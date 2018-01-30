@@ -30,7 +30,7 @@ public class Room {
         return dimensionY;
     }
 
-    public String getBackground() {
-        return background;
+    public BufferedImage[] getBackgroundImages() {
+        return backgroundImages;
     }
 }

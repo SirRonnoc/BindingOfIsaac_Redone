@@ -1,3 +1,5 @@
+import Rooms.BasementRoom;
+
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+
+import Tools.*;
 
 public class Main extends JFrame{
 	
@@ -61,7 +65,10 @@ public class Main extends JFrame{
 	 */
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
-			
+			BasementRoom bR = new BasementRoom(2,2);
+			g.drawImage((bR.getBackgroundImages()[0]),0,0,null);
+			g.drawImage((bR.getBackgroundImages()[0]),234,0,null);
+
 		}
 	}
 	// not permanent, here to test
