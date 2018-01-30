@@ -1,4 +1,5 @@
 package Rooms;
+import Tools.GameFileReader;
 
 import javax.imageio.ImageIO;
 
@@ -11,7 +12,7 @@ public class BasementRoom extends Room {
      */
     public BasementRoom(int x, int y) {
         super(x, y);
-
         this.background= "resources/gfx/backdrop/01_basement.png";
+        this.backgroundImages = GameFileReader.split(GameFileReader.readImg(this.background,1,1))
     }
 }

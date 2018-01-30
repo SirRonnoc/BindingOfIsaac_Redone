@@ -1,3 +1,5 @@
+package Tools;
+
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -16,7 +18,7 @@ public class GameFileReader {
 	 * @param yScale - float y scale of the image
 	 * @return - an image of type BufferedImage
 	 */
-	public BufferedImage readImg(String path,double xScale, double yScale) {
+	public static BufferedImage readImg(String path,double xScale, double yScale) {
 		try {
 			BufferedImage img = ImageIO.read(new File(path));
 			BufferedImage temp = new BufferedImage((int)(img.getWidth()*xScale),(int)(img.getHeight()*xScale),BufferedImage.TYPE_INT_ARGB);
@@ -37,7 +39,7 @@ public class GameFileReader {
 	 * @param yScale - y scale of the image
 	 * @return - an image of type BufferedImage
 	 */
-	public BufferedImage readImgInverted(String path,double xScale,double yScale) {
+	public static BufferedImage readImgInverted(String path,double xScale,double yScale) {
 		try {
 			BufferedImage img = ImageIO.read(new File(path));
 			AffineTransform aT = AffineTransform.getScaleInstance(-1,1);
@@ -61,7 +63,7 @@ public class GameFileReader {
 	 * @param path - path to read file from
 	 * @return - BufferedReader holding information from the file
 	 */
-	public BufferedReader readFile(String path) {
+	public static BufferedReader readFile(String path) {
 		try {
 			return new BufferedReader(new FileReader(path));
 		}
@@ -72,7 +74,7 @@ public class GameFileReader {
 	/**
 	 * Cuts a given spritesheet into specified number of images, spritesheet must have all images arranged horizontally, does not cut vertically
 	 * @param fullImage - image to be cut up
-	 * @param index - number of slices to cut sheet into
+	 * @param xIndex - number of slices to cut sheet into
 	 * @param xOff - x Offset to cut image with, cuts specified number of pixels from the left of the image
 	 * @param yOff - y Offset to cut image with, 
 	 * @return BufferedImage[] of the cut images 

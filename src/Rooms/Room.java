@@ -1,5 +1,5 @@
 package Rooms;
-
+import Tools.GameFileReader;
 import javax.print.DocFlavor;
 import java.awt.image.BufferedImage;
 
@@ -10,6 +10,7 @@ public class Room {
     protected int dimensionX, dimensionY;
     public static int pieceSize=156;
     protected String background;
+    protected BufferedImage[] backgroundImages = new BufferedImage[6];
     /**
      * Room Constructor
      * @param x
