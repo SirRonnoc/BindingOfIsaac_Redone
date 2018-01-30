@@ -24,6 +24,9 @@ public class Main extends JFrame{
 		//sets update function from slave function
 		this.updateFunction = this.setUpdateFunction();
 		
+		//adds the draw to the JFrame
+		this.add(new Draw());
+		
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
@@ -43,8 +46,9 @@ public class Main extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				
+				
+				repaint();
 			}
 			
 		};

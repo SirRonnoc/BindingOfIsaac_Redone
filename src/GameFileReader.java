@@ -73,40 +73,22 @@ public class GameFileReader {
 	 * Cuts a given spritesheet into specified number of images, spritesheet must have all images arranged horizontally, does not cut vertically
 	 * @param fullImage - image to be cut up
 	 * @param index - number of slices to cut sheet into
-	 * @param flipped - whether or not to horizontally invert images
 	 * @param xOff - x Offset to cut image with, cuts specified number of pixels from the left of the image
-	 * @param yOff - y Offset to cut image with, unimplemented
+	 * @param yOff - y Offset to cut image with, 
 	 * @return BufferedImage[] of the cut images 
 	 */
-	public BufferedImage[] split(BufferedImage fullImage,int index,boolean flipped,int xOff,int yOff,double xScale, double yScale) {
-		BufferedImage[] temp = new BufferedImage[index];
+	public static BufferedImage[] split(BufferedImage fullImage,int xIndex,int yIndex,int xOff,int yOff,double xScale, double yScale) {
+		BufferedImage[] temp = new BufferedImage[xIndex*yIndex];
 		int iW = fullImage.getWidth();
 		int iH = fullImage.getHeight();
-		if (!flipped) {
-			for (int i =0; i < index;i++) {
-				BufferedImage iT = new BufferedImage((int)((iW/index - xOff)*xScale),(int)(iH*yScale),BufferedImage.TYPE_INT_ARGB);
-				iT.getGraphics().drawImage(fullImage.getSubimage((int)(iW/index)*i, 0,(int)(iW/index) - xOff, iH).getScaledInstance((int)((iW/index-xOff)*xScale), (int)(iH*yScale), BufferedImage.SCALE_SMOOTH),0,0,null);
-				temp[i] = iT;
-			}
+		for (int y = 0; y < yIndex;y++) {
+		for (int i =0; i < xIndex;i++) {
+			BufferedImage iT = new BufferedImage((int)((iW/xIndex - xOff)*xScale),(int)((iH/yIndex - yOff)*yScale),BufferedImage.TYPE_INT_ARGB);
+			iT.getGraphics().drawImage(fullImage.getSubimage((int)(iW/xIndex)*i, (int)(iH/yIndex)*y,(int)(iW/xIndex) - xOff, (int)(iH/yIndex) - yOff).getScaledInstance((int)((iW/xIndex-xOff)*xScale), (int)((iH/yIndex - yOff)*yScale), BufferedImage.SCALE_SMOOTH),0,0,null);
+			temp[y*xIndex + i] = iT;
 		}
-		else {
-			
-			for (int i =0; i < index;i++) {
-			BufferedImage iT = new BufferedImage((int)((iW/index-xOff)*xScale),(int)(iH*yScale),BufferedImage.TYPE_INT_ARGB);
-			AffineTransform aT = AffineTransform.getScaleInstance(-1,1);
-			Image img = fullImage.getSubimage((int)(iW/index)*i, 0,(int)(iW/index) -xOff, iH).getScaledInstance((int)((iW/index -xOff)*xScale), (int)(iH*yScale), BufferedImage.SCALE_SMOOTH);
-			
-			
-			
-			iT.getGraphics().drawImage(img,0,0,null);
-			aT.translate(-iT.getWidth(), 0);
-			AffineTransformOp op = new AffineTransformOp(aT,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-			iT = op.filter(iT, null);
-			temp[i] = iT;
-			}
 		}
-		//System.out.println("finished");
-		
+			
 		return temp;
 	}
 }
