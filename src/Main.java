@@ -18,6 +18,7 @@ public class Main extends JFrame{
 		this.windowX = xSize; this.windowY = ySize;
 		this.setSize(windowX,windowY);
 		this.setVisible(true);
+
 	}
 	
 	/**
