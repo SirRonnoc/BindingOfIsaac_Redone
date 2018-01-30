@@ -1,11 +1,15 @@
 package Rooms;
+
+import javax.print.DocFlavor;
+import java.awt.image.BufferedImage;
+
 /**
  * Room class basis for all rooms.
  */
 public class Room {
     protected int dimensionX, dimensionY;
-    protected static int pieceSize=156;
-
+    public static int pieceSize=156;
+    protected String background;
     /**
      * Room Constructor
      * @param x
@@ -25,4 +29,7 @@ public class Room {
         return dimensionY;
     }
 
+    public String getBackground() {
+        return background;
+    }
 }
