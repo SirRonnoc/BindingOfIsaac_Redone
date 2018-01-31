@@ -39,7 +39,7 @@ public class GameFileReader {
 	 * @param yScale - y scale of the image
 	 * @return - an image of type BufferedImage
 	 */
-	public static BufferedImage readImgInverted(String path,double xScale,double yScale) {
+	public static BufferedImage readImgInvertedX(String path,double xScale,double yScale) {
 		try {
 			BufferedImage img = ImageIO.read(new File(path));
 			AffineTransform aT = AffineTransform.getScaleInstance(-1,1);
@@ -51,6 +51,46 @@ public class GameFileReader {
 			return temp;
 			
 			
+		}
+		catch (Exception e)
+		{
+			System.out.println("File failed to be read: " + e.toString());
+			return null;
+		}
+	}
+
+	public static BufferedImage readImgInvertedY(String path,double xScale,double yScale) {
+		try {
+			BufferedImage img = ImageIO.read(new File(path));
+			AffineTransform aT = AffineTransform.getScaleInstance(1,-1);
+			aT.translate(0, -img.getHeight());
+			AffineTransformOp op = new AffineTransformOp(aT,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			img = op.filter(img, null);
+			BufferedImage temp = new BufferedImage((int)(img.getWidth()*xScale),(int)(img.getHeight()*xScale),BufferedImage.TYPE_INT_ARGB);
+			temp.getGraphics().drawImage(img.getScaledInstance((int)(img.getWidth()*xScale), (int)(img.getHeight()*yScale), BufferedImage.SCALE_SMOOTH),0,0,null);
+			return temp;
+
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("File failed to be read: " + e.toString());
+			return null;
+		}
+	}
+
+	public static BufferedImage readImgInvertedXY(String path,double xScale,double yScale) {
+		try {
+			BufferedImage img = ImageIO.read(new File(path));
+			AffineTransform aT = AffineTransform.getScaleInstance(-1,-1);
+			aT.translate(-img.getWidth(), -img.getHeight());
+			AffineTransformOp op = new AffineTransformOp(aT,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			img = op.filter(img, null);
+			BufferedImage temp = new BufferedImage((int)(img.getWidth()*xScale),(int)(img.getHeight()*xScale),BufferedImage.TYPE_INT_ARGB);
+			temp.getGraphics().drawImage(img.getScaledInstance((int)(img.getWidth()*xScale), (int)(img.getHeight()*yScale), BufferedImage.SCALE_SMOOTH),0,0,null);
+			return temp;
+
+
 		}
 		catch (Exception e)
 		{
