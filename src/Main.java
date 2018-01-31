@@ -65,16 +65,20 @@ public class Main extends JFrame{
 	 */
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
-			BasementRoom bR = new BasementRoom(2,2);
+			paintRoom(g);
+
+		}
+		public void paintRoom(Graphics g ){
+            BasementRoom bR = new BasementRoom(2,2);
             g.drawImage(bR.getRoomImages()[0],0,0,null);
-			g.drawImage(bR.getRoomImages()[1],bR.getRoomImages()[1].getWidth(),0,null);
+            g.drawImage(bR.getRoomImages()[1],bR.getRoomImages()[1].getWidth(),0,null);
             g.drawImage(bR.getRoomImages()[2],0,bR.getRoomImages()[2].getHeight(),null);
             g.drawImage(bR.getRoomImages()[3],bR.getRoomImages()[3].getWidth(),bR.getRoomImages()[3].getHeight(),null);
 
-		}
+        }
 	}
 	// not permanent, here to test
 	public static void main(String[] args) {
-		Main main = new Main(800,800);
+		Main main = new Main(1090,750);
 	}
 }

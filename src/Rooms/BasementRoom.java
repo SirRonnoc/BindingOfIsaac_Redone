@@ -23,10 +23,10 @@ public class BasementRoom extends Room {
         this.background= "resources/gfx/backdrop/01_basement.png";
         double scale = 2.3;
         if (topLeft == null) {
-            roomImages[0] = GameFileReader.split(GameFileReader.readImg(this.background, 1, 1), 2, 3, 0, 0, 2.5, 2.5)[0];
-            roomImages[1] = GameFileReader.split(GameFileReader.readImgInvertedX(this.background, 1, 1), 2, 3, 0, 0, 2.5, 2.5)[1];
-            roomImages[2] = GameFileReader.split(GameFileReader.readImgInvertedY(this.background, 1, 1), 2, 3, 0, 0, 2.5, 2.5)[4];
-            roomImages[3] = GameFileReader.split(GameFileReader.readImgInvertedXY(this.background, 1, 1), 2, 3, 0, 0, 2.5, 2.5)[5];
+            roomImages[0] = GameFileReader.split(GameFileReader.readImg(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[0];
+            roomImages[1] = GameFileReader.split(GameFileReader.readImgInvertedX(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[1];
+            roomImages[2] = GameFileReader.split(GameFileReader.readImgInvertedY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[4];
+            roomImages[3] = GameFileReader.split(GameFileReader.readImgInvertedXY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[5];
         }
     }
 
