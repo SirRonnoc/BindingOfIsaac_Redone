@@ -66,8 +66,10 @@ public class Main extends JFrame{
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
 			BasementRoom bR = new BasementRoom(2,2);
-			g.drawImage((bR.getBackgroundImages()[0]),0,0,null);
-			g.drawImage((bR.getBackgroundImages()[0]),234,0,null);
+            g.drawImage(bR.getRoomImages()[0],0,0,null);
+			g.drawImage(bR.getRoomImages()[1],bR.getRoomImages()[1].getWidth(),0,null);
+            g.drawImage(bR.getRoomImages()[2],0,bR.getRoomImages()[2].getHeight(),null);
+            g.drawImage(bR.getRoomImages()[3],bR.getRoomImages()[3].getWidth(),bR.getRoomImages()[3].getHeight(),null);
 
 		}
 	}

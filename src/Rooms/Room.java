@@ -13,8 +13,8 @@ public class Room {
     protected BufferedImage[] backgroundImages = new BufferedImage[6];
     /**
      * Room Constructor
-     * @param x
-     * @param y
+     * @param x Horizontal size of the room
+     * @param y Vertical size of the room
      */
     public Room(int x, int y){
         this.dimensionX=x;
@@ -22,6 +22,10 @@ public class Room {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDimensionX() {
         return dimensionX;
     }
