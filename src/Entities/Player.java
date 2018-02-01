@@ -61,22 +61,23 @@ public class Player extends Entity{
 	 * deals with setting the current onscreen images of the player
 	 */
 	public void animate() {
-		if (this.xSpeed < 0) {
-			this.drawImage = this.leftAnimations[0];
-			this.headImage = this.leftHeadAnimations[0];
-		}	
-		else if (this.xSpeed > 0) {
-			this.drawImage = this.rightAnimations[0];
-			this.headImage = this.rightHeadAnimations[0];
-		}
-		else if (this.ySpeed < 0) {
+		if (this.ySpeed < 0) {
 			this.drawImage = this.upAnimations[0];
 			this.headImage = this.upHeadAnimations[0];
 		}
-		else {
+		else if (this.ySpeed > 0){
 			this.drawImage = this.downAnimations[0];
 			this.headImage = this.downHeadAnimations[0];
 		}
+		else if (this.xSpeed < 0) {
+			this.drawImage = this.leftAnimations[0];
+			this.headImage = this.leftHeadAnimations[0];
+		}	
+		else {
+			this.drawImage = this.rightAnimations[0];
+			this.headImage = this.rightHeadAnimations[0];
+		}
+		
 	}
 	/**
 	 * slave method that returns the keylistener used in the player class. Used to clean up
