@@ -11,6 +11,8 @@ public class Entity {
 	protected int health;
 	protected int speed;
 	protected int animationSpeed;
+	protected int animationCounter;
+	protected int currentAnimationIndex;
 	protected int xPos;
 	protected int yPos;
 	protected int xSpeed;

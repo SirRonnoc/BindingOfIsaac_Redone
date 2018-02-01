@@ -24,7 +24,7 @@ public class Player extends Entity{
 	 */
 	public Player() {
 		// calls the entity constructor
-		super(3,10,10,300,500);
+		super(3,10,5,300,500);
 		
 		//sets all animations that do not require an inverted read of the image
 		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
@@ -45,6 +45,7 @@ public class Player extends Entity{
 		
 		//initializing other variables
 		this.keysPressed = new ArrayList<Integer>();
+		this.animationCounter = this.animationSpeed;
 	}
 	/**
 	 * handles the update for the player object
@@ -61,22 +62,36 @@ public class Player extends Entity{
 	 * deals with setting the current onscreen images of the player
 	 */
 	public void animate() {
+		
+		if (this.animationCounter >= this.animationSpeed) {
+			if (this.currentAnimationIndex < this.upHeadAnimations.length)
+				this.currentAnimationIndex +=1;
+			else
+				this.currentAnimationIndex = 0;
+			
 		if (this.ySpeed < 0) {
-			this.drawImage = this.upAnimations[0];
+			this.drawImage = this.upAnimations[this.currentAnimationIndex];
 			this.headImage = this.upHeadAnimations[0];
 		}
 		else if (this.ySpeed > 0){
-			this.drawImage = this.downAnimations[0];
+			this.drawImage = this.downAnimations[this.currentAnimationIndex];
 			this.headImage = this.downHeadAnimations[0];
 		}
 		else if (this.xSpeed < 0) {
-			this.drawImage = this.leftAnimations[0];
+			this.drawImage = this.leftAnimations[this.currentAnimationIndex];
 			this.headImage = this.leftHeadAnimations[0];
 		}	
-		else {
-			this.drawImage = this.rightAnimations[0];
+		else if (this.xSpeed > 0){
+			this.drawImage = this.rightAnimations[this.currentAnimationIndex];
 			this.headImage = this.rightHeadAnimations[0];
 		}
+		else {
+			this.drawImage = this.downAnimations[2];
+			this.headImage = this.downHeadAnimations[0];
+		}
+		this.animationCounter = 0;
+		}
+		this.animationCounter +=1;
 		
 	}
 	/**
