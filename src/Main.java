@@ -1,5 +1,3 @@
-import Rooms.BasementRoom;
-
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +6,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import Entities.Player;
+import Rooms.BasementRoom;
 import Rooms.Floor;
-import Tools.*;
 
 public class Main extends JFrame{
 	
@@ -17,6 +16,8 @@ public class Main extends JFrame{
 	private int windowX, windowY;
 	private Timer mainUpdate;
 	private ActionListener updateFunction;
+	private Player player;
+	private BasementRoom bR;
 	/**
 	 * sets up the Main window
 	 * @param xSize - x size of the window as set by the user
@@ -34,18 +35,23 @@ public class Main extends JFrame{
 		//sets update function from slave function
 		this.updateFunction = this.setUpdateFunction();
 		
-		//adds the draw to the JFrame
-		this.add(new Draw());
-		
+		//initializes other variables
+		this.player = new Player();
+		this.bR = new BasementRoom(2,2);
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
 		
+		//adds the draw to the JFrame
+		this.add(new Draw());
+				
 		//starts up the window with specified preferences
 		this.setSize(windowX,windowY);
 		this.setVisible(true);
-
         this.setDefaultCloseOperation(Main.EXIT_ON_CLOSE);
+        this.addKeyListener(player.getKL());
+        
+        
 		
 	}
 	
@@ -58,8 +64,7 @@ public class Main extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				player.update();
 				repaint();
 			}
 			
@@ -74,10 +79,10 @@ public class Main extends JFrame{
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
 			paintRoom(g);
-
+			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
+			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
 		}
 		public void paintRoom(Graphics g ){
-            BasementRoom bR = new BasementRoom(2,2);
             g.drawImage(bR.getRoomImages()[0],0,0,null);
             g.drawImage(bR.getRoomImages()[1],bR.getRoomImages()[1].getWidth(),0,null);
             g.drawImage(bR.getRoomImages()[2],0,bR.getRoomImages()[2].getHeight(),null);
