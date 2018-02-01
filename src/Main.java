@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import Rooms.Floor;
 import Tools.*;
 
 public class Main extends JFrame{
@@ -22,6 +23,11 @@ public class Main extends JFrame{
 	 * @param ySize - y size of the window as set by the user
 	 */
 	public Main(int xSize, int ySize) {
+
+        Floor floor = new Floor(10);
+
+
+
 		//moving values passes by main menu down to the game window
 		this.windowX = xSize; this.windowY = ySize;
 		
@@ -38,7 +44,9 @@ public class Main extends JFrame{
 		//starts up the window with specified preferences
 		this.setSize(windowX,windowY);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        this.setDefaultCloseOperation(Main.EXIT_ON_CLOSE);
+		
 	}
 	
 	/**
