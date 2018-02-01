@@ -30,7 +30,7 @@ public class BasementRoom extends Room {
         super(x, y,top,right,bot,left);
         this.background= "resources/gfx/backdrop/01_basement.png";
         double scale = 2.3;
-        if (topLeft == null) {
+        if (doorImgBot == null) {
             setImages(scale);
         }
     }
