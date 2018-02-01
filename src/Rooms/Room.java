@@ -12,7 +12,7 @@ public class Room {
     protected String background;
     protected BufferedImage[] backgroundImages = new BufferedImage[6];
     protected boolean doorTop,doorRight,doorBot,doorLeft;
-    protected BufferedImage doorImgTop,doorImgRight,doorImgBot,doorImgLeft;
+    protected static BufferedImage doorImgTop,doorImgRight,doorImgBot,doorImgLeft;
     /**
      * Room Constructor
      * @param x Horizontal size of the room
