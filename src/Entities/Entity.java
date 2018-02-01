@@ -6,6 +6,7 @@ public class Entity {
 	protected int maxHealth;
 	protected int health;
 	protected int speed;
+	protected int animationSpeed;
 	protected BufferedImage[] downAnimations;
 	protected BufferedImage[] upAnimations;
 	protected BufferedImage[] leftAnimations;
@@ -16,11 +17,11 @@ public class Entity {
 	 * @param sp - speed of the entity
 	 * @param iA - idle animations of the entity
 	 */
-	public Entity(int mH, int sp, BufferedImage[] dA, BufferedImage[] uA, BufferedImage[] lA, BufferedImage[] rA) {
+	public Entity(int mH, int sp, int aS) {
 		//sets initial variables
 		this.maxHealth = mH;
 		this.speed = sp;
-		this.downAnimations = dA; this.rightAnimations = rA; this.leftAnimations = lA; this.upAnimations = uA;
 		this.health = this.maxHealth;
+		this.animationSpeed = aS;
 	}
 }

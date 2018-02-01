@@ -38,7 +38,7 @@ public class Main extends JFrame{
 		//starts up the window with specified preferences
 		this.setSize(windowX,windowY);
 		this.setVisible(true);
-		
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	/**
