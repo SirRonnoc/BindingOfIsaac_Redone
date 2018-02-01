@@ -17,11 +17,8 @@ public class Entity {
 	protected int yPos;
 	protected int xSpeed;
 	protected int ySpeed;
-	protected BufferedImage[] downAnimations;
-	protected BufferedImage[] upAnimations;
-	protected BufferedImage[] leftAnimations;
-	protected BufferedImage[] rightAnimations;
 	protected BufferedImage drawImage;
+	
 	/**
 	 * instantiates the basic entity with variables
 	 * @param mH - max health of the entity
