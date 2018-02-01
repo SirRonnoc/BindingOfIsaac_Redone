@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import Entities.Player;
+import Entities.Tear;
 import Rooms.BasementRoom;
 import Rooms.Floor;
 
@@ -65,6 +66,8 @@ public class Main extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				player.update();
+				for (Tear t : player.getTearList())
+					t.update();
 				repaint();
 			}
 			
@@ -81,6 +84,10 @@ public class Main extends JFrame{
 			paintRoom(g);
 			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
 			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
+			
+			for (Tear t : player.getTearList()) {
+				g.drawImage(t.drawImage_S, t.getXPos(), t.getYPos(), null);
+			}
 		}
 		public void paintRoom(Graphics g ){
             g.drawImage(bR.getRoomImages()[0],0,0,null);

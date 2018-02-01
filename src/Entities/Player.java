@@ -19,6 +19,9 @@ public class Player extends Entity{
 	protected KeyListener kL;
 	protected ArrayList<Integer> keysPressed; 
 	protected BufferedImage headImage;
+	protected ArrayList<Tear> tearList;
+	protected int tearDelay;
+	protected int tearDelayCounter;
 	/**
 	 * constructor, handles the creation of a player object, currently not being passed into by anything, will be updated at a later date
 	 */
@@ -46,6 +49,8 @@ public class Player extends Entity{
 		//initializing other variables
 		this.keysPressed = new ArrayList<Integer>();
 		this.animationCounter = this.animationSpeed;
+		this.tearList = new ArrayList<Tear>();
+		this.tearDelay = 20;
 	}
 	/**
 	 * handles the update for the player object
@@ -55,6 +60,7 @@ public class Player extends Entity{
 		
 		this.animate();
 		this.xPos += xSpeed; this.yPos += ySpeed;
+		this.tearDelayCounter += 1;
 		
 	}
 	
@@ -113,7 +119,6 @@ public class Player extends Entity{
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				//removes keys that are no longer being pressed from the keysPressed variable
-				System.out.println(arg0.getKeyCode());
 				keysPressed.remove(new Integer(arg0.getKeyCode()));
 				
 			}
@@ -153,6 +158,22 @@ public class Player extends Entity{
 				this.moveDown();
 				break;
 			}
+			case 37: { //Left Arrow
+				this.shootLeft();
+				break;
+			}
+			case 38: { //Up Arrow
+				this.shootUp();
+				break;
+			}
+			case 39: { //Right Arrow
+				this.shootRight();
+				break;
+			}
+			case 40: { //Down Arrow
+				this.shootDown();
+				break;
+			}
 			}	
 		}
 		//checks to see if neither key is pressed to make sure that a speed is not retained when the player is not pressing a key to move
@@ -190,6 +211,50 @@ public class Player extends Entity{
 		this.ySpeed = - this.speed / 3;
 	}
 	/**
+	 * fires a tear to the left of the player, and changes the heads direction
+	 */
+	protected void shootLeft() {
+		if (this.tearDelayCounter >= this.tearDelay) {
+		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 1));
+		this.headImage = this.leftHeadAnimations[1];
+		this.animationCounter = 0;
+		this.tearDelayCounter = 0;
+		}
+	}
+	/**
+	 * fires a tear up from the player, and changes the heads direction
+	 */
+	protected void shootUp() {
+		if (this.tearDelayCounter >= this.tearDelay) {
+		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 0));
+		this.headImage = this.upHeadAnimations[1];
+		this.animationCounter = 0;
+		this.tearDelayCounter = 0;
+		}
+	}
+	/**
+	 * fires a tear to the right of the player, and changes the heads direction
+	 */
+	protected void shootRight() {
+		if (this.tearDelayCounter >= this.tearDelay) {
+		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 3));
+		this.headImage = this.rightHeadAnimations[1];
+		this.animationCounter = 0;
+		this.tearDelayCounter = 0;
+		}
+	}
+	/**
+	 * fires a tear below the player, and changes the heads direction
+	 */
+	protected void shootDown() {
+		if (this.tearDelayCounter >= this.tearDelay) {
+		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 2));
+		this.headImage = this.downHeadAnimations[1];
+		this.animationCounter = 0;
+		this.tearDelayCounter = 0;
+		}
+	}
+	/**
 	 * returns the players current head image
 	 * @return - BufferedImage of current head
 	 */
@@ -202,6 +267,13 @@ public class Player extends Entity{
 	 */
 	public KeyListener getKL() {
 		return this.kL;
+	}
+	/**
+	 * returns the ArrayList  of tears that the player has shot
+	 * @return - ArrayList of tears the player has fired 
+	 */
+	public ArrayList<Tear> getTearList() {
+		return this.tearList;
 	}
 	
 }
