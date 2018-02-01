@@ -42,7 +42,28 @@ public class Room {
         return dimensionY;
     }
 
+    public BufferedImage getDoorImgTop() {
+        return doorImgTop;
+    }
+
+    public BufferedImage getDoorImgRight() {
+        return doorImgRight;
+    }
+
+    public BufferedImage getDoorImgBot() {
+        return doorImgBot;
+    }
+
+    public BufferedImage getDoorImgLeft() {
+        return doorImgLeft;
+    }
+    public boolean[] getDoors(){
+        return new boolean[] {doorTop,doorRight,doorBot,doorLeft};
+    }
+
     public BufferedImage[] getBackgroundImages() {
         return backgroundImages;
     }
+
+
 }

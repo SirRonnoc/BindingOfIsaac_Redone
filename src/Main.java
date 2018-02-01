@@ -87,6 +87,20 @@ public class Main extends JFrame{
             g.drawImage(bR.getRoomImages()[1],bR.getRoomImages()[1].getWidth(),0,null);
             g.drawImage(bR.getRoomImages()[2],0,bR.getRoomImages()[2].getHeight(),null);
             g.drawImage(bR.getRoomImages()[3],bR.getRoomImages()[3].getWidth(),bR.getRoomImages()[3].getHeight(),null);
+            /*
+            if (bR.getDoors()[0]){
+				g.drawImage(bR.getDoorImgTop(),bR.getRoomImages()[0].getWidth()/2,0,null);
+			}
+			if (bR.getDoors()[1]){
+				g.drawImage(bR.getDoorImgRight(),bR.getRoomImages()[0].getHeight()/2,0,null);
+			}
+			if (bR.getDoors()[2]){
+				g.drawImage(bR.getDoorImgBot(),bR.getRoomImages()[0].getWidth()/2,bR.getRoomImages()[0].getHeight()-1,null);
+			}
+			if (bR.getDoors()[3]){
+				g.drawImage(bR.getDoorImgLeft(),0,bR.getRoomImages()[0].getHeight()/2,null);
+			}
+			*/
 
         }
 	}

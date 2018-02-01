@@ -15,7 +15,8 @@ public class Floor {
             switch (rand.nextInt(4)){
                 case 0: xLoc++;
                     if (floorLayout[xLoc][yLoc]==null) {
-                        floorLayout[xLoc][yLoc] = new Room(1, 1);
+                        floorLayout[xLoc][yLoc] = new Room(1, 1,false,false,false,true);
+                        floorLayout[xLoc--][yLoc].doorRight=true;
                     }else{
                         i--;
                         xLoc--;
@@ -23,7 +24,8 @@ public class Floor {
                 break;
                 case 1: xLoc--;
                     if (floorLayout[xLoc][yLoc]==null) {
-                        floorLayout[xLoc][yLoc] = new Room(1, 1);
+                        floorLayout[xLoc][yLoc] = new Room(1, 1,false,true,false,false);
+                        floorLayout[xLoc++][yLoc].doorLeft=true;
                     }else{
                         i--;
                         xLoc++;
@@ -31,7 +33,8 @@ public class Floor {
                 break;
                 case 2: yLoc++;
                     if (floorLayout[xLoc][yLoc]==null) {
-                        floorLayout[xLoc][yLoc] = new Room(1, 1);
+                        floorLayout[xLoc][yLoc] = new Room(1, 1,true,false,false,false);
+                        floorLayout[xLoc][yLoc--].doorBot=true;
                     }else{
                         i--;
                         yLoc--;
@@ -39,7 +42,8 @@ public class Floor {
                 break;
                 case 3: yLoc--;
                     if (floorLayout[xLoc][yLoc]==null) {
-                        floorLayout[xLoc][yLoc] = new Room(1, 1);
+                        floorLayout[xLoc][yLoc] = new Room(1, 1,false,false,true,false);
+                        floorLayout[xLoc][yLoc++].doorTop=true;
                     }else{
                         i--;
                         yLoc++;

@@ -22,11 +22,8 @@ public class BasementRoom extends Room {
         super(x, y);
         this.background= "resources/gfx/backdrop/01_basement.png";
         double scale = 2.3;
-        if (topLeft == null) {
-            roomImages[0] = GameFileReader.split(GameFileReader.readImg(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[0];
-            roomImages[1] = GameFileReader.split(GameFileReader.readImgInvertedX(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[1];
-            roomImages[2] = GameFileReader.split(GameFileReader.readImgInvertedY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[4];
-            roomImages[3] = GameFileReader.split(GameFileReader.readImgInvertedXY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[5];
+        if (doorImgBot==null) {
+            setImages(scale);
         }
     }
     public BasementRoom(int x, int y,boolean top,boolean right,boolean bot, boolean left) {
@@ -34,10 +31,7 @@ public class BasementRoom extends Room {
         this.background= "resources/gfx/backdrop/01_basement.png";
         double scale = 2.3;
         if (topLeft == null) {
-            roomImages[0] = GameFileReader.split(GameFileReader.readImg(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[0];
-            roomImages[1] = GameFileReader.split(GameFileReader.readImgInvertedX(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[1];
-            roomImages[2] = GameFileReader.split(GameFileReader.readImgInvertedY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[4];
-            roomImages[3] = GameFileReader.split(GameFileReader.readImgInvertedXY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[5];
+            setImages(scale);
         }
     }
     public void setImages(double scale){
@@ -46,7 +40,9 @@ public class BasementRoom extends Room {
         roomImages[2] = GameFileReader.split(GameFileReader.readImgInvertedY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[4];
         roomImages[3] = GameFileReader.split(GameFileReader.readImgInvertedXY(this.background, 1, 1), 2, 3, 0, 0, scale, scale)[5];
         doorImgTop = GameFileReader.readImg("resources/gfx/grid/NormalDoorOpen.png",scale,scale);
-        doorImgTop = GameFileReader.readImgInvertedY("resources/gfx/grid/NormalDoorOpen.png",scale,scale);
+        doorImgBot = GameFileReader.readImgInvertedY("resources/gfx/grid/NormalDoorOpen.png",scale,scale);
+        doorImgRight = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorOpen.png",scale,scale,90);
+        doorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorOpen.png",scale,scale,270);
     }
 
     public BufferedImage[] getRoomImages() {
