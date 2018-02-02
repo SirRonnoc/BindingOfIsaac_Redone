@@ -18,6 +18,8 @@ public class Entity {
 	protected int xSpeed;
 	protected int ySpeed;
 	protected BufferedImage drawImage;
+	protected int width;
+	protected int height;
 	
 	/**
 	 * instantiates the basic entity with variables
@@ -25,13 +27,14 @@ public class Entity {
 	 * @param sp - speed of the entity
 	 * @param iA - idle animations of the entity
 	 */
-	public Entity(int mH, int sp, int aS, int xP,  int yP) {
+	public Entity(int mH, int sp, int aS, int xP, int yP, int h, int w) {
 		//sets initial variables
 		this.maxHealth = mH;
 		this.speed = sp;
 		this.health = this.maxHealth;
 		this.animationSpeed = aS;
 		this.xPos = xP; this.yPos = yP;
+		this.width = w; this.height = h;
 	}
 	/**
 	 * returns the drawImage of the entity
@@ -53,5 +56,19 @@ public class Entity {
 	 */
 	public int getYPos() {
 		return this.yPos;
+	}
+	/**
+	 * returns the width of the Entities image
+	 * @return - Width of the entity
+	 */
+	public int getWidth() {
+		return this.width;
+	}
+	/**
+	 * returns the height of the Entities image
+	 * @return - Height of the entity
+	 */
+	public int getHeight() {
+		return this.height;
 	}
 }
