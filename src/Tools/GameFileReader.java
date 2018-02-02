@@ -39,14 +39,22 @@ public class GameFileReader {
 	 * @param xScale
 	 * @param yScale
 	 * @param degrees
-	 * @return
+	 * @return rotated image to the specified degree (clockwise)
 	 */
 	public static BufferedImage readImgRotated(String path,double xScale, double yScale,int degrees) {
 		try {
 			BufferedImage img = ImageIO.read(new File(path));
+			AffineTransform aT = new AffineTransform();
+
+			aT.translate(img.getWidth() / 2, img.getHeight() / 2);
+			aT.rotate(Math.toRadians(degrees));
+			aT.translate(-img.getWidth()/2, -img.getHeight()/2);
+			AffineTransformOp op = new AffineTransformOp(aT, AffineTransformOp.TYPE_BILINEAR);
+			img = op.filter(img, null);
 			BufferedImage temp = new BufferedImage((int)(img.getWidth()*xScale),(int)(img.getHeight()*xScale),BufferedImage.TYPE_INT_ARGB);
 			temp.getGraphics().drawImage(img.getScaledInstance((int)(img.getWidth()*xScale), (int)(img.getHeight()*yScale), BufferedImage.SCALE_SMOOTH),0,0,null);
 			return temp;
+
 
 		}
 		catch (Exception e)
@@ -55,7 +63,6 @@ public class GameFileReader {
 			return null;
 		}
 	}
-
 	/**
 	 * returns a horizontally inverted image read from a file as a type BufferedImage
 	 * @param path - path to be read from

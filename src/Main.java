@@ -1,6 +1,8 @@
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -12,23 +14,25 @@ import Rooms.BasementRoom;
 import Rooms.Floor;
 
 public class Main extends JFrame{
-	
+
 	//declaration of initial variables
 	private int windowX, windowY;
 	private Timer mainUpdate;
 	private ActionListener updateFunction;
 	private Player player;
-	private BasementRoom bR;
+	private BasementRoom currentRoom;
+	private int[] currentCoord;
+	Floor floor = new Floor(10);
 	/**
 	 * sets up the Main window
 	 * @param xSize - x size of the window as set by the user
 	 * @param ySize - y size of the window as set by the user
 	 */
 	public Main(int xSize, int ySize) {
+		currentCoord=new int[2];
+		currentCoord[0]=7; currentCoord[1]=7;
 
-        Floor floor = new Floor(10);
-
-
+		currentRoom = (BasementRoom) this.floor.floorLayout[currentCoord[0]][currentCoord[1]];
 
 		//moving values passes by main menu down to the game window
 		this.windowX = xSize; this.windowY = ySize;
@@ -38,7 +42,7 @@ public class Main extends JFrame{
 		
 		//initializes other variables
 		this.player = new Player();
-		this.bR = new BasementRoom(2,2);
+
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
@@ -51,7 +55,36 @@ public class Main extends JFrame{
 		this.setVisible(true);
         this.setDefaultCloseOperation(Main.EXIT_ON_CLOSE);
         this.addKeyListener(player.getKL());
-        
+		KeyListener kL = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (new Integer(e.getKeyCode())){
+					case 89:
+						currentCoord[1]--;
+						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+					case 71:
+						currentCoord[0]--;
+						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+					case 74:
+						currentCoord[0]++;
+						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+					case 72:
+						currentCoord[1]++;
+						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+		};
+		this.addKeyListener(kL);
         
 		
 	}
@@ -81,6 +114,7 @@ public class Main extends JFrame{
 	 */
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
+
 			paintRoom(g);
 			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
 			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
@@ -90,25 +124,39 @@ public class Main extends JFrame{
 			}
 		}
 		public void paintRoom(Graphics g ){
-            g.drawImage(bR.getRoomImages()[0],0,0,null);
-            g.drawImage(bR.getRoomImages()[1],bR.getRoomImages()[1].getWidth(),0,null);
-            g.drawImage(bR.getRoomImages()[2],0,bR.getRoomImages()[2].getHeight(),null);
-            g.drawImage(bR.getRoomImages()[3],bR.getRoomImages()[3].getWidth(),bR.getRoomImages()[3].getHeight(),null);
-            /*
-            if (bR.getDoors()[0]){
-				g.drawImage(bR.getDoorImgTop(),bR.getRoomImages()[0].getWidth()/2,0,null);
-			}
-			if (bR.getDoors()[1]){
-				g.drawImage(bR.getDoorImgRight(),bR.getRoomImages()[0].getHeight()/2,0,null);
-			}
-			if (bR.getDoors()[2]){
-				g.drawImage(bR.getDoorImgBot(),bR.getRoomImages()[0].getWidth()/2,bR.getRoomImages()[0].getHeight()-1,null);
-			}
-			if (bR.getDoors()[3]){
-				g.drawImage(bR.getDoorImgLeft(),0,bR.getRoomImages()[0].getHeight()/2,null);
-			}
-			*/
+            g.drawImage(currentRoom.getRoomImages()[0],0,0,null);
+            g.drawImage(currentRoom.getRoomImages()[1],currentRoom.getRoomImages()[1].getWidth(),0,null);
+            g.drawImage(currentRoom.getRoomImages()[2],0,currentRoom.getRoomImages()[2].getHeight(),null);
+            g.drawImage(currentRoom.getRoomImages()[3],currentRoom.getRoomImages()[3].getWidth(),currentRoom.getRoomImages()[3].getHeight(),null);
 
+            if (currentRoom.getDoors()[0]){
+
+				g.drawImage(currentRoom.getDoorImgTop(),currentRoom.getRoomImages()[0].getWidth()-currentRoom.getDoorImgTop().getWidth()/2,25,null);
+			}
+			if (currentRoom.getDoors()[1]){
+
+				g.drawImage(currentRoom.getDoorImgRight(),currentRoom.getRoomImages()[0].getWidth()*2-154,currentRoom.getRoomImages()[0].getHeight()-64,null);
+			}
+			if (currentRoom.getDoors()[2]){
+
+				g.drawImage(currentRoom.getDoorImgBot(),currentRoom.getRoomImages()[0].getWidth()-currentRoom.getDoorImgTop().getWidth()/2,currentRoom.getRoomImages()[0].getHeight()*2-135,null);
+			}
+			if (currentRoom.getDoors()[3]){
+
+				g.drawImage(currentRoom.getDoorImgLeft(),25,currentRoom.getRoomImages()[0].getHeight()-58,null);
+			}
+			for (int y=0;y<15;y++){
+				System.out.println();
+				for (int x = 0; x<15; x++){
+					if (x==currentCoord[0]&&y==currentCoord[1])
+						System.out.print("S");
+					else if (floor.floorLayout[x][y]==null){
+						System.out.print("O");
+					}else{
+						System.out.print("X");
+					}
+				}
+			}
         }
 	}
 	// not permanent, here to test

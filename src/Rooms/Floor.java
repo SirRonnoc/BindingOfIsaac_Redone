@@ -10,13 +10,20 @@ public class Floor {
         int xLoc = 7;
         int yLoc = 7;
         Random rand = new Random();
-        floorLayout[7][7] = new BasementRoom(xLoc,yLoc);
+        floorLayout[7][7] = new BasementRoom(1,1);
         for (int i = 0; i<numRooms;i++){
             switch (rand.nextInt(4)){
                 case 0: xLoc++;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,false,false,false,true);
-                        floorLayout[xLoc--][yLoc].doorRight=true;
+                        if (floorLayout[xLoc][yLoc+1]!=null)
+                            floorLayout[xLoc][yLoc+1].doorRight=true;
+                        if (floorLayout[xLoc][yLoc-1]!=null)
+                            floorLayout[xLoc][yLoc-1].doorRight=true;
+                        if (floorLayout[xLoc+1][yLoc]!=null)
+                            floorLayout[xLoc+1][yLoc].doorRight=true;
+                        if (floorLayout[xLoc-1][yLoc]!=null)
+                            floorLayout[xLoc-1][yLoc].doorRight=true;
                     }else{
                         //i--;
                         xLoc--;
@@ -25,7 +32,14 @@ public class Floor {
                 case 1: xLoc--;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,false,true,false,false);
-                        floorLayout[xLoc++][yLoc].doorLeft=true;
+                        if (floorLayout[xLoc][yLoc+1]!=null)
+                            floorLayout[xLoc][yLoc+1].doorLeft=true;
+                        if (floorLayout[xLoc][yLoc-1]!=null)
+                            floorLayout[xLoc][yLoc-1].doorLeft=true;
+                        if (floorLayout[xLoc+1][yLoc]!=null)
+                            floorLayout[xLoc+1][yLoc].doorLeft=true;
+                        if (floorLayout[xLoc-1][yLoc]!=null)
+                            floorLayout[xLoc-1][yLoc].doorLeft=true;
                     }else{
                         //i--;
                         xLoc++;
@@ -34,7 +48,14 @@ public class Floor {
                 case 2: yLoc++;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,true,false,false,false);
-                        floorLayout[xLoc][yLoc--].doorBot=true;
+                        if (floorLayout[xLoc][yLoc+1]!=null)
+                            floorLayout[xLoc][yLoc+1].doorBot=true;
+                        if (floorLayout[xLoc][yLoc-1]!=null)
+                            floorLayout[xLoc][yLoc-1].doorBot=true;
+                        if (floorLayout[xLoc+1][yLoc]!=null)
+                            floorLayout[xLoc+1][yLoc].doorBot=true;
+                        if (floorLayout[xLoc-1][yLoc]!=null)
+                            floorLayout[xLoc-1][yLoc].doorBot=true;
                     }else{
                         //i--;
                         yLoc--;
@@ -43,7 +64,16 @@ public class Floor {
                 case 3: yLoc--;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,false,false,true,false);
-                        floorLayout[xLoc][yLoc++].doorTop=true;
+                        if (floorLayout[xLoc][yLoc+1]!=null)
+                            floorLayout[xLoc][yLoc+1].doorTop=true;
+                        if (floorLayout[xLoc][yLoc-1]!=null)
+                            floorLayout[xLoc][yLoc-1].doorTop=true;
+                        if (floorLayout[xLoc+1][yLoc]!=null)
+                            floorLayout[xLoc+1][yLoc].doorTop=true;
+                        if (floorLayout[xLoc-1][yLoc]!=null)
+                            floorLayout[xLoc-1][yLoc].doorTop=true;
+
+
                     }else{
                         //i--;
                         yLoc++;
@@ -57,7 +87,9 @@ public class Floor {
         for (int y=0;y<15;y++){
             System.out.println();
             for (int x = 0; x<15; x++){
-                if (floorLayout[x][y]==null){
+                if (x==7&&y==7)
+                    System.out.print("S");
+                else if (floorLayout[x][y]==null){
                     System.out.print("O");
                 }else{
                     System.out.print("X");
