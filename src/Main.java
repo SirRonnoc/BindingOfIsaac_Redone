@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import Engines.EntityEngine;
 import Entities.Player;
 import Entities.Tear;
 import Rooms.BasementRoom;
@@ -19,6 +20,7 @@ public class Main extends JFrame{
 	private ActionListener updateFunction;
 	private Player player;
 	private BasementRoom bR;
+	private EntityEngine eEngine;
 	/**
 	 * sets up the Main window
 	 * @param xSize - x size of the window as set by the user
@@ -37,9 +39,10 @@ public class Main extends JFrame{
 		this.updateFunction = this.setUpdateFunction();
 		
 		//initializes other variables
+		this.load();
 		this.player = new Player();
 		this.bR = new BasementRoom(2,2);
-		this.load();
+		this.eEngine = new EntityEngine(player);
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
@@ -67,6 +70,7 @@ public class Main extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				player.update();
+				eEngine.update();
 				for (Tear t : player.getTearList())
 					t.update();
 				repaint();
