@@ -5,7 +5,8 @@ import java.util.Random;
 public class Floor {
 
     public Room[][] floorLayout = new Room[30][30];
-
+    protected int xLoc = 7;
+    protected int yLoc = 7;
     public Floor(int numRooms){
         int xLoc = 7;
         int yLoc = 7;
@@ -16,14 +17,7 @@ public class Floor {
                 case 0: xLoc++;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,false,false,false,true);
-                        if (floorLayout[xLoc][yLoc+1]!=null)
-                            floorLayout[xLoc][yLoc+1].doorRight=true;
-                        if (floorLayout[xLoc][yLoc-1]!=null)
-                            floorLayout[xLoc][yLoc-1].doorRight=true;
-                        if (floorLayout[xLoc+1][yLoc]!=null)
-                            floorLayout[xLoc+1][yLoc].doorRight=true;
-                        if (floorLayout[xLoc-1][yLoc]!=null)
-                            floorLayout[xLoc-1][yLoc].doorRight=true;
+                        checkAdjacent();
                     }else{
                         //i--;
                         xLoc--;
@@ -32,14 +26,7 @@ public class Floor {
                 case 1: xLoc--;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,false,true,false,false);
-                        if (floorLayout[xLoc][yLoc+1]!=null)
-                            floorLayout[xLoc][yLoc+1].doorLeft=true;
-                        if (floorLayout[xLoc][yLoc-1]!=null)
-                            floorLayout[xLoc][yLoc-1].doorLeft=true;
-                        if (floorLayout[xLoc+1][yLoc]!=null)
-                            floorLayout[xLoc+1][yLoc].doorLeft=true;
-                        if (floorLayout[xLoc-1][yLoc]!=null)
-                            floorLayout[xLoc-1][yLoc].doorLeft=true;
+                        checkAdjacent();
                     }else{
                         //i--;
                         xLoc++;
@@ -48,14 +35,7 @@ public class Floor {
                 case 2: yLoc++;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,true,false,false,false);
-                        if (floorLayout[xLoc][yLoc+1]!=null)
-                            floorLayout[xLoc][yLoc+1].doorBot=true;
-                        if (floorLayout[xLoc][yLoc-1]!=null)
-                            floorLayout[xLoc][yLoc-1].doorBot=true;
-                        if (floorLayout[xLoc+1][yLoc]!=null)
-                            floorLayout[xLoc+1][yLoc].doorBot=true;
-                        if (floorLayout[xLoc-1][yLoc]!=null)
-                            floorLayout[xLoc-1][yLoc].doorBot=true;
+                        checkAdjacent();
                     }else{
                         //i--;
                         yLoc--;
@@ -64,14 +44,7 @@ public class Floor {
                 case 3: yLoc--;
                     if (floorLayout[xLoc][yLoc]==null) {
                         floorLayout[xLoc][yLoc] = new BasementRoom(1, 1,false,false,true,false);
-                        if (floorLayout[xLoc][yLoc+1]!=null)
-                            floorLayout[xLoc][yLoc+1].doorTop=true;
-                        if (floorLayout[xLoc][yLoc-1]!=null)
-                            floorLayout[xLoc][yLoc-1].doorTop=true;
-                        if (floorLayout[xLoc+1][yLoc]!=null)
-                            floorLayout[xLoc+1][yLoc].doorTop=true;
-                        if (floorLayout[xLoc-1][yLoc]!=null)
-                            floorLayout[xLoc-1][yLoc].doorTop=true;
+                        checkAdjacent();
 
 
                     }else{
@@ -112,5 +85,15 @@ public class Floor {
         }
 
         return true;
+    }
+    protected void checkAdjacent(){
+        if (floorLayout[xLoc][yLoc+1]!=null)
+            floorLayout[xLoc][yLoc+1].doorTop=true;floorLayout[xLoc][yLoc].doorBot=true;
+        if (floorLayout[xLoc][yLoc-1]!=null)
+            floorLayout[xLoc][yLoc-1].doorBot=true;floorLayout[xLoc][yLoc].doorTop=true;
+        if (floorLayout[xLoc+1][yLoc]!=null)
+            floorLayout[xLoc+1][yLoc].doorLeft=true;floorLayout[xLoc][yLoc].doorRight=true;
+        if (floorLayout[xLoc-1][yLoc]!=null)
+            floorLayout[xLoc-1][yLoc].doorRight=true;floorLayout[xLoc][yLoc].doorLeft=true;
     }
 }

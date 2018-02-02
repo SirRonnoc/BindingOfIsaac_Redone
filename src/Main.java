@@ -42,12 +42,8 @@ public class Main extends JFrame{
 		
 		//initializes other variables
 		this.player = new Player();
-<<<<<<< HEAD
-
-=======
-		this.bR = new BasementRoom(2,2);
 		this.load();
->>>>>>> origin/master
+
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
@@ -119,16 +115,16 @@ public class Main extends JFrame{
 	 */
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
-<<<<<<< HEAD
+
 
 			paintRoom(g);
 			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
 			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
-=======
+
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
->>>>>>> origin/master
+
 			
 		}
 		public void paintRoom(Graphics g ){
