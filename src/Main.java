@@ -42,7 +42,12 @@ public class Main extends JFrame{
 		
 		//initializes other variables
 		this.player = new Player();
+<<<<<<< HEAD
 
+=======
+		this.bR = new BasementRoom(2,2);
+		this.load();
+>>>>>>> origin/master
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
@@ -114,14 +119,17 @@ public class Main extends JFrame{
 	 */
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
+<<<<<<< HEAD
 
 			paintRoom(g);
 			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
 			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
+=======
+			this.paintRoom(g);
+			this.drawPlayer(g);
+			this.paintTears(g);
+>>>>>>> origin/master
 			
-			for (Tear t : player.getTearList()) {
-				g.drawImage(t.drawImage_S, t.getXPos(), t.getYPos(), null);
-			}
 		}
 		public void paintRoom(Graphics g ){
             g.drawImage(currentRoom.getRoomImages()[0],0,0,null);
@@ -158,6 +166,19 @@ public class Main extends JFrame{
 				}
 			}
         }
+		private void paintTears(Graphics g) {
+			for (Tear t : player.getTearList()) {
+				g.drawImage(t.getDrawImage(), t.getXPos(), t.getYPos(), null);
+			}
+		}
+		private void drawPlayer(Graphics g) {
+			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
+			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
+		}
+	}
+	private void load() {
+		Player.setImages();
+		Tear.setImages();
 	}
 	// not permanent, here to test
 	public static void main(String[] args) {

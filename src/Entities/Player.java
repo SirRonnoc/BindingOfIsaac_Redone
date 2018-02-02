@@ -12,16 +12,39 @@ import Tools.GameFileReader;
  *
  */
 public class Player extends Entity{
-	protected BufferedImage[] leftHeadAnimations;
-	protected BufferedImage[] rightHeadAnimations;
-	protected BufferedImage[] downHeadAnimations;
-	protected BufferedImage[] upHeadAnimations;
 	protected KeyListener kL;
 	protected ArrayList<Integer> keysPressed; 
 	protected BufferedImage headImage;
 	protected ArrayList<Tear> tearList;
 	protected int tearDelay;
 	protected int tearDelayCounter;
+	protected static BufferedImage[] downAnimations;
+	protected static BufferedImage[] upAnimations;
+	protected static BufferedImage[] leftAnimations;
+	protected static BufferedImage[] rightAnimations;
+	protected static BufferedImage[] leftHeadAnimations;
+	protected static BufferedImage[] rightHeadAnimations;
+	protected static BufferedImage[] downHeadAnimations;
+	protected static BufferedImage[] upHeadAnimations;
+	
+	/**
+	 * sets all the static images for use by the player
+	 */
+	public static void setImages() {
+		//sets all animations that do not require an inverted read of the image
+				BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
+				downAnimations = new BufferedImage[] {temp[6],temp[7],temp[12],temp[13],temp[14],temp[15],temp[16],temp[17],temp[18],temp[19]};
+				upAnimations = new BufferedImage[] {temp[19], temp[18], temp[17], temp[16], temp[15], temp[14], temp[13], temp[12], temp[7], temp[6]};
+				rightAnimations = new BufferedImage[] {temp[24],temp[25],temp[26],temp[27],temp[28],temp[29],temp[30],temp[31]};
+				rightHeadAnimations = new BufferedImage[] {temp[2],temp[3]};
+				upHeadAnimations = new BufferedImage[] {temp[4],temp[5]};
+				downHeadAnimations = new BufferedImage[] {temp[0],temp[1]};
+				
+				//sets the left animations which require a horizontal flip of the spritesheet
+				temp = GameFileReader.split(GameFileReader.readImgInvertedX("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
+				leftAnimations = new BufferedImage[] {temp[31],temp[30],temp[23],temp[22],temp[21],temp[20],temp[19],temp[18],temp[17],temp[16]};
+				leftHeadAnimations = new BufferedImage[] {temp[9],temp[8]};
+	}
 	/**
 	 * constructor, handles the creation of a player object, currently not being passed into by anything, will be updated at a later date
 	 */
@@ -29,20 +52,6 @@ public class Player extends Entity{
 		// calls the entity constructor
 		super(3,10,5,300,500);
 		
-		//sets all animations that do not require an inverted read of the image
-		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
-		this.downAnimations = new BufferedImage[] {temp[6],temp[7],temp[12],temp[13],temp[14],temp[15],temp[16],temp[17],temp[18],temp[19]};
-		this.upAnimations = new BufferedImage[] {temp[19], temp[18], temp[17], temp[16], temp[15], temp[14], temp[13], temp[12], temp[7], temp[6]};
-		this.rightAnimations = new BufferedImage[] {temp[24],temp[25],temp[26],temp[27],temp[28],temp[29],temp[30],temp[31]};
-		this.rightHeadAnimations = new BufferedImage[] {temp[2],temp[3]};
-		this.upHeadAnimations = new BufferedImage[] {temp[4],temp[5]};
-		this.downHeadAnimations = new BufferedImage[] {temp[0],temp[1]};
-		
-		//sets the left animations which require a horizontal flip of the spritesheet
-		temp = GameFileReader.split(GameFileReader.readImgInvertedX("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
-		this.leftAnimations = new BufferedImage[] {temp[31],temp[30],temp[23],temp[22],temp[21],temp[20],temp[19],temp[18],temp[17],temp[16]};
-		this.leftHeadAnimations = new BufferedImage[] {temp[9],temp[8]};
-	
 		//sets the keylistener using the createKeyListener slave method
 		this.kL = this.createKeyListener();
 		
@@ -76,24 +85,24 @@ public class Player extends Entity{
 				this.currentAnimationIndex = 0;
 			
 		if (this.ySpeed < 0) {
-			this.drawImage = this.upAnimations[this.currentAnimationIndex];
-			this.headImage = this.upHeadAnimations[0];
+			this.drawImage = upAnimations[this.currentAnimationIndex];
+			this.headImage = upHeadAnimations[0];
 		}
 		else if (this.ySpeed > 0){
-			this.drawImage = this.downAnimations[this.currentAnimationIndex];
-			this.headImage = this.downHeadAnimations[0];
+			this.drawImage = downAnimations[this.currentAnimationIndex];
+			this.headImage = downHeadAnimations[0];
 		}
 		else if (this.xSpeed < 0) {
-			this.drawImage = this.leftAnimations[this.currentAnimationIndex];
-			this.headImage = this.leftHeadAnimations[0];
+			this.drawImage = leftAnimations[this.currentAnimationIndex];
+			this.headImage = leftHeadAnimations[0];
 		}	
 		else if (this.xSpeed > 0){
-			this.drawImage = this.rightAnimations[this.currentAnimationIndex];
-			this.headImage = this.rightHeadAnimations[0];
+			this.drawImage = rightAnimations[this.currentAnimationIndex];
+			this.headImage = rightHeadAnimations[0];
 		}
 		else {
-			this.drawImage = this.downAnimations[2];
-			this.headImage = this.downHeadAnimations[0];
+			this.drawImage = downAnimations[2];
+			this.headImage = downHeadAnimations[0];
 		}
 		this.animationCounter = 0;
 		}
@@ -216,8 +225,8 @@ public class Player extends Entity{
 	protected void shootLeft() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 1));
-		this.headImage = this.leftHeadAnimations[1];
-		this.animationCounter = 0;
+		this.headImage = leftHeadAnimations[1];
+		this.animationCounter = (int)(this.animationSpeed/3);
 		this.tearDelayCounter = 0;
 		}
 	}
@@ -227,8 +236,8 @@ public class Player extends Entity{
 	protected void shootUp() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 0));
-		this.headImage = this.upHeadAnimations[1];
-		this.animationCounter = 0;
+		this.headImage = upHeadAnimations[1];
+		this.animationCounter = (int)(this.animationSpeed/3);
 		this.tearDelayCounter = 0;
 		}
 	}
@@ -238,8 +247,8 @@ public class Player extends Entity{
 	protected void shootRight() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 3));
-		this.headImage = this.rightHeadAnimations[1];
-		this.animationCounter = 0;
+		this.headImage = rightHeadAnimations[1];
+		this.animationCounter = (int)(this.animationSpeed/3);
 		this.tearDelayCounter = 0;
 		}
 	}
@@ -249,8 +258,8 @@ public class Player extends Entity{
 	protected void shootDown() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 2));
-		this.headImage = this.downHeadAnimations[1];
-		this.animationCounter = 0;
+		this.headImage = downHeadAnimations[1];
+		this.animationCounter = (int)(this.animationSpeed/3);
 		this.tearDelayCounter = 0;
 		}
 	}
