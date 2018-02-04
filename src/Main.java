@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -22,7 +23,7 @@ public class Main extends JFrame{
 	private Player player;
 	private BasementRoom currentRoom;
 	private int[] currentCoord;
-	Floor floor = new Floor(10);
+	Floor floor = new Floor(20);
 	/**
 	 * sets up the Main window
 	 * @param xSize - x size of the window as set by the user
@@ -30,7 +31,8 @@ public class Main extends JFrame{
 	 */
 	public Main(int xSize, int ySize) {
 		currentCoord=new int[2];
-		currentCoord[0]=7; currentCoord[1]=7;
+		currentCoord[0]=15; currentCoord[1]=15;
+
 
 		currentRoom = (BasementRoom) this.floor.floorLayout[currentCoord[0]][currentCoord[1]];
 
@@ -149,9 +151,10 @@ public class Main extends JFrame{
 
 				g.drawImage(currentRoom.getDoorImgLeft(),25,currentRoom.getRoomImages()[0].getHeight()-58,null);
 			}
-			for (int y=0;y<15;y++){
+
+			for (int y=0;y<30;y++){
 				System.out.println();
-				for (int x = 0; x<15; x++){
+				for (int x = 0; x<30; x++){
 					if (x==currentCoord[0]&&y==currentCoord[1])
 						System.out.print("S");
 					else if (floor.floorLayout[x][y]==null){
