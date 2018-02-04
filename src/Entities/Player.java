@@ -50,7 +50,7 @@ public class Player extends Entity{
 	 */
 	public Player() {
 		// calls the entity constructor
-		super(3,10,5,300,500);
+		super(3,10,5,300,500,leftAnimations[0].getWidth(),rightAnimations[1].getHeight());
 		
 		//sets the keylistener using the createKeyListener slave method
 		this.kL = this.createKeyListener();
@@ -65,8 +65,10 @@ public class Player extends Entity{
 	 * handles the update for the player object
 	 */
 	public void update() {
+		//fires keyboard commands from the user
 		this.fireKeyboardCommands();
 		
+		this.checkTears();
 		this.animate();
 		this.xPos += xSpeed; this.yPos += ySpeed;
 		this.tearDelayCounter += 1;
@@ -262,6 +264,11 @@ public class Player extends Entity{
 		this.animationCounter = (int)(this.animationSpeed/3);
 		this.tearDelayCounter = 0;
 		}
+	}
+	protected void checkTears() {
+		for (int i = 0; i < this.tearList.size();i++) 
+			if (this.tearList.get(i).destroy == true)
+				this.tearList.remove(i);
 	}
 	/**
 	 * returns the players current head image

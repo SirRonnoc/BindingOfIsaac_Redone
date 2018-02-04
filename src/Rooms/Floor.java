@@ -24,7 +24,7 @@ public class Floor {
                         floorLayout[temp[0]+1][temp[1]] = new BasementRoom(1, 1,false,false,false,true);
                         if (checkRoomPlacement(temp[0]+1,temp[1]))
                             okRooms.add(new Integer[] {temp[0]+1,temp[1]});
-                       
+
                         if (!checkRoomPlacement(temp[0],temp[1]))
                             okRooms.remove(temp);
                         if (!checkRoomPlacement(temp[0]-1,temp[1]))

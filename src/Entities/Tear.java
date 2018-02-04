@@ -9,16 +9,17 @@ public class Tear extends Entity{
 	protected int originXSpeed;
 	protected int originYSPeed;
 	protected static BufferedImage drawImage_S;
+	protected boolean destroy;
 	public Tear(int x, int y, int pXSpeed, int pYSpeed, int dir) {
 		//call to the Entity constructor 
-		super(1,14,1,x,y);
+		super(1,14,1,x,y,drawImage_S.getWidth(),drawImage_S.getHeight());
 		
 		//initializing variables
 		this.direction = dir;
 		this.originXSpeed = pXSpeed;
 		this.originYSPeed = pYSpeed;
 		this.drawImage = drawImage_S;
-		
+		this.destroy = false;
 		//setting the speed of the tear
 		this.setSpeed();
 	}
@@ -57,6 +58,10 @@ public class Tear extends Entity{
 	public void update() {
 		this.xPos += this.xSpeed;
 		this.yPos += this.ySpeed;
+	}
+	
+	public void destroy() {
+		this.destroy = true;
 	}
 	
 }
