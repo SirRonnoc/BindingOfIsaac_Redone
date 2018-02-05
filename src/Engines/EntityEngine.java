@@ -17,7 +17,7 @@ public class EntityEngine {
 	}
 	private static void checkTears() {
 		for (Tear t : player.getTearList()) {
-			if (checkCollision_W(t)) 
+			if (checkCollision_W(t) != 0) 
 				t.destroy();
 				
 		}
@@ -28,7 +28,7 @@ public class EntityEngine {
 	 * @param other - the other entity that may be colliding with the first
 	 * @return - whether or not the entity is colliding with the other entity
 	 */
-	private static boolean checkCollision_E(Entity focus, Entity other) {
+	public static boolean checkCollision_E(Entity focus, Entity other) {
 		if (focus.getXPos() <= other.getXPos() + other.getWidth() && focus.getXPos() + focus.getWidth() >= other.getXPos()
 				&& focus.getYPos() <= other.getYPos() + other.getHeight() && focus.getYPos() + focus.getHeight() >= other.getYPos())
 			return true;
@@ -38,11 +38,19 @@ public class EntityEngine {
 	/**
 	 * checks whether the given entity is colliding with the walls of the room
 	 * @param focus - entity being focused on
-	 * @return - whether or not the entity is colliding with the wall
+	 * @return - 0 if no collision, 1 if horizontal, 2 if vertical, 3 if both
 	 */
-	private static boolean checkCollision_W(Entity focus) {
-		if (focus.getXPos() + focus.getWidth() >= 990 || focus.getXPos() <= 100 || focus.getYPos() + focus.getHeight() >= 650 || focus.getYPos() <= 100)
-			return true;
-		return false;
+	public static int checkCollision_W(Entity focus) {
+		if (focus.getXPos() + focus.getWidth() >= 990 || focus.getXPos() <= 100) {
+			if (focus.getYPos() + focus.getHeight() >= 650 || focus.getYPos() <= 100)
+				return 3;
+			return 1;
+		}
+		else if (focus.getYPos() + focus.getHeight() >= 650 || focus.getYPos() <= 100) {
+			if (focus.getXPos() + focus.getWidth() >= 990 || focus.getXPos() <= 100)
+				return 3;
+			return 2;
+		}
+		return 0;
 	}
 }

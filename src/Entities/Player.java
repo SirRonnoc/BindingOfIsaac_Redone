@@ -1,6 +1,7 @@
 package Entities;
 
 import java.awt.event.KeyEvent;
+import Engines.EntityEngine;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -70,8 +71,24 @@ public class Player extends Entity{
 		
 		this.checkTears();
 		this.animate();
-		this.xPos += xSpeed; this.yPos += ySpeed;
+		this.managePosition();
 		this.tearDelayCounter += 1;
+		
+	}
+	/**
+	 * manages the speed of the player
+	 */
+	public void managePosition() {
+		int tempX = this.xPos; int tempY = this.yPos;
+		this.xPos += xSpeed; this.yPos += ySpeed;
+		int colDir = EntityEngine.checkCollision_W(this);
+		if (colDir == 3) {
+			this.xPos = tempX; this.yPos = tempY;
+		}
+		else if (colDir == 2)
+			this.yPos = tempY;
+		else if (colDir ==1) 
+			this.xPos = tempX;
 		
 	}
 	
