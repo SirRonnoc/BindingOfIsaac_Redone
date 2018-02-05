@@ -77,6 +77,7 @@ public class Main extends JFrame{
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+
 				switch (new Integer(e.getKeyCode())){
 					case 89:
 						currentCoord[1]--;
@@ -90,6 +91,18 @@ public class Main extends JFrame{
 					case 72:
 						currentCoord[1]++;
 						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+				}
+				for (int y=0;y<30;y++){
+					System.out.println();
+					for (int x = 0; x<30; x++){
+						if (x==currentCoord[0]&&y==currentCoord[1])
+							System.out.print("S");
+						else if (floor.floorLayout[x][y]==null){
+							System.out.print("O");
+						}else{
+							System.out.print("X");
+						}
+					}
 				}
 			}
 
@@ -164,18 +177,7 @@ public class Main extends JFrame{
 				g.drawImage(currentRoom.getDoorImgLeft(),25,currentRoom.getRoomImages()[0].getHeight()-58,null);
 			}
 
-			for (int y=0;y<30;y++){
-				System.out.println();
-				for (int x = 0; x<30; x++){
-					if (x==currentCoord[0]&&y==currentCoord[1])
-						System.out.print("S");
-					else if (floor.floorLayout[x][y]==null){
-						System.out.print("O");
-					}else{
-						System.out.print("X");
-					}
-				}
-			}
+
         }
 		private void paintTears(Graphics g) {
 			for (Tear t : player.getTearList()) {

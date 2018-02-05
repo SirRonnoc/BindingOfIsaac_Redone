@@ -13,6 +13,7 @@ public class Room {
     protected BufferedImage[] backgroundImages = new BufferedImage[6];
     protected boolean doorTop,doorRight,doorBot,doorLeft;
     protected static BufferedImage doorImgTop,doorImgRight,doorImgBot,doorImgLeft;
+    protected static int wallWidth=90;
     /**
      * Room Constructor
      * @param x Horizontal size of the room
@@ -22,6 +23,7 @@ public class Room {
         this.dimensionX=x;
         this.dimensionY=y;
         doorTop=top;doorRight=right;doorBot=bot;doorLeft=left;
+
 
     }
     public Room(int x, int y){
@@ -57,6 +59,7 @@ public class Room {
     public BufferedImage getDoorImgLeft() {
         return doorImgLeft;
     }
+
     public boolean[] getDoors(){
         return new boolean[] {doorTop,doorRight,doorBot,doorLeft};
     }
@@ -65,5 +68,7 @@ public class Room {
         return backgroundImages;
     }
 
-
+    public static int getWallWidth() {
+        return wallWidth;
+    }
 }
