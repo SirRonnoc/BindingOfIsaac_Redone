@@ -174,7 +174,7 @@ public class Main extends JFrame{
 			}
 			if (currentRoom.getDoors()[3]){
 
-				g.drawImage(currentRoom.getDoorImgLeft(),25,currentRoom.getRoomImages()[0].getHeight()-58,null);
+				g.drawImage(currentRoom.getDoorImgLeft(),10,currentRoom.getRoomImages()[0].getHeight()-58,null);
 			}
 
 
