@@ -6,18 +6,18 @@ import Entities.Tear;
 import Rooms.Room;
 
 public class EntityEngine {
-	private Room currentRoom;
-	private Player player;
+	private static Room currentRoom;
+	private static Player player;
 	
 	public EntityEngine(Player p) {
-		this.player = p;
+		player = p;
 	}
 	public void update() {
-		this.checkTears();
+		checkTears();
 	}
-	private void checkTears() {
+	private static void checkTears() {
 		for (Tear t : player.getTearList()) {
-			if (this.checkCollision_W(t)) 
+			if (checkCollision_W(t)) 
 				t.destroy();
 				
 		}
@@ -28,7 +28,7 @@ public class EntityEngine {
 	 * @param other - the other entity that may be colliding with the first
 	 * @return - whether or not the entity is colliding with the other entity
 	 */
-	private boolean checkCollision_E(Entity focus, Entity other) {
+	private static boolean checkCollision_E(Entity focus, Entity other) {
 		if (focus.getXPos() <= other.getXPos() + other.getWidth() && focus.getXPos() + focus.getWidth() >= other.getXPos()
 				&& focus.getYPos() <= other.getYPos() + other.getHeight() && focus.getYPos() + focus.getHeight() >= other.getYPos())
 			return true;
@@ -40,7 +40,7 @@ public class EntityEngine {
 	 * @param focus - entity being focused on
 	 * @return - whether or not the entity is colliding with the wall
 	 */
-	private boolean checkCollision_W(Entity focus) {
+	private static boolean checkCollision_W(Entity focus) {
 		if (focus.getXPos() + focus.getWidth() >= 990 || focus.getXPos() <= 100 || focus.getYPos() + focus.getHeight() >= 650 || focus.getYPos() <= 100)
 			return true;
 		return false;
