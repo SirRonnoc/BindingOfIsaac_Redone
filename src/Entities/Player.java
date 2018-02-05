@@ -27,6 +27,10 @@ public class Player extends Entity{
 	protected static BufferedImage[] rightHeadAnimations;
 	protected static BufferedImage[] downHeadAnimations;
 	protected static BufferedImage[] upHeadAnimations;
+	protected int headStayTime;
+	protected int blinkTime;
+	protected int timeSinceLastShot;
+	protected int fireDir;
 	
 	/**
 	 * sets all the static images for use by the player
@@ -61,6 +65,9 @@ public class Player extends Entity{
 		this.animationCounter = this.animationSpeed;
 		this.tearList = new ArrayList<Tear>();
 		this.tearDelay = 20;
+		this.headStayTime = 10;
+		this.blinkTime = 2;
+		this.timeSinceLastShot = this.headStayTime +1;
 	}
 	/**
 	 * handles the update for the player object
@@ -76,18 +83,19 @@ public class Player extends Entity{
 		
 	}
 	/**
-	 * manages the speed of the player
+	 * manages the speed of the player based on collision and other factors
 	 */
 	public void managePosition() {
 		int tempX = this.xPos; int tempY = this.yPos;
 		this.xPos += xSpeed; this.yPos += ySpeed;
 		int colDir = EntityEngine.checkCollision_W(this);
-		if (colDir == 3) {
+		
+		if (colDir == 3) { //horizontal and vertical collision
 			this.xPos = tempX; this.yPos = tempY;
 		}
-		else if (colDir == 2)
+		else if (colDir == 2) //vertical
 			this.yPos = tempY;
-		else if (colDir ==1) 
+		else if (colDir ==1) //horizontal
 			this.xPos = tempX;
 		
 	}
@@ -96,36 +104,82 @@ public class Player extends Entity{
 	 * deals with setting the current onscreen images of the player
 	 */
 	public void animate() {
-		
+		//deals with the animation counter and the currentAnimationIndex
 		if (this.animationCounter >= this.animationSpeed) {
 			if (this.currentAnimationIndex < this.upHeadAnimations.length)
 				this.currentAnimationIndex +=1;
 			else
 				this.currentAnimationIndex = 0;
-			
-		if (this.ySpeed < 0) {
+			//sets the images
+			this.setBodyAnimations();
+			this.setHeadAnimations();
+			//resets the counter
+			this.animationCounter = 0;
+		}
+		this.animationCounter +=1;
+		
+	}
+	/**
+	 * sets the current body image for the player 
+	 */
+	public void setBodyAnimations() {
+		if (this.ySpeed < 0) { //up
 			this.drawImage = upAnimations[this.currentAnimationIndex];
-			this.headImage = upHeadAnimations[0];
 		}
-		else if (this.ySpeed > 0){
+		else if (this.ySpeed > 0){ //down
 			this.drawImage = downAnimations[this.currentAnimationIndex];
-			this.headImage = downHeadAnimations[0];
 		}
-		else if (this.xSpeed < 0) {
+		else if (this.xSpeed < 0) { //left
 			this.drawImage = leftAnimations[this.currentAnimationIndex];
-			this.headImage = leftHeadAnimations[0];
 		}	
-		else if (this.xSpeed > 0){
+		else if (this.xSpeed > 0){ //right
 			this.drawImage = rightAnimations[this.currentAnimationIndex];
-			this.headImage = rightHeadAnimations[0];
 		}
 		else {
 			this.drawImage = downAnimations[2];
+		}
+		
+	}
+	/**
+	 * sets the current head animation for the player
+	 */
+	public void setHeadAnimations() {
+		if (this.timeSinceLastShot <= this.headStayTime) {
+			this.timeSinceLastShot +=1;
+			int anim;
+			//sets which image to use
+			if (this.timeSinceLastShot <= this.blinkTime)
+				anim = 1;
+			else
+				anim = 0;
+			//sets the shooting animations
+			if (this.fireDir == 0)
+				this.headImage = leftHeadAnimations[anim];
+			else if (this.fireDir == 1)
+				this.headImage = upHeadAnimations[anim];
+			else if (this.fireDir == 2)
+				this.headImage = rightHeadAnimations[anim];
+			else
+				this.headImage = downHeadAnimations[anim];
+		}
+		else { //sets the animations if the player is not shooting
+		if (this.ySpeed < 0) { //up
+			this.headImage = upHeadAnimations[0];
+		}
+		else if (this.ySpeed > 0){ //down
 			this.headImage = downHeadAnimations[0];
 		}
-		this.animationCounter = 0;
+		else if (this.xSpeed < 0) { //left
+			this.headImage = leftHeadAnimations[0];
+		}	
+		else if (this.xSpeed > 0){ //right
+			this.headImage = rightHeadAnimations[0];
 		}
-		this.animationCounter +=1;
+		else {
+			this.headImage = downHeadAnimations[0];
+		}
+		}
+		
 		
 	}
 	/**
@@ -244,8 +298,8 @@ public class Player extends Entity{
 	protected void shootLeft() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 1));
-		this.headImage = leftHeadAnimations[1];
-		this.animationCounter = (int)(this.animationSpeed/3);
+		this.fireDir = 0;
+		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
 		}
 	}
@@ -255,8 +309,8 @@ public class Player extends Entity{
 	protected void shootUp() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 0));
-		this.headImage = upHeadAnimations[1];
-		this.animationCounter = (int)(this.animationSpeed/3);
+		this.fireDir = 1;
+		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
 		}
 	}
@@ -266,8 +320,8 @@ public class Player extends Entity{
 	protected void shootRight() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 3));
-		this.headImage = rightHeadAnimations[1];
-		this.animationCounter = (int)(this.animationSpeed/3);
+		this.fireDir = 2;
+		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
 		}
 	}
@@ -277,11 +331,14 @@ public class Player extends Entity{
 	protected void shootDown() {
 		if (this.tearDelayCounter >= this.tearDelay) {
 		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 2));
-		this.headImage = downHeadAnimations[1];
-		this.animationCounter = (int)(this.animationSpeed/3);
+		this.fireDir = 3;
+		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
 		}
 	}
+	/**
+	 * checks to see if any of the tears in the players tearList are destroyed and then removes them from the game
+	 */
 	protected void checkTears() {
 		for (int i = 0; i < this.tearList.size();i++) 
 			if (this.tearList.get(i).destroy == true)
