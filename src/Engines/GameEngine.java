@@ -11,9 +11,12 @@ public class GameEngine {
         }
 
     public static void start(){
-        init();
+
         BasementRoom.init();
         Room.init();
+        Player.init();
+        Tear.init();
+        init();
 
     }
 

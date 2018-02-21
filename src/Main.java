@@ -49,11 +49,7 @@ public class Main extends JFrame{
 		this.updateFunction = this.setUpdateFunction();
 		
 		//initializes other variables
-		this.load();
 		this.player = new Player();
-
-		this.load();
-
 
 		this.eEngine = new EntityEngine(player);
 
@@ -182,10 +178,7 @@ public class Main extends JFrame{
 			g.drawImage(player.getHeadImage(), 300,300 - 30, null);
 		}
 	}
-	private void load() {
-		Player.setImages();
-		Tear.setImages();
-	}
+
 	// not permanent, here to test
 	public static void main(String[] args) {
 		Main main = new Main(1090,750);

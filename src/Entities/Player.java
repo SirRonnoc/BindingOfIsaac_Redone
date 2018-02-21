@@ -35,7 +35,7 @@ public class Player extends Entity{
 	/**
 	 * sets all the static images for use by the player
 	 */
-	public static void setImages() {
+	public static void init() {
 		//sets all animations that do not require an inverted read of the image
 				BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
 				downAnimations = new BufferedImage[] {temp[6],temp[7],temp[12],temp[13],temp[14],temp[15],temp[16],temp[17],temp[18],temp[19]};

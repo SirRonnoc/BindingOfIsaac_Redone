@@ -23,7 +23,7 @@ public class Tear extends Entity{
 		//setting the speed of the tear
 		this.setSpeed();
 	}
-	public static void setImages() {
+	public static void init() {
 		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/tears.png", 2.5, 2.5), 8, 4, 0, 0, 1, 1);
 		drawImage_S = temp[4];
 	}
