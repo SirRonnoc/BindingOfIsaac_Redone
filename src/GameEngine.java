@@ -1,23 +1,24 @@
 import Entities.*;
-public class GameEngine {
-    public GameEngine(){
+import Rooms.Floor;
 
+public class GameEngine {
+    private static Floor[] floorList;
+    private static int floorNum;
+    private static int[] currentCoord;
+    public GameEngine(){
+        }
+
+    public static void init(){
+        currentCoord = new int[2];
+        currentCoord[0]=15;currentCoord[1]=15;
+        floorNum = 0;
+        floorList = new Floor[6];
+        for(int i = 0;i<floorList.length;i++){
+            floorList[i]=new Floor(10*(i/2));
+        }
     }
 
-    public static boolean checkCollision(Entity entity, Entity entity2){
-        int x1 = entity.getXPos();
-        int y1 = entity.getYPos();
-        int x2 = entity2.getXPos();
-        int y2 = entity2.getYPos();
-        double r1 = entity.getWidth()/4;
-        double r2 = entity2.getWidth()/4;
-        double distance =((Math.abs(x1-x2)^2) + (Math.abs(y1-y2)^2));
-
-        if (distance<(r1+r2)){
-            System.out.println(distance);
-            System.out.println(r1+r2);
-            return true;
-        }
+    public static boolean moveRoom(String direction){
         return false;
     }
 }

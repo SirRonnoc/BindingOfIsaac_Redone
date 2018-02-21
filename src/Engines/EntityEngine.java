@@ -24,16 +24,26 @@ public class EntityEngine {
 	}
 	/**
 	 * checks whether the first entity is colliding with the second
-	 * @param focus - the entity that is the focus of the collision
-	 * @param other - the other entity that may be colliding with the first
+	 * @param entity - the entity that is the focus of the collision
+	 * @param entity2 - the other entity that may be colliding with the first
 	 * @return - whether or not the entity is colliding with the other entity
 	 */
-	public static boolean checkCollision_E(Entity focus, Entity other) {
-		if (focus.getXPos() <= other.getXPos() + other.getWidth() && focus.getXPos() + focus.getWidth() >= other.getXPos()
-				&& focus.getYPos() <= other.getYPos() + other.getHeight() && focus.getYPos() + focus.getHeight() >= other.getYPos())
+
+	public static boolean checkCollision_E(Entity entity, Entity entity2){
+		int x1 = entity.getXPos();
+		int y1 = entity.getYPos();
+		int x2 = entity2.getXPos();
+		int y2 = entity2.getYPos();
+		double r1 = entity.getWidth()/4;
+		double r2 = entity2.getWidth()/4;
+		double distance =((Math.abs(x1-x2)^2) + (Math.abs(y1-y2)^2));
+
+		if (distance<(r1+r2)){
+			System.out.println(distance);
+			System.out.println(r1+r2);
 			return true;
+		}
 		return false;
-		
 	}
 	/**
 	 * checks whether the given entity is colliding with the walls of the room
