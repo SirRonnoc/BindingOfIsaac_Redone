@@ -152,7 +152,7 @@ public class Main extends JFrame{
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
-			GameEngine.checkCollision(player, new Entity(15,15,15,300,300,150,150));
+			EntityEngine.checkCollision_E(player, new Entity(15,15,15,300,300,150,150));
 
 			
 		}
