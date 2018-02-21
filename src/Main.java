@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import Engines.EntityEngine;
+import Entities.Entity;
 import Entities.Player;
 import Entities.Tear;
 import Rooms.BasementRoom;
@@ -151,6 +152,7 @@ public class Main extends JFrame{
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
+			GameEngine.checkCollision(player, new Entity(15,15,15,300,300,150,150));
 
 			
 		}
@@ -187,6 +189,8 @@ public class Main extends JFrame{
 		private void drawPlayer(Graphics g) {
 			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
 			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
+			g.drawImage(player.getDrawImage(),300,300,null);
+			g.drawImage(player.getHeadImage(), 300,300 - 30, null);
 		}
 	}
 	private void load() {
