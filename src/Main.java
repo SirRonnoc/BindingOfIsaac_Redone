@@ -16,6 +16,7 @@ import Entities.Player;
 import Entities.Tear;
 import Rooms.BasementRoom;
 import Rooms.Floor;
+import Rooms.Room;
 
 public class Main extends JFrame{
 
@@ -37,7 +38,7 @@ public class Main extends JFrame{
 	 * @param ySize - y size of the window as set by the user
 	 */
 	public Main(int xSize, int ySize) {
-		GameEngine.init();
+		GameEngine.start();
 
 		currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
 
@@ -152,19 +153,19 @@ public class Main extends JFrame{
 
             if (currentRoom.getDoors()[0]){
 
-				g.drawImage(currentRoom.getDoorImgTop(),currentRoom.getRoomImages()[0].getWidth()-currentRoom.getDoorImgTop().getWidth()/2,25,null);
+				g.drawImage(currentRoom.getDoorImgTop(),Room.getTopDoorPos()[0],Room.getTopDoorPos()[1],null);
 			}
 			if (currentRoom.getDoors()[1]){
 
-				g.drawImage(currentRoom.getDoorImgRight(),currentRoom.getRoomImages()[0].getWidth()*2-154,currentRoom.getRoomImages()[0].getHeight()-64,null);
+				g.drawImage(currentRoom.getDoorImgRight(),Room.getRightDoorPos()[0],Room.getRightDoorPos()[1],null);
 			}
 			if (currentRoom.getDoors()[2]){
 
-				g.drawImage(currentRoom.getDoorImgBot(),currentRoom.getRoomImages()[0].getWidth()-currentRoom.getDoorImgTop().getWidth()/2,currentRoom.getRoomImages()[0].getHeight()*2-135,null);
+				g.drawImage(currentRoom.getDoorImgBot(),Room.getBotDoorPos()[0],Room.getBotDoorPos()[1],null);
 			}
 			if (currentRoom.getDoors()[3]){
 
-				g.drawImage(currentRoom.getDoorImgLeft(),10,currentRoom.getRoomImages()[0].getHeight()-58,null);
+				g.drawImage(currentRoom.getDoorImgLeft(),Room.getLeftDoorPos()[0],Room.getLeftDoorPos()[1],null);
 			}
 
 

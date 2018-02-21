@@ -10,6 +10,13 @@ public class GameEngine {
     public GameEngine(){
         }
 
+    public static void start(){
+        init();
+        BasementRoom.init();
+        Room.init();
+
+    }
+
     public static void init(){
         currentCoord = new int[2];
         currentCoord[0]=15;currentCoord[1]=15;
