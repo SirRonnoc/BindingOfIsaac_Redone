@@ -16,7 +16,7 @@ public class GameEngine {
         floorNum = 0;
         floorList = new Floor[1];
         for(int i = 0;i<floorList.length;i++){
-            floorList[i]=new Floor(30*((i+1))/2);
+            floorList[i]=new Floor(Math.round(15*((i+1))/2));
         }
     }
 
