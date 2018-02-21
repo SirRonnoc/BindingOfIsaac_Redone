@@ -25,7 +25,11 @@ public class Entity {
 	 * instantiates the basic entity with variables
 	 * @param mH - max health of the entity
 	 * @param sp - speed of the entity
-	 * @param iA - idle animations of the entity
+	 * @param aS - animation speed of the entity
+	 * @param xP - x position of the entity
+	 * @param yP - y position of the entity
+	 * @param h - height of the entity
+	 * @param w - width of the entity
 	 */
 	public Entity(int mH, int sp, int aS, int xP, int yP, int h, int w) {
 		//sets initial variables
