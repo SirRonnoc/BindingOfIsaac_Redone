@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import Engines.EntityEngine;
+import Engines.GameEngine;
 import Entities.Entity;
 import Entities.Player;
 import Entities.Tear;
@@ -26,7 +27,6 @@ public class Main extends JFrame{
 
 	private BasementRoom currentRoom;
 	private int[] currentCoord;
-	Floor floor = new Floor(20);
 
 	private BasementRoom bR;
 	private EntityEngine eEngine;
@@ -37,11 +37,9 @@ public class Main extends JFrame{
 	 * @param ySize - y size of the window as set by the user
 	 */
 	public Main(int xSize, int ySize) {
-		currentCoord=new int[2];
-		currentCoord[0]=15; currentCoord[1]=15;
+		GameEngine.init();
 
-
-		currentRoom = (BasementRoom) this.floor.floorLayout[currentCoord[0]][currentCoord[1]];
+		currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
 
 		//moving values passes by main menu down to the game window
 		this.windowX = xSize; this.windowY = ySize;
@@ -81,30 +79,20 @@ public class Main extends JFrame{
 
 				switch (new Integer(e.getKeyCode())){
 					case 89:
-						currentCoord[1]--;
-						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+						GameEngine.moveRoom("U");
+						break;
 					case 71:
-						currentCoord[0]--;
-						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+						GameEngine.moveRoom("L");
+						break;
 					case 74:
-						currentCoord[0]++;
-						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+						GameEngine.moveRoom("R");
+						break;
 					case 72:
-						currentCoord[1]++;
-						currentRoom= (BasementRoom) floor.floorLayout[currentCoord[0]][currentCoord[1]];break;
+						GameEngine.moveRoom("D");
+						break;
 				}
-				for (int y=0;y<30;y++){
-					System.out.println();
-					for (int x = 0; x<30; x++){
-						if (x==currentCoord[0]&&y==currentCoord[1])
-							System.out.print("S");
-						else if (floor.floorLayout[x][y]==null){
-							System.out.print("O");
-						}else{
-							System.out.print("X");
-						}
-					}
-				}
+				currentRoom= (BasementRoom) GameEngine.getCurrentRoom();
+				GameEngine.printFloor();
 			}
 
 			@Override

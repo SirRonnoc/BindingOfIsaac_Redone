@@ -6,8 +6,6 @@ import java.util.Random;
 public class Floor {
 
     public Room[][] floorLayout = new Room[30][30];
-    protected int xLoc = 7;
-    protected int yLoc = 7;
 
     public Floor(int numRooms){
         Random rand = new Random();
@@ -35,7 +33,7 @@ public class Floor {
                             okRooms.remove(new Integer[]{temp[0],temp[1]-1});
                         if (!checkRoomPlacement(temp[0],temp[1]+1))
                             okRooms.remove(new Integer[]{temp[0],temp[1]+1});
-                        checkAdjacent(temp[0],temp[1]);
+                        checkAdjacent(temp[0]+1,temp[1]);
                     }else{
                         i--;
 
@@ -58,7 +56,7 @@ public class Floor {
                         if (!checkRoomPlacement(temp[0],temp[1]+1))
                             okRooms.remove(new Integer[]{temp[0],temp[1]+1});
 
-                        checkAdjacent(temp[0],temp[1]);
+                        checkAdjacent(temp[0]-1,temp[1]);
                     }else{
                         i--;
 
@@ -79,7 +77,7 @@ public class Floor {
                             okRooms.remove(new Integer[]{temp[0],temp[1]-1});
                         if (!checkRoomPlacement(temp[0],temp[1]+1))
                             okRooms.remove(new Integer[]{temp[0],temp[1]+1});
-                        checkAdjacent(temp[0],temp[1]);
+                        checkAdjacent(temp[0],temp[1]+1);
                     }else{
                         i--;
 
@@ -101,7 +99,7 @@ public class Floor {
                         if (!checkRoomPlacement(temp[0],temp[1]+1))
                             okRooms.remove(new Integer[]{temp[0],temp[1]+1});
 
-                        checkAdjacent(temp[0],temp[1]);
+                        checkAdjacent(temp[0],temp[1]-1);
 
 
                     }else{
