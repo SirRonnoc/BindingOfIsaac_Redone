@@ -51,6 +51,7 @@ public class EntityEngine {
 	 * @return - 0 if no collision, 1 if horizontal, 2 if vertical, 3 if both
 	 */
 	public static int checkCollision_W(Entity focus) {
+	if (!((player.getXPos()-(player.getWidth())>Room.getTopDoorPos()[0]-(Room.getDoorImgTop().getWidth()/2))&&(player.getXPos()+(player.getWidth())<Room.getTopDoorPos()[0]+(Room.getDoorImgTop().getWidth()))))
 		if (focus.getXPos() + focus.getWidth() >= 990 || focus.getXPos() <= 100) {
 			if (focus.getYPos() + focus.getHeight() >= 650 || focus.getYPos() <= 100)
 				return 3;
@@ -62,5 +63,11 @@ public class EntityEngine {
 			return 2;
 		}
 		return 0;
+	}
+	public static void checkCollision_Door(Entity player){
+		if(player.getYPos()<100){
+			GameEngine.moveRoom("U");
+			player.setyPos(550);
+		}
 	}
 }

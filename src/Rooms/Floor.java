@@ -6,16 +6,31 @@ import java.util.Random;
 public class Floor {
 
     public Room[][] floorLayout = new Room[30][30];
+    private ArrayList<Integer[]> okRooms;
+    private Integer[] temp;
 
+    /**
+     * Constructor for Floor
+     * @param numRooms - How many rooms in the floor
+     */
     public Floor(int numRooms){
-        Random rand = new Random();
-        Integer[] temp;
         floorLayout[15][15] = new BasementRoom(1,1);
-        ArrayList<Integer[]> okRooms = new ArrayList<>(0);
+        okRooms = new ArrayList<>(0);
         okRooms.add(new Integer[] {15,15});
+        createFloorLayout(numRooms);
+    }
+
+    /**
+     * Creates the floor layout filling the 2D Array
+     * @param numRooms - How many rooms in the floor
+     */
+    public void createFloorLayout(int numRooms){
+        Random rand = new Random();
         for (int i = 0; i<numRooms;i++){
+            // Picks which room to branch from a list of rooms that are not already all covered
             temp = okRooms.get(rand.nextInt(okRooms.size()));
 
+            // Randomly picks a direction to branch using a switch and a random number
             switch (rand.nextInt(4)){
                 case 0:
                     if (floorLayout[temp[0]+1][temp[1]]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
@@ -38,7 +53,7 @@ public class Floor {
                         i--;
 
                     }
-                break;
+                    break;
                 case 1:
                     if (floorLayout[temp[0]-1][temp[1]]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
                         floorLayout[temp[0]-1][temp[1]] = new BasementRoom(1, 1,false,true,false,false);
@@ -61,7 +76,7 @@ public class Floor {
                         i--;
 
                     }
-                break;
+                    break;
                 case 2:
                     if (floorLayout[temp[0]][temp[1]+1]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
                         floorLayout[temp[0]][temp[1]+1] = new BasementRoom(1, 1,true,false,false,false);
@@ -82,7 +97,7 @@ public class Floor {
                         i--;
 
                     }
-                break;
+                    break;
                 case 3:
                     if (floorLayout[temp[0]][temp[1]-1]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
                         floorLayout[temp[0]][temp[1]-1] = new BasementRoom(1, 1,false,false,true,false);
@@ -106,25 +121,14 @@ public class Floor {
                         i--;
 
                     }
-                break;
+                    break;
 
             }
             System.out.print(i);
 
         }
-        for (int y=0;y<30;y++){
-            System.out.println();
-            for (int x = 0; x<30; x++){
-                if (x==15&&y==15)
-                    System.out.print("S");
-                else if (floorLayout[x][y]==null){
-                    System.out.print("O");
-                }else{
-                    System.out.print("X");
-                }
-            }
-        }
     }
+
     protected boolean checkRoomPlacement(int x, int y){
         int connectedRooms = 0;
         if (floorLayout[x][y-1]!=null)

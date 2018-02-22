@@ -75,4 +75,12 @@ public class Entity {
 	public int getHeight() {
 		return this.height;
 	}
+
+	public void setxPos(int xPos){
+		this.xPos=xPos;
+	}
+
+	public void setyPos(int yPos) {
+		this.yPos = yPos;
+	}
 }
