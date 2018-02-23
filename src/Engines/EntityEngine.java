@@ -70,4 +70,7 @@ public class EntityEngine {
 			player.setyPos(550);
 		}
 	}
+	public static int[] getPlayerPosition() {
+		return new int[] {player.getXPos(),player.getYPos()};
+	}
 }
