@@ -7,6 +7,7 @@ public abstract class Enemy extends Entity{
 	protected int onHitDamage;
 	protected int lastPlayerX,lastPlayerY;
 	protected boolean isFlying;
+	protected double savedXM, savedYM;
 	/**
 	 * initializes the enemy with values and setup information 
 	 * @param mH - max health of the enemy

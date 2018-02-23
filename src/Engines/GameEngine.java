@@ -1,6 +1,7 @@
 package Engines;
 
 import Entities.*;
+import Entities.Enemies.Angry_Fly;
 import Rooms.*;
 
 public class GameEngine {
@@ -16,6 +17,7 @@ public class GameEngine {
         Player.init();
         Tear.init();
         init();
+        Angry_Fly.init();
 
     }
 

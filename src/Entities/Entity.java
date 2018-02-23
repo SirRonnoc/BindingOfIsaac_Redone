@@ -10,7 +10,7 @@ public class Entity {
 	protected int maxHealth;
 	protected int health;
 	protected int speed;
-	protected int animationSpeed;
+	protected int animationInterval;
 	protected int animationCounter;
 	protected int currentAnimationIndex;
 	protected int xPos;
@@ -25,18 +25,18 @@ public class Entity {
 	 * instantiates the basic entity with variables
 	 * @param mH - max health of the entity
 	 * @param sp - speed of the entity
-	 * @param aS - animation speed of the entity
+	 * @param aI - animation interval of the entity
 	 * @param xP - x position of the entity
 	 * @param yP - y position of the entity
 	 * @param h - height of the entity
 	 * @param w - width of the entity
 	 */
-	public Entity(int mH, int sp, int aS, int xP, int yP, int h, int w) {
+	public Entity(int mH, int sp, int aI, int xP, int yP, int h, int w) {
 		//sets initial variables
 		this.maxHealth = mH;
 		this.speed = sp;
 		this.health = this.maxHealth;
-		this.animationSpeed = aS;
+		this.animationInterval = aI;
 		this.xPos = xP; this.yPos = yP;
 		this.width = w; this.height = h;
 	}

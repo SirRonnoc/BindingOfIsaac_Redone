@@ -5,7 +5,7 @@ public abstract class Melee_Enemy extends Enemy{
 	 * initializes variables for the enemy
 	 *@param mH - max health of the enemy
 	 * @param sp - speed of the enemy
-	 * @param aS - animation speed of the enemy
+	 * @param aI - animation interval of the enemy
 	 * @param xP - x position of the enemy
 	 * @param yP - y position of the enemy
 	 * @param h - height of the enemy
@@ -13,8 +13,8 @@ public abstract class Melee_Enemy extends Enemy{
 	 * @param oHD - on hit damage of the enemy
 	 * @param iF - is the enemy flying
 	 */
-	public Melee_Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF) {
-		super(mH,sp,aS,xP,yP,h,w,oHD,iF);
+	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF) {
+		super(mH,sp,aI,xP,yP,h,w,oHD,iF);
 		
 	}
 	/**
@@ -30,14 +30,23 @@ public abstract class Melee_Enemy extends Enemy{
 		int xDist = this.xPos - this.lastPlayerX;
 		int yDist = this.yPos - this.lastPlayerY;
 		double angle = Math.atan2(yDist,xDist);
-		this.xPos += Math.round(Math.cos(angle) * this.speed);
-		this.yPos += Math.round(Math.sin(angle)*this.speed);
+		//smooths out the movement by adding remainders of movements that are not entirely ints to a double and adding them once they are at least 1
+		double temp = Math.cos(angle) * this.speed;
+		this.xPos -= ((int)temp + (int)this.savedXM);
+		this.savedXM = (this.savedXM % 1) + temp % 1;
+		temp = Math.sin(angle)*this.speed;
+		this.yPos -= ((int)temp + (int)this.savedYM);
+		this.savedYM = (this.savedYM % 1) + temp % 1; 
+		
+		System.out.println(this.savedXM + " " + this.savedYM);
 	}
 	public void update() {
+		super.update();
 		if (isFlying)
 			this.skyChase();
 		else
 			this.groundChase();
 		this.animate();
+		
 	}
 }

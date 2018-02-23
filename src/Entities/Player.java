@@ -62,7 +62,7 @@ public class Player extends Entity{
 		
 		//initializing other variables
 		this.keysPressed = new ArrayList<Integer>();
-		this.animationCounter = this.animationSpeed;
+		this.animationCounter = this.animationInterval;
 		this.tearList = new ArrayList<Tear>();
 		this.tearDelay = 20;
 		this.headStayTime = 10;
@@ -105,11 +105,10 @@ public class Player extends Entity{
 	 */
 	public void animate() {
 		//deals with the animation counter and the currentAnimationIndex
-		if (this.animationCounter >= this.animationSpeed) {
-			if (this.currentAnimationIndex < this.upHeadAnimations.length)
-				this.currentAnimationIndex +=1;
-			else
-				this.currentAnimationIndex = 0;
+		if (this.animationCounter >= this.animationInterval) {
+			
+			this.currentAnimationIndex = this.currentAnimationIndex < rightAnimations.length-1 ? this.currentAnimationIndex+1 : 0;
+			
 			//sets the images
 			this.setBodyAnimations();
 			this.setHeadAnimations();

@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -11,11 +10,10 @@ import javax.swing.Timer;
 
 import Engines.EntityEngine;
 import Engines.GameEngine;
-import Entities.Entity;
 import Entities.Player;
 import Entities.Tear;
+import Entities.Enemies.Angry_Fly;
 import Rooms.BasementRoom;
-import Rooms.Floor;
 import Rooms.Room;
 
 public class Main extends JFrame{
@@ -27,6 +25,7 @@ public class Main extends JFrame{
 	private Player player;
 	private BasementRoom currentRoom;
 	private EntityEngine eEngine;
+	private Angry_Fly aF;
 
 	/**
 	 * sets up the Main window
@@ -55,6 +54,7 @@ public class Main extends JFrame{
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
+		this.aF = new Angry_Fly(700,100);
 		
 		//adds the draw to the JFrame
 		this.add(new Draw());
@@ -117,6 +117,7 @@ public class Main extends JFrame{
 				for (Tear t : player.getTearList())
 					t.update();
 				repaint();
+				aF.update();
 			}
 			
 		};
@@ -134,6 +135,7 @@ public class Main extends JFrame{
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
+			g.drawImage(aF.getDrawImage(), aF.getXPos(), aF.getYPos(), null);
 			EntityEngine.checkCollision_Door(player);
 
 			
