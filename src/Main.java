@@ -89,7 +89,6 @@ public class Main extends JFrame{
 						GameEngine.moveRoom("D");
 						break;
 				}
-				currentRoom= (BasementRoom) GameEngine.getCurrentRoom();
 				GameEngine.printFloor();
 			}
 
@@ -112,6 +111,7 @@ public class Main extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
 				player.update();
 				eEngine.update();
 				for (Tear t : player.getTearList())
@@ -121,6 +121,8 @@ public class Main extends JFrame{
 			
 		};
 	}
+
+
 	
 	/**
 	 * this is the draw class. It extends JComponent and only has a paint method, which is called by the JFrame to draw graphics to the window.
