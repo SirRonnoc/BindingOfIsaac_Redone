@@ -25,11 +25,7 @@ public class Main extends JFrame{
 	private Timer mainUpdate;
 	private ActionListener updateFunction;
 	private Player player;
-
 	private BasementRoom currentRoom;
-	private int[] currentCoord;
-
-	private BasementRoom bR;
 	private EntityEngine eEngine;
 
 	/**
@@ -38,8 +34,11 @@ public class Main extends JFrame{
 	 * @param ySize - y size of the window as set by the user
 	 */
 	public Main(int xSize, int ySize) {
+
+		// Starts the Engine and loads all assets
 		GameEngine.start();
 
+		//Grabs the starting room from the Game Engine
 		currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
 
 		//moving values passes by main menu down to the game window
@@ -65,6 +64,8 @@ public class Main extends JFrame{
 		this.setVisible(true);
         this.setDefaultCloseOperation(Main.EXIT_ON_CLOSE);
         this.addKeyListener(player.getKL());
+
+        // Temporary key listener for moving between rooms
 		KeyListener kL = new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -128,20 +129,18 @@ public class Main extends JFrame{
 	 */
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
-
-
-			paintRoom(g);
-			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
-			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
-
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
-			EntityEngine.checkCollision_E(player, new Entity(15,15,15,300,300,150,150));
 			EntityEngine.checkCollision_Door(player);
 
 			
 		}
+
+		/**
+		 * Grabs info about current room and paints to screen
+		 * @param g
+		 */
 		public void paintRoom(Graphics g ){
             g.drawImage(currentRoom.getRoomImages()[0],0,0,null);
             g.drawImage(currentRoom.getRoomImages()[1],currentRoom.getRoomImages()[1].getWidth(),0,null);
@@ -167,11 +166,21 @@ public class Main extends JFrame{
 
 
         }
+
+		/**
+		 * Paints all tears from list
+		 * @param g
+		 */
 		private void paintTears(Graphics g) {
 			for (Tear t : player.getTearList()) {
 				g.drawImage(t.getDrawImage(), t.getXPos(), t.getYPos(), null);
 			}
 		}
+
+		/**
+		 * Paints player head and body at current location
+		 * @param g
+		 */
 		private void drawPlayer(Graphics g) {
 			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
 			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
