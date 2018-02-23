@@ -27,9 +27,13 @@ public abstract class Enemy extends Entity{
 		this.lastPlayerY = temp[1];
 	}
 	/**
-	 * unimplemented update for all classes of type Enemy
+	 * basic update for all enemies
 	 */
-	public abstract void update();
+	public void update() {
+		int[] temp = EntityEngine.getPlayerPosition();
+		this.lastPlayerX = temp[0];
+		this.lastPlayerY = temp[1];
+	}
 	/**
 	 * unimplemented animate for all classes of type Enemy
 	 */
