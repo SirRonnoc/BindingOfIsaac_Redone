@@ -64,6 +64,33 @@ public class GameEngine {
     }
 
     /**
+     *  Checks if there is a room in a given direction
+     * @param direction - Direction to check
+     * @return - True if there is a room in direction given
+     */
+    public static boolean checkRoom(String direction) {
+        if (direction.equals("U")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] - 1] != null) {
+                return true;
+            }
+        } else if (direction.equals("R")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0] + 1][currentCoord[1]] != null) {
+                return true;
+            }
+        } else if (direction.equals("D")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] + 1] != null) {
+                return true;
+            }
+        } else if (direction.equals("L")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0] - 1][currentCoord[1]] != null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Print the map in console like a mini map "S" is current location (Not for final game but for debugging)
      */
     public static void printFloor(){
