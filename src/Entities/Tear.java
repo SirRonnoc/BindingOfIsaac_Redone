@@ -56,6 +56,9 @@ public class Tear extends Entity{
 	 * runs the update for the tear
 	 */
 	public void update() {
+		this.managePosition();
+	}
+	protected void managePosition() {
 		this.xPos += this.xSpeed;
 		this.yPos += this.ySpeed;
 	}

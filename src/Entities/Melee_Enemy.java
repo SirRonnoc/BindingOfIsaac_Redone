@@ -29,16 +29,28 @@ public abstract class Melee_Enemy extends Enemy{
 	protected void skyChase() {
 		int xDist = this.xPos - this.lastPlayerX;
 		int yDist = this.yPos - this.lastPlayerY;
-		double angle = Math.atan2(yDist,xDist);
-		//smooths out the movement by adding remainders of movements that are not entirely ints to a double and adding them once they are at least 1
-		double temp = Math.cos(angle) * this.speed;
-		this.xPos -= ((int)temp + (int)this.savedXM);
-		this.savedXM = (this.savedXM % 1) + temp % 1;
-		temp = Math.sin(angle)*this.speed;
-		this.yPos -= ((int)temp + (int)this.savedYM);
-		this.savedYM = (this.savedYM % 1) + temp % 1; 
+		manageSpeed(Math.atan2(yDist,xDist));
+		
+		
 		
 		System.out.println(this.savedXM + " " + this.savedYM);
+	}
+	/**
+	 * sets the position of the enemy
+	 * @param angle - angle of the movement of the enemy
+	 */
+	protected void managePosition() {
+		this.xPos += this.xSpeed;
+		this.yPos += this.ySpeed;
+	}
+	protected void manageSpeed(double angle) {
+		//smooths out the movement by adding remainders of movements that are not entirely ints to a double and adding them once they are at least 1
+		double temp = Math.cos(angle) * this.speed;
+		this.xSpeed = -((int)temp + (int)this.savedXM);
+		this.savedXM = (this.savedXM % 1) + temp % 1;
+		temp = Math.sin(angle)*this.speed;
+		this.ySpeed = -((int)temp + (int)this.savedYM);
+		this.savedYM = (this.savedYM % 1) + temp % 1; 
 	}
 	public void update() {
 		super.update();
@@ -47,6 +59,7 @@ public abstract class Melee_Enemy extends Enemy{
 		else
 			this.groundChase();
 		this.animate();
+		
 		
 	}
 }

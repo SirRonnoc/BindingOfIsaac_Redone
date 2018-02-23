@@ -31,6 +31,7 @@ public abstract class Enemy extends Entity{
 	 * basic update for all enemies
 	 */
 	public void update() {
+		this.managePosition();
 		int[] temp = EntityEngine.getPlayerPosition();
 		this.lastPlayerX = temp[0];
 		this.lastPlayerY = temp[1];
@@ -39,7 +40,15 @@ public abstract class Enemy extends Entity{
 	 * unimplemented animate for all classes of type Enemy
 	 */
 	protected abstract void animate();
-	
+	/**
+	 * unimplemented speed management for all classes of type Enemy
+	 * @param angle - angle of the enemies movement
+	 */
+	protected abstract void manageSpeed(double angle);
+	/**
+	 * manages the position of the enemy
+	 */
+	protected abstract void managePosition();
 	/**
 	 * returns the damage this enemy does on hit
 	 * @return - the on hit damage of the enemy
