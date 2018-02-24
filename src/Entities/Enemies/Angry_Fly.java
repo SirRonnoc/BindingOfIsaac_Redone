@@ -6,7 +6,7 @@ import Tools.GameFileReader;
 public class Angry_Fly extends Melee_Enemy{
 	protected static BufferedImage[] animations;
 	public Angry_Fly(int x, int y) {
-		super(4,2,2,x,y,animations[0].getWidth(),animations[0].getWidth(),1,true);
+		super(4,3,2,x,y,animations[0].getWidth(),animations[0].getWidth(),1,true,10);
 	}
 	protected void animate() {
 		if (this.animationCounter >= this.animationInterval) {

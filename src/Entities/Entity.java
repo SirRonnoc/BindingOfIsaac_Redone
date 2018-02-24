@@ -15,8 +15,8 @@ public class Entity {
 	protected int currentAnimationIndex;
 	protected int xPos;
 	protected int yPos;
-	protected int xSpeed;
-	protected int ySpeed;
+	protected double xSpeed;
+	protected double ySpeed;
 	protected BufferedImage drawImage;
 	protected int width;
 	protected int height;

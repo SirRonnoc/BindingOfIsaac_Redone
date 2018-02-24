@@ -12,9 +12,10 @@ public abstract class Melee_Enemy extends Enemy{
 	 * @param w - width of the enemy
 	 * @param oHD - on hit damage of the enemy
 	 * @param iF - is the enemy flying
+	 * @param dF - drift factor of the enemy (1 is no drift, 0 will throw an error)
 	 */
-	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF) {
-		super(mH,sp,aI,xP,yP,h,w,oHD,iF);
+	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF, int dF) {
+		super(mH,sp,aI,xP,yP,h,w,oHD,iF,dF);
 		
 	}
 	/**
@@ -33,24 +34,28 @@ public abstract class Melee_Enemy extends Enemy{
 		
 		
 		
-		System.out.println(this.savedXM + " " + this.savedYM);
+		
 	}
 	/**
 	 * sets the position of the enemy
 	 * @param angle - angle of the movement of the enemy
 	 */
 	protected void managePosition() {
-		this.xPos += this.xSpeed;
-		this.yPos += this.ySpeed;
+		this.xPos -= (int)this.xSpeed + (int)this.savedXM;
+		this.yPos -= (int)this.ySpeed + (int)this.savedYM;
 	}
 	protected void manageSpeed(double angle) {
-		//smooths out the movement by adding remainders of movements that are not entirely ints to a double and adding them once they are at least 1
+		
 		double temp = Math.cos(angle) * this.speed;
-		this.xSpeed = -((int)temp + (int)this.savedXM);
-		this.savedXM = (this.savedXM % 1) + temp % 1;
-		temp = Math.sin(angle)*this.speed;
-		this.ySpeed = -((int)temp + (int)this.savedYM);
-		this.savedYM = (this.savedYM % 1) + temp % 1; 
+		
+		this.xSpeed += (temp - this.xSpeed)/this.driftFactor; //drifts the speed by the drift factor for x
+		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
+		
+		temp = Math.sin(angle)*this.speed; //same steps but for y
+		this.ySpeed += (temp - this.ySpeed)/this.driftFactor;
+		
+		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1; 
+		
 	}
 	public void update() {
 		super.update();
@@ -58,6 +63,7 @@ public abstract class Melee_Enemy extends Enemy{
 			this.skyChase();
 		else
 			this.groundChase();
+		this.managePosition();
 		this.animate();
 		
 		

@@ -7,6 +7,7 @@ public abstract class Enemy extends Entity{
 	protected int onHitDamage;
 	protected int lastPlayerX,lastPlayerY;
 	protected boolean isFlying;
+	protected int driftFactor;
 	protected double savedXM, savedYM;
 	/**
 	 * initializes the enemy with values and setup information 
@@ -18,20 +19,21 @@ public abstract class Enemy extends Entity{
 	 * @param h - height of the enemy
 	 * @param w - width of the enemy
 	 * @param oHD - on hit damage of the enemy
+	 * @param dF - drift factor of the enemy (1 is no drift, 0 will throw an error)
 	 */
-	public Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF) {
+	public Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF, int dF) {
 		super(mH,sp,aS,xP,yP,h,w);
 		this.onHitDamage = oHD;
 		this.isFlying = iF;
 		int[] temp = EntityEngine.getPlayerPosition();
 		this.lastPlayerX = temp[0];
 		this.lastPlayerY = temp[1];
+		this.driftFactor = dF;
 	}
 	/**
 	 * basic update for all enemies
 	 */
 	public void update() {
-		this.managePosition();
 		int[] temp = EntityEngine.getPlayerPosition();
 		this.lastPlayerX = temp[0];
 		this.lastPlayerY = temp[1];

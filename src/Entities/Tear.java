@@ -6,11 +6,11 @@ import Tools.GameFileReader;
 
 public class Tear extends Entity{
 	protected int direction;
-	protected int originXSpeed;
-	protected int originYSPeed;
+	protected double originXSpeed;
+	protected double originYSPeed;
 	protected static BufferedImage drawImage_S;
 	protected boolean destroy;
-	public Tear(int x, int y, int pXSpeed, int pYSpeed, int dir) {
+	public Tear(int x, int y, double pXSpeed, double pYSpeed, int dir) {
 		//call to the Entity constructor 
 		super(1,14,1,x,y,drawImage_S.getWidth(),drawImage_S.getHeight());
 		
