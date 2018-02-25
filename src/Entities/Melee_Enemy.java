@@ -46,7 +46,7 @@ public abstract class Melee_Enemy extends Enemy{
 	}
 	protected void manageSpeed(double angle) {
 		
-		double temp = Math.cos(angle) * this.speed;
+		double temp = Math.cos(angle) * this.speed; //gets the x component of the angle of movement of the enemy
 		
 		this.xSpeed += (temp - this.xSpeed)/this.driftFactor; //drifts the speed by the drift factor for x
 		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
@@ -57,6 +57,9 @@ public abstract class Melee_Enemy extends Enemy{
 		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1; 
 		
 	}
+	/**
+	 * declared update for all enemies of type melee
+	 */
 	public void update() {
 		super.update();
 		if (isFlying)

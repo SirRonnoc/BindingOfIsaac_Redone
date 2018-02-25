@@ -76,11 +76,20 @@ public class Entity {
 		return this.height;
 	}
 
-	public void setxPos(int xPos){
+	public void setXPos(int xPos){
 		this.xPos=xPos;
 	}
 
-	public void setyPos(int yPos) {
+	public void setYPos(int yPos) {
 		this.yPos = yPos;
+	}
+	public double getXSpeed() {
+		return this.xSpeed;
+	}
+	public double getYSpeed() {
+		return this.ySpeed;
+	}
+	public void damage(int d) {
+		this.health -= d;
 	}
 }

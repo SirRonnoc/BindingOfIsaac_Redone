@@ -39,6 +39,16 @@ public abstract class Enemy extends Entity{
 		this.lastPlayerY = temp[1];
 	}
 	/**
+	 * knocks back the enemy based on the xspeed, yspeed and knockback factor of what hits it
+	 * @param xSpeed - xspeed of the item knocking enemy back
+	 * @param ySpeed - yspeed of the item knocking enemy back
+	 * @param knockback - knockback factor of the item
+	 */
+	public void knockback(double xSpeed, double ySpeed, double knockback) {
+		this.xSpeed -= xSpeed*knockback;
+		this.ySpeed -= ySpeed*knockback;
+	}
+	/**
 	 * unimplemented animate for all classes of type Enemy
 	 */
 	protected abstract void animate();
@@ -51,6 +61,7 @@ public abstract class Enemy extends Entity{
 	 * manages the position of the enemy
 	 */
 	protected abstract void managePosition();
+	
 	/**
 	 * returns the damage this enemy does on hit
 	 * @return - the on hit damage of the enemy

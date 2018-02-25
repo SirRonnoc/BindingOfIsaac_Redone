@@ -10,16 +10,22 @@ public class Tear extends Entity{
 	protected double originYSPeed;
 	protected static BufferedImage drawImage_S;
 	protected boolean destroy;
-	public Tear(int x, int y, double pXSpeed, double pYSpeed, int dir) {
+	protected boolean enemyOrigin;
+	protected int damage;
+	protected double knockback;
+	public Tear(Entity e, int dir, int damage, double kb) {
 		//call to the Entity constructor 
-		super(1,14,1,x,y,drawImage_S.getWidth(),drawImage_S.getHeight());
+		super(1,14,1,e.getXPos(),e.getYPos(),drawImage_S.getWidth(),drawImage_S.getHeight());
 		
 		//initializing variables
 		this.direction = dir;
-		this.originXSpeed = pXSpeed;
-		this.originYSPeed = pYSpeed;
+		this.originXSpeed = e.getXSpeed();
+		this.originYSPeed = e.getYSpeed();
 		this.drawImage = drawImage_S;
 		this.destroy = false;
+		this.enemyOrigin = e instanceof Player ? false : true;
+		this.damage = damage;
+		this.knockback = kb;
 		//setting the speed of the tear
 		this.setSpeed();
 	}
@@ -58,13 +64,32 @@ public class Tear extends Entity{
 	public void update() {
 		this.managePosition();
 	}
+	/**
+	 * manages the position of the tear based on its speed
+	 */
 	protected void managePosition() {
 		this.xPos += this.xSpeed;
 		this.yPos += this.ySpeed;
 	}
-	
+	/**
+	 * sets the destroy variable of the tear to true so that it is destroyed upon next tick
+	 */
 	public void destroy() {
 		this.destroy = true;
+	}
+	/**
+	 * gets the damage of the tear
+	 * @return
+	 */
+	public int getDamage() {
+		return this.damage;
+	}
+	/**
+	 * returns the knockback of the tear
+	 * @return - double knockback
+	 */
+	public double getKnockback() { 
+	return this.knockback;
 	}
 	
 }

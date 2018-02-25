@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ import javax.swing.Timer;
 
 import Engines.EntityEngine;
 import Engines.GameEngine;
+import Entities.Enemy;
 import Entities.Player;
 import Entities.Tear;
 import Entities.Enemies.Angry_Fly;
@@ -24,8 +26,7 @@ public class Main extends JFrame{
 	private ActionListener updateFunction;
 	private Player player;
 	private BasementRoom currentRoom;
-	private EntityEngine eEngine;
-	private Angry_Fly aF;
+	private ArrayList<Enemy> testingEnemyList;
 
 	/**
 	 * sets up the Main window
@@ -47,14 +48,18 @@ public class Main extends JFrame{
 		this.updateFunction = this.setUpdateFunction();
 		
 		//initializes other variables
+		this.testingEnemyList = new ArrayList<Enemy>();
 		this.player = new Player();
-
-		this.eEngine = new EntityEngine(player);
+		EntityEngine.setPlayer(this.player);
+		EntityEngine.setEnemyList(this.testingEnemyList);
+		
+		
+		//initializes enemies
+		this.testingEnemyList.add(new Angry_Fly(700,100));
 
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
-		this.aF = new Angry_Fly(700,100);
 		
 		//adds the draw to the JFrame
 		this.add(new Draw());
@@ -113,11 +118,12 @@ public class Main extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
 				player.update();
-				eEngine.update();
+				EntityEngine.update();
 				for (Tear t : player.getTearList())
 					t.update();
 				repaint();
-				aF.update();
+				for (Enemy enemy : testingEnemyList)
+					enemy.update();
 			}
 			
 		};
@@ -135,7 +141,7 @@ public class Main extends JFrame{
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
-			g.drawImage(aF.getDrawImage(), aF.getXPos(), aF.getYPos(), null);
+			g.drawImage(testingEnemyList.get(0).getDrawImage(), testingEnemyList.get(0).getXPos(), testingEnemyList.get(0).getYPos(), null);
 			EntityEngine.checkCollision_Door(player);
 
 			

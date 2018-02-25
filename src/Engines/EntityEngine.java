@@ -1,5 +1,8 @@
 package Engines;
 
+import java.util.ArrayList;
+
+import Entities.Enemy;
 import Entities.Entity;
 import Entities.Player;
 import Entities.Tear;
@@ -8,23 +11,33 @@ import Rooms.Room;
 public class EntityEngine {
 	private static Room currentRoom;
 	private static Player player;
-	
-	public EntityEngine(Player p) {
+	private static ArrayList<Enemy> enemyList;
+	public static void setPlayer(Player p) {
 		player = p;
 	}
 
-	public void update() {
+	public static void update() {
 		checkTears();
 	}
-
+	/**
+	 * performs collision for all tears that are currently in the engine
+	 */
 	private static void checkTears() {
 		for (Tear t : player.getTearList()) {
 			if (checkCollision_W(t) != 0) 
 				t.destroy();
-				
+			for (Enemy e : enemyList)
+				if (checkCollision_E(t,e)) {
+					e.damage(t.getDamage());
+					e.knockback(t.getXSpeed(), t.getYSpeed(), t.getKnockback());
+					t.destroy();
+				}
+			
 		}
 	}
-
+	public static void setEnemyList(ArrayList<Enemy> eL) {
+		enemyList = eL;
+	}
 	/**
 	 * checks whether the first entity is colliding with the second
 	 * @param entity - the entity that is the focus of the collision
@@ -63,7 +76,7 @@ public class EntityEngine {
 			return 1;
 		return 0;
 	}
-
+	// we can probably make these into one function, will look at later
 	private static boolean rightWallCol(Entity focus){
 		if (GameEngine.checkRoom("R")) {
 			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (Room.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
@@ -119,19 +132,19 @@ public class EntityEngine {
 	public static void checkCollision_Door(Entity player){
 		if(player.getYPos()<100){
 			GameEngine.moveRoom("U");
-			player.setyPos(620-player.getHeight());
+			player.setXPos(620-player.getHeight());
 		}
 		else if(player.getYPos()+player.getHeight()>625){
 			GameEngine.moveRoom("D");
-			player.setyPos(105);
+			player.setYPos(105);
 		}
 		else if(player.getXPos()+player.getWidth()>995){
 			GameEngine.moveRoom("R");
-			player.setxPos(105);
+			player.setXPos(105);
 		}
 		else if(player.getXPos()<100){
 			GameEngine.moveRoom("L");
-			player.setxPos(990-player.getWidth());
+			player.setXPos(990-player.getWidth());
 		}
 	}
 

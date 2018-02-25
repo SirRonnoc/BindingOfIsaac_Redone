@@ -31,7 +31,8 @@ public class Player extends Entity{
 	protected int blinkTime;
 	protected int timeSinceLastShot;
 	protected int fireDir;
-	
+	protected int tearDamage;
+	protected double tearKnockback;
 	/**
 	 * sets all the static images for use by the player
 	 */
@@ -68,6 +69,8 @@ public class Player extends Entity{
 		this.headStayTime = 10;
 		this.blinkTime = 2;
 		this.timeSinceLastShot = this.headStayTime +1;
+		this.tearDamage = 2;
+		this.tearKnockback = 1.2;
 	}
 	/**
 	 * handles the update for the player object
@@ -296,7 +299,7 @@ public class Player extends Entity{
 	 */
 	protected void shootLeft() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 1));
+		this.tearList.add(new Tear(this, 1,this.tearDamage, this.tearKnockback));
 		this.fireDir = 0;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -307,7 +310,7 @@ public class Player extends Entity{
 	 */
 	protected void shootUp() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 0));
+		this.tearList.add(new Tear(this, 0,this.tearDamage,this.tearKnockback));
 		this.fireDir = 1;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -318,7 +321,7 @@ public class Player extends Entity{
 	 */
 	protected void shootRight() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 3));
+		this.tearList.add(new Tear(this, 3,this.tearDamage,this.tearKnockback));
 		this.fireDir = 2;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -329,7 +332,7 @@ public class Player extends Entity{
 	 */
 	protected void shootDown() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this.xPos, this.yPos, this.xSpeed, this.ySpeed, 2));
+		this.tearList.add(new Tear(this, 2,this.tearDamage,this.tearKnockback));
 		this.fireDir = 3;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -364,5 +367,6 @@ public class Player extends Entity{
 	public ArrayList<Tear> getTearList() {
 		return this.tearList;
 	}
+	
 	
 }
