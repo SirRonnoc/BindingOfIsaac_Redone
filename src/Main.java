@@ -26,7 +26,6 @@ public class Main extends JFrame{
 	private ActionListener updateFunction;
 	private Player player;
 	private BasementRoom currentRoom;
-	private ArrayList<Enemy> testingEnemyList;
 
 	/**
 	 * sets up the Main window
@@ -44,19 +43,12 @@ public class Main extends JFrame{
 		//moving values passes by main menu down to the game window
 		this.windowX = xSize; this.windowY = ySize;
 		
-		//sets update function from slave function
-		this.updateFunction = this.setUpdateFunction();
-		
 		//initializes other variables
-		this.testingEnemyList = new ArrayList<Enemy>();
 		this.player = new Player();
 		EntityEngine.setPlayer(this.player);
-		EntityEngine.setEnemyList(this.testingEnemyList);
-		
-		
-		//initializes enemies
-		this.testingEnemyList.add(new Angry_Fly(700,100));
 
+		//sets update function from slave function
+		this.updateFunction = this.setUpdateFunction();
 		//sets up the timer and starts it
 		this.mainUpdate = new Timer(17,this.updateFunction);
 		this.mainUpdate.start();
@@ -94,7 +86,7 @@ public class Main extends JFrame{
 						GameEngine.moveRoom("D");
 						break;
 				}
-				GameEngine.printFloor();
+				//GameEngine.printFloor();
 			}
 
 			@Override
@@ -117,12 +109,13 @@ public class Main extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
+				EntityEngine.setEnemyList(currentRoom.getEnemyList());
 				player.update();
 				EntityEngine.update();
 				for (Tear t : player.getTearList())
 					t.update();
 				repaint();
-				for (Enemy enemy : testingEnemyList)
+				for (Enemy enemy : currentRoom.getEnemyList())
 					enemy.update();
 			}
 			
@@ -141,7 +134,8 @@ public class Main extends JFrame{
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
-			g.drawImage(testingEnemyList.get(0).getDrawImage(), testingEnemyList.get(0).getXPos(), testingEnemyList.get(0).getYPos(), null);
+			for (Enemy e : currentRoom.getEnemyList())
+				g.drawImage(e.getDrawImage(), e.getXPos(), e.getYPos(), null);
 			EntityEngine.checkCollision_Door(player);
 
 			
@@ -194,8 +188,6 @@ public class Main extends JFrame{
 		private void drawPlayer(Graphics g) {
 			g.drawImage(player.getDrawImage(),player.getXPos(),player.getYPos(),null);
 			g.drawImage(player.getHeadImage(), player.getXPos(), player.getYPos() - 30, null);
-			g.drawImage(player.getDrawImage(),300,300,null);
-			g.drawImage(player.getHeadImage(), 300,300 - 30, null);
 		}
 	}
 

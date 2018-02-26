@@ -16,8 +16,8 @@ public class GameEngine {
         Room.init();
         Player.init();
         Tear.init();
-        init();
         Angry_Fly.init();
+        init();
 
     }
 

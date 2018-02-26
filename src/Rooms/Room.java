@@ -1,7 +1,10 @@
 package Rooms;
-import Tools.GameFileReader;
-import javax.print.DocFlavor;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Random;
+
+import Entities.Enemy;
+import Entities.Enemies.Angry_Fly;
 
 /**
  * Room class basis for all rooms.
@@ -18,6 +21,7 @@ public class Room {
     static int[] botDoorPos= new int[2];
     static int[] leftDoorPos= new int[2];
     static int[] rightDoorPos= new int[2];
+    protected ArrayList<Enemy> enemyList;
 
     /**
      * Room Constructor
@@ -28,12 +32,15 @@ public class Room {
         this.dimensionX=x;
         this.dimensionY=y;
         doorTop=top;doorRight=right;doorBot=bot;doorLeft=left;
+        this.enemyList = new ArrayList<Enemy>();
+       
 
 
     }
     public Room(int x, int y){
         this.dimensionX=x;
         this.dimensionY=y;
+        this.enemyList = new ArrayList<Enemy>();
     }
     public static void init(){
         topDoorPos[0]= BasementRoom.getRoomImages()[0].getWidth()-getDoorImgTop().getWidth()/2;
@@ -100,5 +107,8 @@ public class Room {
 
     public static int getWallWidth() {
         return wallWidth;
+    }
+    public ArrayList<Enemy> getEnemyList() {
+    	return this.enemyList;
     }
 }

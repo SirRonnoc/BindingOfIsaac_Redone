@@ -91,5 +91,8 @@ public class Tear extends Entity{
 	public double getKnockback() { 
 	return this.knockback;
 	}
+	public boolean getIsDestroyed() {
+		return this.destroy;
+	}
 	
 }
