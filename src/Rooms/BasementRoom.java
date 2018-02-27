@@ -9,25 +9,45 @@ public class BasementRoom extends Room {
     // List of all four images of the room(Top-Left, Top-Right, Bot-Left, Bot-Right)
     static BufferedImage[] roomImages = new BufferedImage[4];
 
+    // All basement room door images
+    private static BufferedImage doorImgTop,doorImgRight,doorImgBot,doorImgLeft;
+
+    // Location of the background images
+    protected static String background;
+
+
     /**
-     * Room Constructor
-     *
+     * BasementRoom Constructor
      * @param x
      * @param y
      */
     public BasementRoom(int x, int y) {
         super(x, y);
     }
+
+    /**
+     *  BasementRoom Constructor
+     * @param x
+     * @param y
+     * @param top
+     * @param right
+     * @param bot
+     * @param left
+     */
     public BasementRoom(int x, int y,boolean top,boolean right,boolean bot, boolean left) {
         super(x, y,top,right,bot,left);
     }
+
+    /**
+     * Sets all variables that are static for all Basement Rooms. Called in GameEngine start method
+     */
     public static void init(){
         background= "resources/gfx/backdrop/01_basement.png";
         double scale = 2.3;
         setImages(scale);
     }
     /**
-     *
+     * Called in init sets all static images using GameFileReader
      * @param scale // scales the image by the set scale variable (double)
      */
     public static void setImages(double scale){
@@ -43,7 +63,45 @@ public class BasementRoom extends Room {
         doorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorOpen.png",scale,scale,270);
     }
 
+    /**
+     * Returns all roomImages in a list (0: top-left, 1: top-right, 2: bot-left, 3: bot-right)
+     * @return roomImages
+     */
     public static BufferedImage[] getRoomImages() {
         return roomImages ;
     }
+
+
+    /**
+     * Returns the top door image
+     * @return doorImageTop
+     */
+    public static BufferedImage getDoorImgTop() {
+        return doorImgTop;
+    }
+
+    /**
+     * Returns the right door image
+     * @return doorImageRight
+     */
+    public static BufferedImage getDoorImgRight() {
+        return doorImgRight;
+    }
+
+    /**
+     * Returns the bot door image
+     * @return doorImageBot
+     */
+    public static BufferedImage getDoorImgBot() {
+        return doorImgBot;
+    }
+
+    /**
+     * Returns the left door image
+     * @return doorImageLeft
+     */
+    public static BufferedImage getDoorImgLeft() {
+        return doorImgLeft;
+    }
+
 }

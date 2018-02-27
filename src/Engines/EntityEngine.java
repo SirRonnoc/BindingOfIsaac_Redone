@@ -6,6 +6,7 @@ import Entities.Enemy;
 import Entities.Entity;
 import Entities.Player;
 import Entities.Tear;
+import Rooms.BasementRoom;
 import Rooms.Room;
 
 public class EntityEngine {
@@ -79,7 +80,7 @@ public class EntityEngine {
 	// we can probably make these into one function, will look at later
 	private static boolean rightWallCol(Entity focus){
 		if (GameEngine.checkRoom("R")) {
-			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (Room.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
+			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (BasementRoom.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
 				return false;
 			} else if (focus.getXPos() + focus.getWidth() >= 990) {
 				return true;
@@ -92,7 +93,7 @@ public class EntityEngine {
 
 	private static boolean topWallCol(Entity focus){
 		if (GameEngine.checkRoom("U")) {
-			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (Room.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (Room.getDoorImgTop().getWidth())))) {
+			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (BasementRoom.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (BasementRoom.getDoorImgTop().getWidth())))) {
 				return false;
 			} else if (focus.getYPos() <= 100) {
 				return true;
@@ -105,7 +106,7 @@ public class EntityEngine {
 
 	private static boolean leftWallCol(Entity focus){
 		if (GameEngine.checkRoom("L")) {
-			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (Room.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
+			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (BasementRoom.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
 				return false;
 			} else if (focus.getXPos() <= 100) {
 				return true;
@@ -118,7 +119,7 @@ public class EntityEngine {
 
 	private static boolean botWallCol(Entity focus){
 		if (GameEngine.checkRoom("D")) {
-			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (Room.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (Room.getDoorImgTop().getWidth())))) {
+			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (BasementRoom.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (BasementRoom.getDoorImgTop().getWidth())))) {
 				return false;
 			} else if (focus.getYPos() +focus.getHeight() >= 620) {
 				return true;
@@ -132,7 +133,7 @@ public class EntityEngine {
 	public static void checkCollision_Door(Entity player){
 		if(player.getYPos()<100){
 			GameEngine.moveRoom("U");
-			player.setXPos(620-player.getHeight());
+			player.setYPos(620-player.getHeight());
 		}
 		else if(player.getYPos()+player.getHeight()>625){
 			GameEngine.moveRoom("D");
