@@ -25,9 +25,6 @@ public abstract class Enemy extends Entity{
 		super(mH,sp,aS,xP,yP,h,w);
 		this.onHitDamage = oHD;
 		this.isFlying = iF;
-		int[] temp = EntityEngine.getPlayerPosition();
-		this.lastPlayerX = temp[0];
-		this.lastPlayerY = temp[1];
 		this.driftFactor = dF;
 	}
 	/**

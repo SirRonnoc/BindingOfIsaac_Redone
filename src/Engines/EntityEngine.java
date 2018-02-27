@@ -12,7 +12,7 @@ import Rooms.Room;
 public class EntityEngine {
 	private static Room currentRoom;
 	private static Player player;
-	private static ArrayList<Enemy> enemyList;
+	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 	public static void setPlayer(Player p) {
 		player = p;
 	}
@@ -28,7 +28,7 @@ public class EntityEngine {
 			if (checkCollision_W(t) != 0) 
 				t.destroy();
 			for (Enemy e : enemyList)
-				if (checkCollision_E(t,e)) {
+				if (checkCollision_E(t,e) && !t.getIsDestroyed()) {
 					e.damage(t.getDamage());
 					e.knockback(t.getXSpeed(), t.getYSpeed(), t.getKnockback());
 					t.destroy();
