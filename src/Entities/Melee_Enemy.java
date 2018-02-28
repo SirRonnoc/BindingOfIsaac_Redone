@@ -13,9 +13,10 @@ public abstract class Melee_Enemy extends Enemy{
 	 * @param oHD - on hit damage of the enemy
 	 * @param iF - is the enemy flying
 	 * @param dF - drift factor of the enemy (1 is no drift, 0 will throw an error)
+	 * @param rF - repulsion factor of the enemy
 	 */
-	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF, int dF) {
-		super(mH,sp,aI,xP,yP,h,w,oHD,iF,dF);
+	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF) {
+		super(mH,sp,aI,xP,yP,h,w,oHD,iF,dF,rF);
 		
 	}
 	/**
@@ -31,10 +32,6 @@ public abstract class Melee_Enemy extends Enemy{
 		int xDist = this.xPos - this.lastPlayerX;
 		int yDist = this.yPos - this.lastPlayerY;
 		manageSpeed(Math.atan2(yDist,xDist));
-		
-		
-		
-		
 	}
 	/**
 	 * sets the position of the enemy
@@ -44,6 +41,9 @@ public abstract class Melee_Enemy extends Enemy{
 		this.xPos -= (int)this.xSpeed + (int)this.savedXM;
 		this.yPos -= (int)this.ySpeed + (int)this.savedYM;
 	}
+	/**
+	 * manages the speed of the enemy
+	 */
 	protected void manageSpeed(double angle) {
 		
 		double temp = Math.cos(angle) * this.speed; //gets the x component of the angle of movement of the enemy
@@ -57,16 +57,20 @@ public abstract class Melee_Enemy extends Enemy{
 		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1; 
 		
 	}
-	/**
-	 * declared update for all enemies of type melee
-	 */
-	public void update() {
-		super.update();
+	
+	protected void manageAI() {
 		if (isFlying)
 			this.skyChase();
 		else
 			this.groundChase();
 		this.managePosition();
+	}
+	/**
+	 * declared update for all enemies of type melee
+	 */
+	public void update() {
+		super.update();
+		this.manageAI();
 		this.animate();
 		
 		

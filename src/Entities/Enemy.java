@@ -9,6 +9,7 @@ public abstract class Enemy extends Entity{
 	protected boolean isFlying;
 	protected int driftFactor;
 	protected double savedXM, savedYM;
+	protected double repulsionFactor;
 	/**
 	 * initializes the enemy with values and setup information 
 	 * @param mH - max health of the enemy
@@ -20,12 +21,14 @@ public abstract class Enemy extends Entity{
 	 * @param w - width of the enemy
 	 * @param oHD - on hit damage of the enemy
 	 * @param dF - drift factor of the enemy (1 is no drift, 0 will throw an error)
+	 * @param rF - repulsion factor of the enemy
 	 */
-	public Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF, int dF) {
+	public Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF) {
 		super(mH,sp,aS,xP,yP,h,w);
 		this.onHitDamage = oHD;
 		this.isFlying = iF;
 		this.driftFactor = dF;
+		this.repulsionFactor = rF;
 	}
 	/**
 	 * basic update for all enemies
@@ -60,11 +63,25 @@ public abstract class Enemy extends Entity{
 	protected abstract void managePosition();
 	
 	/**
+	 * manages the AI of the enemy
+	 */
+	protected abstract void manageAI();
+	/**
 	 * returns the damage this enemy does on hit
 	 * @return - the on hit damage of the enemy
 	 */
 	public int getOnHitDamage() {
 		return this.onHitDamage;
+	}
+	/**
+	 * repels the enemy from other enemies of its type (flying or non-flying)
+	 * @param angle - angle between the enemies
+	 * @param distance - distance between the enemies
+	 */
+	public void enemyRepulsion(double angle, double distance) {
+		distance = distance == 0 ? 1 : distance;
+		this.xSpeed -= Math.cos(angle) * this.repulsionFactor/distance;
+		this.ySpeed -= Math.sin(angle) * this.repulsionFactor/distance;
 	}
 	
 }

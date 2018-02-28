@@ -18,12 +18,14 @@ public class EntityEngine {
 	}
 
 	public static void update() {
-		checkTears();
+		updateTears();
+		updateEnemies();
+		checkEnemies();
 	}
 	/**
 	 * performs collision for all tears that are currently in the engine
 	 */
-	private static void checkTears() {
+	private static void updateTears() {
 		for (Tear t : player.getTearList()) {
 			if (checkCollision_W(t) != 0) 
 				t.destroy();
@@ -35,6 +37,29 @@ public class EntityEngine {
 				}
 			
 		}
+	}
+	/**
+	 * performs collision and other functions for the enemies in EntityEngine
+	 */
+	private static void updateEnemies() {
+		
+		for (int i = 0; i < enemyList.size();i++) //repulses all the enemies from each other
+			for (int g = 0; g < enemyList.size();g++)
+				if (g != i) {
+					int xDist = enemyList.get(g).getXPos() - enemyList.get(i).getXPos();
+					int yDist = enemyList.get(i).getYPos() - enemyList.get(g).getYPos();
+					enemyList.get(i).enemyRepulsion(Math.atan2(yDist,xDist), Math.abs(Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))));
+				}
+		checkEnemies();
+	}
+	/**
+	 * checks important variables for the enemies such as health
+	 */
+	private static void checkEnemies() {
+		for (int i = 0; i < enemyList.size();i++)
+			if (enemyList.get(i).getHealth() <= 0)
+				enemyList.remove(i);
+				
 	}
 	public static void setEnemyList(ArrayList<Enemy> eL) {
 		enemyList = eL;

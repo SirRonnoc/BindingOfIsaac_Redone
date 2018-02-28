@@ -92,4 +92,7 @@ public class Entity {
 	public void damage(int d) {
 		this.health -= d;
 	}
+	public int getHealth() {
+		return this.health;
+	}
 }

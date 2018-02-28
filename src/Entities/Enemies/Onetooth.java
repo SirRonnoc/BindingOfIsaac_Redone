@@ -1,12 +1,19 @@
 package Entities.Enemies;
+
 import java.awt.image.BufferedImage;
 
 import Entities.Melee_Enemy;
 import Tools.GameFileReader;
-public class Angry_Fly extends Melee_Enemy{
+
+public class Onetooth extends Melee_Enemy{
 	protected static BufferedImage[] animations;
-	public Angry_Fly(int x, int y) {
-		super(4,3,2,x,y,animations[0].getWidth(),animations[0].getWidth(),1,true,10,5);
+	public Onetooth(int xPos, int yPos) {
+		super(10,2,3,xPos,yPos, animations[0].getWidth(), animations[0].getHeight(), 1, true, 5, 5);
+	}
+	public static void init() {
+		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/monsters/classic/monster_205_onetooth.png", 2.5, 2.5),4,2,0,0,1,1);
+		animations = new BufferedImage[] {temp[0],temp[1]};
+		
 	}
 	protected void animate() {
 		if (this.animationCounter >= this.animationInterval) {
@@ -16,13 +23,5 @@ public class Angry_Fly extends Melee_Enemy{
 		}
 		else 
 			this.animationCounter +=1;
-		
 	}
-	public static void init() {
-		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/monsters/classic/monster_010_fly.png", 2.5, 2.5), 8, 8, 0, 0, 1, 1);
-		animations = new BufferedImage[] {temp[8],temp[9],temp[10]};
-		
-		
-	}
-	
 }
