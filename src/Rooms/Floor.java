@@ -1,6 +1,6 @@
 package Rooms;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Floor {
@@ -33,88 +33,40 @@ public class Floor {
             // Randomly picks a direction to branch using a switch and a random number
             switch (rand.nextInt(4)){
                 case 0:
-                    if (floorLayout[temp[0]+1][temp[1]]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
+                    if (floorLayout[temp[0]+1][temp[1]]==null) {
                         floorLayout[temp[0]+1][temp[1]] = new BasementRoom(1, 1,false,false,false,true);
-                        if (checkRoomPlacement(temp[0]+1,temp[1]))
-                            okRooms.add(new Integer[] {temp[0]+1,temp[1]});
-
-                        if (!checkRoomPlacement(temp[0],temp[1]))
-                            okRooms.remove(temp);
-                        if (!checkRoomPlacement(temp[0]-1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]-1,temp[1]}) ;
-                        if (!checkRoomPlacement(temp[0]+1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]+1,temp[1]});
-                        if (!checkRoomPlacement(temp[0],temp[1]-1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]-1});
-                        if (!checkRoomPlacement(temp[0],temp[1]+1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]+1});
                         checkAdjacent(temp[0]+1,temp[1]);
+                        checkOkRooms();
                     }else{
                         i--;
 
                     }
                     break;
                 case 1:
-                    if (floorLayout[temp[0]-1][temp[1]]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
+                    if (floorLayout[temp[0]-1][temp[1]]==null) {
                         floorLayout[temp[0]-1][temp[1]] = new BasementRoom(1, 1,false,true,false,false);
-                        if (checkRoomPlacement(temp[0]-1,temp[1]))
-                            okRooms.add(new Integer[] {temp[0]-1,temp[1]});
-
-                        if (!checkRoomPlacement(temp[0],temp[1]))
-                            okRooms.remove(temp);
-                        if (!checkRoomPlacement(temp[0]-1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]-1,temp[1]}) ;
-                        if (!checkRoomPlacement(temp[0]+1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]+1,temp[1]});
-                        if (!checkRoomPlacement(temp[0],temp[1]-1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]-1});
-                        if (!checkRoomPlacement(temp[0],temp[1]+1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]+1});
-
                         checkAdjacent(temp[0]-1,temp[1]);
+                        checkOkRooms();
                     }else{
                         i--;
 
                     }
                     break;
                 case 2:
-                    if (floorLayout[temp[0]][temp[1]+1]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
+                    if (floorLayout[temp[0]][temp[1]+1]==null) {
                         floorLayout[temp[0]][temp[1]+1] = new BasementRoom(1, 1,true,false,false,false);
-                        if (checkRoomPlacement(temp[0],temp[1]+1))
-                            okRooms.add(new Integer[] {temp[0],temp[1]+1});
-                        if (!checkRoomPlacement(temp[0],temp[1]))
-                            okRooms.remove(temp);
-                        if (!checkRoomPlacement(temp[0]-1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]-1,temp[1]}) ;
-                        if (!checkRoomPlacement(temp[0]+1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]+1,temp[1]});
-                        if (!checkRoomPlacement(temp[0],temp[1]-1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]-1});
-                        if (!checkRoomPlacement(temp[0],temp[1]+1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]+1});
                         checkAdjacent(temp[0],temp[1]+1);
+                        checkOkRooms();
                     }else{
                         i--;
 
                     }
                     break;
                 case 3:
-                    if (floorLayout[temp[0]][temp[1]-1]==null&&checkRoomsDoorLimit(temp[0],temp[1])) {
+                    if (floorLayout[temp[0]][temp[1]-1]==null) {
                         floorLayout[temp[0]][temp[1]-1] = new BasementRoom(1, 1,false,false,true,false);
-                        if (checkRoomPlacement(temp[0],temp[1]-1))
-                            okRooms.add(new Integer[] {temp[0],temp[1]-1});
-                        if (!checkRoomPlacement(temp[0],temp[1]))
-                            okRooms.remove(temp);
-                        if (!checkRoomPlacement(temp[0]-1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]-1,temp[1]}) ;
-                        if (!checkRoomPlacement(temp[0]+1,temp[1]))
-                            okRooms.remove(new Integer[]{temp[0]+1,temp[1]});
-                        if (!checkRoomPlacement(temp[0],temp[1]-1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]-1});
-                        if (!checkRoomPlacement(temp[0],temp[1]+1))
-                            okRooms.remove(new Integer[]{temp[0],temp[1]+1});
-
                         checkAdjacent(temp[0],temp[1]-1);
+                        checkOkRooms();
 
 
                     }else{
@@ -124,34 +76,13 @@ public class Floor {
                     break;
 
             }
-            System.out.print(i);
+
+            System.out.print(Arrays.deepToString(okRooms.toArray())+"\n");
 
         }
+
     }
 
-    protected boolean checkRoomPlacement(int x, int y){
-        int connectedRooms = 0;
-        if (floorLayout[x][y-1]!=null)
-            connectedRooms++;
-        if (floorLayout[x][y+1]!=null)
-            connectedRooms++;
-        if (floorLayout[x-1][y]!=null)
-            connectedRooms++;
-        if (floorLayout[x+1][y]!=null)
-            connectedRooms++;
-        if (connectedRooms>3){
-            return false;
-        }
-
-        return true;
-    }
-
-    protected boolean checkRoomsDoorLimit(int x, int y){
-        if (checkRoomPlacement(x,y)&&checkRoomPlacement(x+1,y)&&checkRoomPlacement(x-1,y)&&checkRoomPlacement(x,y+1)&&checkRoomPlacement(x,y-1)){
-            return true;
-        }
-        return false;
-    }
 
     protected void checkAdjacent(int x, int y){
         if (floorLayout[x][y +1]!=null) {
@@ -169,6 +100,28 @@ public class Floor {
         if (floorLayout[x-1][y]!=null){
             floorLayout[x-1][y].doorRight=true;
             floorLayout[x][y].doorLeft = true;
+        }
+    }
+    protected void checkOkRooms(){
+        okRooms.clear();
+        int connectedRooms;
+        for (int i = 0; i<30;i++){
+            for (int j = 0; j<30; j++){
+                connectedRooms = 0;
+                if (floorLayout[i][j]!= null) {
+                    if (floorLayout[i][j].doorRight)
+                        connectedRooms++;
+                    if (floorLayout[i][j].doorLeft)
+                        connectedRooms++;
+                    if (floorLayout[i][j].doorTop)
+                        connectedRooms++;
+                    if (floorLayout[i][j].doorBot)
+                        connectedRooms++;
+                    if (!(connectedRooms > 3)) {
+                        okRooms.add(new Integer[]{i, j});
+                    }
+                }
+            }
         }
     }
 }

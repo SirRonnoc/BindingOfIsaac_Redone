@@ -86,7 +86,7 @@ public class Main extends JFrame{
 						GameEngine.moveRoom("D");
 						break;
 				}
-				//GameEngine.printFloor();
+				GameEngine.printFloor();
 			}
 
 			@Override
@@ -108,6 +108,7 @@ public class Main extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				currentRoom.checkRoomClear();
 				currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
 				EntityEngine.setEnemyList(currentRoom.getEnemyList());
 				player.update();

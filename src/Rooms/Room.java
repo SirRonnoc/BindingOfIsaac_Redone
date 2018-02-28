@@ -25,6 +25,7 @@ public class Room {
     static int[] leftDoorPos= new int[2];
     static int[] rightDoorPos= new int[2];
     protected ArrayList<Enemy> enemyList;
+    protected Boolean roomClear;
 
     /**
      * Room Constructor
@@ -36,7 +37,7 @@ public class Room {
         this.dimensionY=y;
         doorTop=top;doorRight=right;doorBot=bot;doorLeft=left;
         this.enemyList = new ArrayList<Enemy>();
-       
+        roomClear=false;
 
 
     }
@@ -50,6 +51,7 @@ public class Room {
         this.dimensionX=x;
         this.dimensionY=y;
         this.enemyList = new ArrayList<Enemy>();
+        roomClear = false;
     }
 
     /**
@@ -108,5 +110,12 @@ public class Room {
     }
     public ArrayList<Enemy> getEnemyList() {
     	return this.enemyList;
+    }
+    public void checkRoomClear(){
+        if (enemyList.size()==0){
+            roomClear=true;
+        }else {
+            roomClear=false;
+        }
     }
 }
