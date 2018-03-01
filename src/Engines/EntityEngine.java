@@ -104,7 +104,7 @@ public class EntityEngine {
 	}
 	// we can probably make these into one function, will look at later
 	private static boolean rightWallCol(Entity focus){
-		if (GameEngine.checkRoom("R")) {
+		if (GameEngine.checkRoom("R")&&GameEngine.getCurrentRoom().isRoomClear()) {
 			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (BasementRoom.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
 				return false;
 			} else if (focus.getXPos() + focus.getWidth() >= 990) {
@@ -117,7 +117,7 @@ public class EntityEngine {
 	}
 
 	private static boolean topWallCol(Entity focus){
-		if (GameEngine.checkRoom("U")) {
+		if (GameEngine.checkRoom("U")&&GameEngine.getCurrentRoom().isRoomClear()) {
 			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (BasementRoom.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (BasementRoom.getDoorImgTop().getWidth())))) {
 				return false;
 			} else if (focus.getYPos() <= 100) {
@@ -130,7 +130,7 @@ public class EntityEngine {
 	}
 
 	private static boolean leftWallCol(Entity focus){
-		if (GameEngine.checkRoom("L")) {
+		if (GameEngine.checkRoom("L")&&GameEngine.getCurrentRoom().isRoomClear()) {
 			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (BasementRoom.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
 				return false;
 			} else if (focus.getXPos() <= 100) {
@@ -143,7 +143,7 @@ public class EntityEngine {
 	}
 
 	private static boolean botWallCol(Entity focus){
-		if (GameEngine.checkRoom("D")) {
+		if (GameEngine.checkRoom("D")&&GameEngine.getCurrentRoom().isRoomClear()) {
 			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (BasementRoom.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (BasementRoom.getDoorImgTop().getWidth())))) {
 				return false;
 			} else if (focus.getYPos() +focus.getHeight() >= 620) {

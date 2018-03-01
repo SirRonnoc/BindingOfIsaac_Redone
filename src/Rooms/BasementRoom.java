@@ -12,7 +12,7 @@ public class BasementRoom extends Room {
     static BufferedImage[] roomImages = new BufferedImage[4];
 
     // All basement room door images
-    private static BufferedImage doorImgTop,doorImgRight,doorImgBot,doorImgLeft;
+    private static BufferedImage doorImgTop,doorImgRight,doorImgBot,doorImgLeft, closedDoorImgTop, closedDoorImgBot, closedDoorImgRight, closedDoorImgLeft;
 
     // Location of the background images
     protected static String background;
@@ -70,6 +70,10 @@ public class BasementRoom extends Room {
         doorImgBot = GameFileReader.readImgInvertedY("resources/gfx/grid/NormalDoorOpen.png",scale,scale);
         doorImgRight = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorOpen.png",scale,scale,90);
         doorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorOpen.png",scale,scale,270);
+        closedDoorImgTop = GameFileReader.readImg("resources/gfx/grid/NormalDoorClosed.png",scale,scale);
+        closedDoorImgBot = GameFileReader.readImgInvertedY("resources/gfx/grid/NormalDoorClosed.png",scale,scale);
+        closedDoorImgRight = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorClosed.png",scale,scale,90);
+        closedDoorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorClosed.png",scale,scale,270);
     }
 
     /**
@@ -113,4 +117,19 @@ public class BasementRoom extends Room {
         return doorImgLeft;
     }
 
+    public static BufferedImage getClosedDoorImgTop(){
+        return closedDoorImgTop;
+    }
+
+    public static BufferedImage getClosedDoorImgBot() {
+        return closedDoorImgBot;
+    }
+
+    public static BufferedImage getClosedDoorImgLeft() {
+        return closedDoorImgLeft;
+    }
+
+    public static BufferedImage getClosedDoorImgRight() {
+        return closedDoorImgRight;
+    }
 }

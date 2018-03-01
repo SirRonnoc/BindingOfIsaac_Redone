@@ -35,11 +35,9 @@ public class Room {
     public Room(int x, int y,boolean top,boolean right,boolean bot,boolean left){
         this.dimensionX=x;
         this.dimensionY=y;
-        doorTop=top;doorRight=right;doorBot=bot;doorLeft=left;
+        this.doorTop=top;this.doorRight=right;this.doorBot=bot;this.doorLeft=left;
         this.enemyList = new ArrayList<Enemy>();
-        roomClear=false;
-
-
+        this.roomClear=false;
     }
 
     /**
@@ -51,7 +49,7 @@ public class Room {
         this.dimensionX=x;
         this.dimensionY=y;
         this.enemyList = new ArrayList<Enemy>();
-        roomClear = false;
+        this.roomClear = false;
     }
 
     /**
@@ -69,19 +67,17 @@ public class Room {
     }
 
     /**
-     *
      * @return x
      */
     public int getDimensionX() {
-        return dimensionX;
+        return this.dimensionX;
     }
 
     /**
-     *
      * @return y
      */
     public int getDimensionY() {
-        return dimensionY;
+        return this.dimensionY;
     }
 
 
@@ -113,9 +109,12 @@ public class Room {
     }
     public void checkRoomClear(){
         if (enemyList.size()==0){
-            roomClear=true;
+            this.roomClear=true;
         }else {
-            roomClear=false;
+            this.roomClear=false;
         }
+    }
+    public boolean isRoomClear(){
+        return roomClear;
     }
 }

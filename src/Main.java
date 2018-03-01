@@ -152,21 +152,40 @@ public class Main extends JFrame{
             g.drawImage(currentRoom.getRoomImages()[2],0,currentRoom.getRoomImages()[2].getHeight(),null);
             g.drawImage(currentRoom.getRoomImages()[3],currentRoom.getRoomImages()[3].getWidth(),currentRoom.getRoomImages()[3].getHeight(),null);
 
-            if (currentRoom.getDoors()[0]){
+            if (currentRoom.isRoomClear()) {
+				if (currentRoom.getDoors()[0]) {
 
-				g.drawImage(currentRoom.getDoorImgTop(),Room.getTopDoorPos()[0],Room.getTopDoorPos()[1],null);
-			}
-			if (currentRoom.getDoors()[1]){
+					g.drawImage(currentRoom.getDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+				}
+				if (currentRoom.getDoors()[1]) {
 
-				g.drawImage(currentRoom.getDoorImgRight(),Room.getRightDoorPos()[0],Room.getRightDoorPos()[1],null);
-			}
-			if (currentRoom.getDoors()[2]){
+					g.drawImage(currentRoom.getDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+				}
+				if (currentRoom.getDoors()[2]) {
 
-				g.drawImage(currentRoom.getDoorImgBot(),Room.getBotDoorPos()[0],Room.getBotDoorPos()[1],null);
-			}
-			if (currentRoom.getDoors()[3]){
+					g.drawImage(currentRoom.getDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+				}
+				if (currentRoom.getDoors()[3]) {
 
-				g.drawImage(currentRoom.getDoorImgLeft(),Room.getLeftDoorPos()[0],Room.getLeftDoorPos()[1],null);
+					g.drawImage(currentRoom.getDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+				}
+			}else {
+				if (currentRoom.getDoors()[0]) {
+
+					g.drawImage(currentRoom.getClosedDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+				}
+				if (currentRoom.getDoors()[1]) {
+
+					g.drawImage(currentRoom.getClosedDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+				}
+				if (currentRoom.getDoors()[2]) {
+
+					g.drawImage(currentRoom.getClosedDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+				}
+				if (currentRoom.getDoors()[3]) {
+
+					g.drawImage(currentRoom.getClosedDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+				}
 			}
 
 
