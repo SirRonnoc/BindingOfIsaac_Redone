@@ -1,4 +1,5 @@
 package Entities.Enemies;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import Entities.Melee_Enemy;
@@ -21,7 +22,15 @@ public class Angry_Fly extends Melee_Enemy{
 	public static void init() {
 		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/monsters/classic/monster_010_fly.png", 2.5, 2.5), 8, 8, 0, 0, 1, 1);
 		animations = new BufferedImage[] {temp[8],temp[9],temp[10]};
-		
+		/*
+		for ( int rc = 0; rc < 32; rc++ )
+		{
+		   for ( int cc = 0; cc < 32; cc++ )
+		   {
+		       animations[0].setRGB(cc, rc, new Color(255, 0, 0, animations[0].getRGB(x, y)) ); //put color on image
+		   }
+		}
+		*/
 		
 	}
 	
