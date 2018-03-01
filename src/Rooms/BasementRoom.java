@@ -1,10 +1,9 @@
 package Rooms;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Random;
 
-import Entities.Enemy;
 import Entities.Enemies.Angry_Fly;
+import Entities.Enemies.Onetooth;
 import Tools.GameFileReader;
 
 public class BasementRoom extends Room {
@@ -40,6 +39,9 @@ public class BasementRoom extends Room {
     public BasementRoom(int x, int y,boolean top,boolean right,boolean bot, boolean left) {
         super(x, y,top,right,bot,left);
         Random rand = new Random();
+        for (int i = 0; i < rand.nextInt(3);i++) {
+        	this.enemyList.add(new Onetooth(rand.nextInt(800),rand.nextInt(600)));
+        }
         for (int i = 0; i < rand.nextInt(5);i++) {
         	this.enemyList.add(new Angry_Fly(rand.nextInt(800),rand.nextInt(600)));
         }

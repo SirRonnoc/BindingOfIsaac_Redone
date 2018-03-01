@@ -45,7 +45,7 @@ public class EntityEngine {
 		
 		for (int i = 0; i < enemyList.size();i++) //repulses all the enemies from each other
 			for (int g = 0; g < enemyList.size();g++)
-				if (g != i) {
+				if (g != i && enemyList.get(g).getIsFlying() == enemyList.get(i).getIsFlying()) {
 					int xDist = enemyList.get(g).getXPos() - enemyList.get(i).getXPos();
 					int yDist = enemyList.get(i).getYPos() - enemyList.get(g).getYPos();
 					enemyList.get(i).enemyRepulsion(Math.atan2(yDist,xDist), Math.abs(Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))));

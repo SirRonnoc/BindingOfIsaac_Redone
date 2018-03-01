@@ -83,5 +83,12 @@ public abstract class Enemy extends Entity{
 		this.xSpeed -= Math.cos(angle) * this.repulsionFactor/distance;
 		this.ySpeed -= Math.sin(angle) * this.repulsionFactor/distance;
 	}
+	/**
+	 * returns whether the enemy is flying or not
+	 * @return - boolean if it is flying
+	 */
+	public boolean getIsFlying() {
+		return this.isFlying;
+	}
 	
 }

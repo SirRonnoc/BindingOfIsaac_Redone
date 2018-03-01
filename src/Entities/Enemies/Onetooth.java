@@ -8,10 +8,10 @@ import Tools.GameFileReader;
 public class Onetooth extends Melee_Enemy{
 	protected static BufferedImage[] animations;
 	public Onetooth(int xPos, int yPos) {
-		super(10,2,3,xPos,yPos, animations[0].getWidth(), animations[0].getHeight(), 1, true, 5, 5);
+		super(10,2,6,xPos,yPos, animations[0].getWidth(), animations[0].getHeight(), 1, true, 5, 5);
 	}
 	public static void init() {
-		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/monsters/classic/monster_205_onetooth.png", 2.5, 2.5),4,2,0,0,1,1);
+		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/monsters/rebirth/monster_205_onetooth.png", 2.5, 2.5),4,2,0,0,1,1);
 		animations = new BufferedImage[] {temp[0],temp[1]};
 		
 	}

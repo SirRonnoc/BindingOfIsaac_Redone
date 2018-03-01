@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  * @author 20190
  *
  */
-public class Entity {
+public abstract class Entity {
 	protected int maxHealth;
 	protected int health;
 	protected int speed;
