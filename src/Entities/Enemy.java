@@ -97,5 +97,4 @@ public abstract class Enemy extends Entity{
 	public void setLastHitTimer() {
 		this.lastHitTimer = this.redShiftTime;
 	}
-	
 }

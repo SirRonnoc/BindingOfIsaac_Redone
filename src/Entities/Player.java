@@ -48,7 +48,7 @@ public class Player extends Entity{
 				
 				//sets the left animations which require a horizontal flip of the spritesheet
 				temp = GameFileReader.split(GameFileReader.readImgInvertedX("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
-				leftAnimations = new BufferedImage[] {temp[31],temp[30],temp[23],temp[22],temp[21],temp[20],temp[19],temp[18],temp[17],temp[16]};
+				leftAnimations = new BufferedImage[] {temp[35],temp[34],temp[33],temp[32],temp[31],temp[30],temp[29],temp[28]};
 				leftHeadAnimations = new BufferedImage[] {temp[9],temp[8]};
 	}
 	/**
