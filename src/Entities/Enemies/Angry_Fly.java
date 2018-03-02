@@ -8,7 +8,7 @@ public class Angry_Fly extends Melee_Enemy{
 	protected static BufferedImage[] animations;
 	protected static BufferedImage[] onHitAnimations;
 	public Angry_Fly(int x, int y) {
-		super(4,3,2,x,y,animations[0].getWidth(),animations[0].getWidth(),1,true,10,5);
+		super(4,3,2,x,y,animations[0].getWidth(),animations[0].getWidth(),1,true,10,5,4);
 	}
 	protected void animate() {
 		if (this.animationCounter >= this.animationInterval) {

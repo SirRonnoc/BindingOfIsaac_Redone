@@ -14,9 +14,10 @@ public abstract class Melee_Enemy extends Enemy{
 	 * @param iF - is the enemy flying
 	 * @param dF - drift factor of the enemy (1 is no drift, 0 will throw an error)
 	 * @param rF - repulsion factor of the enemy
+	 * @param rST - red shift time of the enemy
 	 */
-	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF) {
-		super(mH,sp,aI,xP,yP,h,w,oHD,iF,dF,rF);
+	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF, int rST) {
+		super(mH,sp,aI,xP,yP,h,w,oHD,iF,dF,rF,rST);
 		
 	}
 	/**

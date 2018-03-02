@@ -11,7 +11,7 @@ public abstract class Enemy extends Entity{
 	protected double savedXM, savedYM;
 	protected double repulsionFactor;
 	protected int lastHitTimer;
-	protected final int RED_SHIFT_TIME = 5;
+	protected int redShiftTime;
 	/**
 	 * initializes the enemy with values and setup information 
 	 * @param mH - max health of the enemy
@@ -24,13 +24,15 @@ public abstract class Enemy extends Entity{
 	 * @param oHD - on hit damage of the enemy
 	 * @param dF - drift factor of the enemy (1 is no drift, 0 will throw an error)
 	 * @param rF - repulsion factor of the enemy
+	 * @param rST - red shift time of the enemy
 	 */
-	public Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF) {
+	public Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF,int rST) {
 		super(mH,sp,aS,xP,yP,h,w);
 		this.onHitDamage = oHD;
 		this.isFlying = iF;
 		this.driftFactor = dF;
 		this.repulsionFactor = rF;
+		this.redShiftTime = rST;
 	}
 	/**
 	 * basic update for all enemies
@@ -93,7 +95,7 @@ public abstract class Enemy extends Entity{
 		return this.isFlying;
 	}
 	public void setLastHitTimer() {
-		this.lastHitTimer = this.RED_SHIFT_TIME;
+		this.lastHitTimer = this.redShiftTime;
 	}
 	
 }
