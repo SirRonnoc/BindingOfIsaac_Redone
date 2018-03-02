@@ -129,4 +129,9 @@ public class GameEngine {
     public static Floor getCurrentFloor(){
         return floorList[floorNum];
     }
+
+    public static int getFloorNum() {
+        return floorNum;
+    }
 }
+

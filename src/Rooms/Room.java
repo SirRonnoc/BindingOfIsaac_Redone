@@ -15,7 +15,7 @@ import Entities.Enemies.Angry_Fly;
 /**
  * Room class basis for all rooms.
  */
-public class Room {
+public abstract class Room {
     protected int dimensionX, dimensionY;
     public static int pieceSize=156;
     protected boolean doorTop,doorRight,doorBot,doorLeft;

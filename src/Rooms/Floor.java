@@ -34,7 +34,11 @@ public class Floor {
             switch (rand.nextInt(4)){
                 case 0:
                     if (floorLayout[temp[0]+1][temp[1]]==null) {
-                        floorLayout[temp[0]+1][temp[1]] = new BasementRoom(1, 1,false,false,false,true);
+                        if (i+1==numRooms){
+                            floorLayout[temp[0]+1][temp[1]] = new BossRoom(1, 1,false,false,false,true);
+                        }else {
+                            floorLayout[temp[0] + 1][temp[1]] = new BasementRoom(1, 1, false, false, false, true);
+                        }
                         checkAdjacent(temp[0]+1,temp[1]);
                         checkOkRooms();
                     }else{
@@ -44,7 +48,11 @@ public class Floor {
                     break;
                 case 1:
                     if (floorLayout[temp[0]-1][temp[1]]==null) {
-                        floorLayout[temp[0]-1][temp[1]] = new BasementRoom(1, 1,false,true,false,false);
+                        if (i+1==numRooms){
+                            floorLayout[temp[0]-1][temp[1]] = new BossRoom(1, 1,false,false,false,true);
+                        }else {
+                            floorLayout[temp[0] - 1][temp[1]] = new BasementRoom(1, 1, false, true, false, false);
+                        }
                         checkAdjacent(temp[0]-1,temp[1]);
                         checkOkRooms();
                     }else{
@@ -54,7 +62,11 @@ public class Floor {
                     break;
                 case 2:
                     if (floorLayout[temp[0]][temp[1]+1]==null) {
-                        floorLayout[temp[0]][temp[1]+1] = new BasementRoom(1, 1,true,false,false,false);
+                        if (i+1==numRooms){
+                            floorLayout[temp[0]][temp[1]+1] = new BossRoom(1, 1,false,false,false,true);
+                        }else {
+                            floorLayout[temp[0]][temp[1] + 1] = new BasementRoom(1, 1, true, false, false, false);
+                        }
                         checkAdjacent(temp[0],temp[1]+1);
                         checkOkRooms();
                     }else{
@@ -64,7 +76,11 @@ public class Floor {
                     break;
                 case 3:
                     if (floorLayout[temp[0]][temp[1]-1]==null) {
-                        floorLayout[temp[0]][temp[1]-1] = new BasementRoom(1, 1,false,false,true,false);
+                        if (i+1==numRooms){
+                            floorLayout[temp[0]][temp[1]-1] = new BossRoom(1, 1,false,false,false,true);
+                        }else {
+                            floorLayout[temp[0]][temp[1] - 1] = new BasementRoom(1, 1, false, false, true, false);
+                        }
                         checkAdjacent(temp[0],temp[1]-1);
                         checkOkRooms();
 
@@ -117,7 +133,7 @@ public class Floor {
                         connectedRooms++;
                     if (floorLayout[i][j].doorBot)
                         connectedRooms++;
-                    if (!(connectedRooms > 3)) {
+                    if (!(connectedRooms > 2)) {
                         okRooms.add(new Integer[]{i, j});
                     }
                 }

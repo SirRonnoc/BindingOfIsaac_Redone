@@ -280,7 +280,8 @@ public class Player extends Entity{
 	 * moves the player to the right
 	 */
 	protected void moveRight() {
-		this.xSpeed = this.speed / 3;
+		if (this.xSpeed<this.speed/3)
+			this.xSpeed += this.speed/5;
 	}
 	/**
 	 * moves the player down
