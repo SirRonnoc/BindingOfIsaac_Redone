@@ -33,6 +33,7 @@ public class EntityEngine {
 				if (checkCollision_E(t,e) && !t.getIsDestroyed()) {
 					e.damage(t.getDamage());
 					e.knockback(t.getXSpeed(), t.getYSpeed(), t.getKnockback());
+					e.setJustHit(true);
 					t.destroy();
 				}
 			

@@ -10,6 +10,7 @@ public abstract class Enemy extends Entity{
 	protected int driftFactor;
 	protected double savedXM, savedYM;
 	protected double repulsionFactor;
+	protected boolean justHit;
 	/**
 	 * initializes the enemy with values and setup information 
 	 * @param mH - max health of the enemy
@@ -89,6 +90,9 @@ public abstract class Enemy extends Entity{
 	 */
 	public boolean getIsFlying() {
 		return this.isFlying;
+	}
+	public void setJustHit(boolean b){
+		this.justHit = b;
 	}
 	
 }
