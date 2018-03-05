@@ -49,8 +49,8 @@ public abstract class Enemy extends Entity{
 	 * @param knockback - knockback factor of the item
 	 */
 	public void knockback(double xSpeed, double ySpeed, double knockback) {
-		this.xSpeed -= xSpeed*knockback;
-		this.ySpeed -= ySpeed*knockback;
+		this.xSpeed += xSpeed*knockback;
+		this.ySpeed += ySpeed*knockback;
 	}
 	/**
 	 * unimplemented animate for all classes of type Enemy
@@ -61,10 +61,6 @@ public abstract class Enemy extends Entity{
 	 * @param angle - angle of the enemies movement
 	 */
 	protected abstract void manageSpeed(double angle);
-	/**
-	 * manages the position of the enemy
-	 */
-	protected abstract void managePosition();
 	
 	/**
 	 * manages the AI of the enemy

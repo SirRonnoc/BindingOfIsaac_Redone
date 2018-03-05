@@ -2,17 +2,14 @@ package Engines;
 
 import java.util.ArrayList;
 
-import Entities.Enemy;
-import Entities.Entity;
-import Entities.Player;
-import Entities.Tear;
+import Entities.*;
+import Entities.Items.Full_Heart_Pickup;
 import Rooms.BasementRoom;
 import Rooms.Room;
 
 public class EntityEngine {
 	private static Room currentRoom;
 	private static Player player;
-	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 	public static void setPlayer(Player p) {
 		player = p;
 	}
@@ -20,7 +17,37 @@ public class EntityEngine {
 	public static void update() {
 		updateTears();
 		updateEnemies();
+		updatePlayer();
+		updateItems();
 		checkEnemies();
+	}
+
+	/**
+	 * runs the updates for the items that are in the rooms
+	 */
+	private static void updateItems() {
+		for (int i = 0; i < currentRoom.getItemList().size();i++) {
+			if (checkCollision_E(currentRoom.getItemList().get(i),player)) {
+				if (player.pickUpItem(currentRoom.getItemList().get(i))) {
+					currentRoom.getItemList().get(i).pickUp();
+					currentRoom.getItemList().remove(i);
+					i--;
+				}
+				else
+					currentRoom.getItemList().get(i).push(player.getXSpeed(),player.getYSpeed(),player.getXPos(),player.getYPos());
+
+			}
+		}
+
+	}
+	/**
+	 *
+	 */
+	private static void updatePlayer() {
+		for (Enemy e : currentRoom.getEnemyList()) {
+			if (checkCollision_E(player,e))
+				player.takeDamage(e.getOnHitDamage());
+		}
 	}
 	/**
 	 * performs collision for all tears that are currently in the engine
@@ -29,7 +56,7 @@ public class EntityEngine {
 		for (Tear t : player.getTearList()) {
 			if (checkCollision_W(t) != 0) 
 				t.destroy();
-			for (Enemy e : enemyList)
+			for (Enemy e : currentRoom.getEnemyList())
 				if (checkCollision_E(t,e) && !t.getIsDestroyed()) {
 					e.damage(t.getDamage());
 					e.knockback(t.getXSpeed(), t.getYSpeed(), t.getKnockback());
@@ -44,12 +71,12 @@ public class EntityEngine {
 	 */
 	private static void updateEnemies() {
 		
-		for (int i = 0; i < enemyList.size();i++) //repulses all the enemies from each other
-			for (int g = 0; g < enemyList.size();g++)
-				if (g != i && enemyList.get(g).getIsFlying() == enemyList.get(i).getIsFlying()) {
-					int xDist = enemyList.get(g).getXPos() - enemyList.get(i).getXPos();
-					int yDist = enemyList.get(i).getYPos() - enemyList.get(g).getYPos();
-					enemyList.get(i).enemyRepulsion(Math.atan2(yDist,xDist), Math.abs(Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))));
+		for (int i = 0; i < currentRoom.getEnemyList().size();i++) //repulses all the enemies from each other
+			for (int g = 0; g < currentRoom.getEnemyList().size();g++)
+				if (g != i && currentRoom.getEnemyList().get(g).getIsFlying() == currentRoom.getEnemyList().get(i).getIsFlying()) {
+					int xDist = currentRoom.getEnemyList().get(g).getXPos() - currentRoom.getEnemyList().get(i).getXPos();
+					int yDist = currentRoom.getEnemyList().get(i).getYPos() - currentRoom.getEnemyList().get(g).getYPos();
+					currentRoom.getEnemyList().get(i).enemyRepulsion(Math.atan2(yDist,xDist), Math.abs(Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))));
 				}
 		checkEnemies();
 	}
@@ -57,13 +84,13 @@ public class EntityEngine {
 	 * checks important variables for the enemies such as health
 	 */
 	private static void checkEnemies() {
-		for (int i = 0; i < enemyList.size();i++)
-			if (enemyList.get(i).getHealth() <= 0)
-				enemyList.remove(i);
+		for (int i = 0; i < currentRoom.getEnemyList().size();i++)
+			if (currentRoom.getEnemyList().get(i).getHealth() <= 0) {
+				currentRoom.getItemList().add(new Full_Heart_Pickup(currentRoom.getEnemyList().get(i).getXPos(),currentRoom.getEnemyList().get(i).getYPos()));
+				currentRoom.getEnemyList().remove(i);
+
+			}
 				
-	}
-	public static void setEnemyList(ArrayList<Enemy> eL) {
-		enemyList = eL;
 	}
 	/**
 	 * checks whether the first entity is colliding with the second
@@ -174,7 +201,9 @@ public class EntityEngine {
 			player.setXPos(990-player.getWidth());
 		}
 	}
-
+	public static void setCurrentRoom(Room room) {
+		currentRoom = room;
+	}
 	public static int[] getPlayerPosition() {
 		return new int[] {player.getXPos(),player.getYPos()};
 	}

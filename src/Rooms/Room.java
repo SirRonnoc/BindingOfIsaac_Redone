@@ -1,6 +1,7 @@
 package Rooms;
 
 import Entities.Enemy;
+import Entities.Item;
 import Tools.GameFileReader;
 import javax.print.DocFlavor;
 import java.awt.image.BufferedImage;
@@ -25,6 +26,7 @@ public abstract class Room {
     static int[] leftDoorPos= new int[2];
     static int[] rightDoorPos= new int[2];
     protected ArrayList<Enemy> enemyList;
+    protected ArrayList<Item> itemList;
     protected Boolean roomClear;
 
     /**
@@ -37,6 +39,7 @@ public abstract class Room {
         this.dimensionY=y;
         this.doorTop=top;this.doorRight=right;this.doorBot=bot;this.doorLeft=left;
         this.enemyList = new ArrayList<Enemy>();
+        this.itemList = new ArrayList<Item>();
         this.roomClear=false;
     }
 
@@ -49,6 +52,7 @@ public abstract class Room {
         this.dimensionX=x;
         this.dimensionY=y;
         this.enemyList = new ArrayList<Enemy>();
+        this.itemList = new ArrayList<Item>();
         this.roomClear = false;
     }
 
@@ -116,5 +120,8 @@ public abstract class Room {
     }
     public boolean isRoomClear(){
         return roomClear;
+    }
+    public ArrayList<Item> getItemList() {
+        return this.itemList;
     }
 }

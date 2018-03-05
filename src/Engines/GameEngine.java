@@ -3,6 +3,9 @@ package Engines;
 import Entities.*;
 import Entities.Enemies.Angry_Fly;
 import Entities.Enemies.Onetooth;
+import Entities.Items.Full_Heart_Pickup;
+import Entities.Items.Magic_Mushroom;
+import Misc.UI;
 import Rooms.*;
 
 public class GameEngine {
@@ -19,6 +22,9 @@ public class GameEngine {
         Tear.init();
         Angry_Fly.init();
         Onetooth.init();
+        UI.init();
+        Magic_Mushroom.init();
+        Full_Heart_Pickup.init();
         init();
         
 

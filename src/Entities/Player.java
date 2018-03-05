@@ -33,6 +33,9 @@ public class Player extends Entity{
 	protected int fireDir;
 	protected int tearDamage;
 	protected double tearKnockback;
+	protected final int DAMAGE_IMMUNITY_TIME = 90;
+	protected int damageImmunityTimer;
+	protected boolean isDamageImmune;
 	/**
 	 * sets all the static images for use by the player
 	 */
@@ -56,7 +59,7 @@ public class Player extends Entity{
 	 */
 	public Player() {
 		// calls the entity constructor
-		super(3,10,5,300,500,leftAnimations[0].getWidth(),rightAnimations[1].getHeight());
+		super(6,10,5,300,500,leftAnimations[0].getWidth(),rightAnimations[1].getHeight());
 		
 		//sets the keylistener using the createKeyListener slave method
 		this.kL = this.createKeyListener();
@@ -78,12 +81,25 @@ public class Player extends Entity{
 	public void update() {
 		//fires keyboard commands from the user
 		this.fireKeyboardCommands();
-		
+		this.checkImmune();
 		this.checkTears();
 		this.animate();
 		this.managePosition();
 		this.tearDelayCounter += 1;
 		
+	}
+
+	/**
+	 * checks if the player is still immune after last taking damage
+	 */
+	protected void checkImmune() {
+		if (this.isDamageImmune) {
+			this.damageImmunityTimer--;
+			if (this.damageImmunityTimer <= 0) {
+				this.isDamageImmune = false;
+			}
+		}
+
 	}
 	/**
 	 * manages the speed of the player based on collision and other factors
@@ -183,6 +199,31 @@ public class Player extends Entity{
 		}
 		
 		
+	}
+
+	/**
+	 * generically picks up an item and passes it to specific methods based on its type
+	 * @param i - item being picked up
+	 */
+	public boolean pickUpItem(Item i) {
+		switch(i.getType()) {
+			case "heartPickup":
+				if (this.maxHealth == this.health)
+					return false;
+				break;
+		}
+		pickUpStatBoost(i);
+		return true;
+	}
+
+	/**
+	 * checks and adds the stats boosted by a stat boost item
+	 * @param i - item that is being picked up
+	 */
+	protected void pickUpStatBoost(Item i) {
+		this.maxHealth += i.getMaxHealthGiven()*2;
+		this.heal(i.getHealing());
+		this.tearDamage += i.getDamageGiven();
 	}
 	/**
 	 * slave method that returns the keylistener used in the player class. Used to clean up
@@ -347,6 +388,13 @@ public class Player extends Entity{
 			if (this.tearList.get(i).destroy == true)
 				this.tearList.remove(i);
 	}
+	public void takeDamage(int d) {
+		if (!this.isDamageImmune) {
+			this.health -= d;
+			this.isDamageImmune = true;
+			this.damageImmunityTimer = this.DAMAGE_IMMUNITY_TIME;
+		}
+	}
 	/**
 	 * returns the players current head image
 	 * @return - BufferedImage of current head
@@ -367,6 +415,14 @@ public class Player extends Entity{
 	 */
 	public ArrayList<Tear> getTearList() {
 		return this.tearList;
+	}
+
+	/**
+	 * heals the player (only allows health up to max health)
+	 * @param amount - amount to heal in half hearts
+	 */
+	public void heal(int amount) {
+		this.health = this.health + amount > this.maxHealth ? this.maxHealth : this.health + amount;
 	}
 	
 	

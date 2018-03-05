@@ -1,3 +1,4 @@
+package Misc;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import javax.swing.Timer;
 import Engines.EntityEngine;
 import Engines.GameEngine;
 import Entities.Enemy;
+import Entities.Item;
 import Entities.Player;
 import Entities.Tear;
 import Entities.Enemies.Angry_Fly;
@@ -26,6 +28,7 @@ public class Main extends JFrame{
 	private ActionListener updateFunction;
 	private Player player;
 	private BasementRoom currentRoom;
+	private UI userInterface;
 
 	/**
 	 * sets up the Main window
@@ -46,6 +49,7 @@ public class Main extends JFrame{
 		//initializes other variables
 		this.player = new Player();
 		EntityEngine.setPlayer(this.player);
+		this.userInterface = new UI(this.player);
 
 		//sets update function from slave function
 		this.updateFunction = this.setUpdateFunction();
@@ -86,7 +90,7 @@ public class Main extends JFrame{
 						GameEngine.moveRoom("D");
 						break;
 				}
-				GameEngine.printFloor();
+				//GameEngine.printFloor();
 			}
 
 			@Override
@@ -110,14 +114,17 @@ public class Main extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				currentRoom.checkRoomClear();
 				currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
-				EntityEngine.setEnemyList(currentRoom.getEnemyList());
 				player.update();
+				userInterface.update();
+				EntityEngine.setCurrentRoom(currentRoom);
 				EntityEngine.update();
 				for (Tear t : player.getTearList())
 					t.update();
 				repaint();
 				for (Enemy enemy : currentRoom.getEnemyList())
 					enemy.update();
+				for (Item i : currentRoom.getItemList())
+					i.update();
 			}
 			
 		};
@@ -135,13 +142,22 @@ public class Main extends JFrame{
 			this.paintRoom(g);
 			this.drawPlayer(g);
 			this.paintTears(g);
+			this.paintInterface(g);
+			this.paintItems(g);
 			for (Enemy e : currentRoom.getEnemyList())
 				g.drawImage(e.getDrawImage(), e.getXPos(), e.getYPos(), null);
 			EntityEngine.checkCollision_Door(player);
 
 			
 		}
-
+		public void paintItems(Graphics g) {
+			for (Item i : currentRoom.getItemList())
+				g.drawImage(i.getDrawImage(),i.getXPos(),i.getYPos(),null);
+		}
+		public void paintInterface(Graphics g) {
+			for (UIObject o : userInterface.getHearts())
+				g.drawImage(o.getDrawImage(),o.getXPos(),o.getYPos(),null);
+		}
 		/**
 		 * Grabs info about current room and paints to screen
 		 * @param g

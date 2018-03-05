@@ -64,13 +64,7 @@ public class Tear extends Entity{
 	public void update() {
 		this.managePosition();
 	}
-	/**
-	 * manages the position of the tear based on its speed
-	 */
-	protected void managePosition() {
-		this.xPos += this.xSpeed;
-		this.yPos += this.ySpeed;
-	}
+
 	/**
 	 * sets the destroy variable of the tear to true so that it is destroyed upon next tick
 	 */

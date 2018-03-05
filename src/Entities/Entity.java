@@ -20,6 +20,7 @@ public abstract class Entity {
 	protected BufferedImage drawImage;
 	protected int width;
 	protected int height;
+	protected double savedXM,savedYM;
 	
 	/**
 	 * instantiates the basic entity with variables
@@ -39,6 +40,12 @@ public abstract class Entity {
 		this.animationInterval = aI;
 		this.xPos = xP; this.yPos = yP;
 		this.width = w; this.height = h;
+	}
+	protected void managePosition() {
+		this.xPos += this.xSpeed + (int)this.savedXM;
+		this.yPos += this.ySpeed + (int)this.savedYM;
+		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
+		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1;
 	}
 	/**
 	 * returns the drawImage of the entity
@@ -95,4 +102,5 @@ public abstract class Entity {
 	public int getHealth() {
 		return this.health;
 	}
+	public int getMaxHealth() { return this.maxHealth;}
 }

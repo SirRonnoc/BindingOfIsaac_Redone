@@ -30,17 +30,9 @@ public abstract class Melee_Enemy extends Enemy{
 	 * if the enemy is flying makes it chase the player in the air
 	 */
 	protected void skyChase() {
-		int xDist = this.xPos - this.lastPlayerX;
-		int yDist = this.yPos - this.lastPlayerY;
+		int xDist = this.lastPlayerX - this.xPos ;
+		int yDist = this.lastPlayerY - this.yPos ;
 		manageSpeed(Math.atan2(yDist,xDist));
-	}
-	/**
-	 * sets the position of the enemy
-	 * @param angle - angle of the movement of the enemy
-	 */
-	protected void managePosition() {
-		this.xPos -= (int)this.xSpeed + (int)this.savedXM;
-		this.yPos -= (int)this.ySpeed + (int)this.savedYM;
 	}
 	/**
 	 * manages the speed of the enemy
@@ -50,12 +42,12 @@ public abstract class Melee_Enemy extends Enemy{
 		double temp = Math.cos(angle) * this.speed; //gets the x component of the angle of movement of the enemy
 		
 		this.xSpeed += (temp - this.xSpeed)/this.driftFactor; //drifts the speed by the drift factor for x
-		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
+
 		
 		temp = Math.sin(angle)*this.speed; //same steps but for y
 		this.ySpeed += (temp - this.ySpeed)/this.driftFactor;
 		
-		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1; 
+
 		
 	}
 	
