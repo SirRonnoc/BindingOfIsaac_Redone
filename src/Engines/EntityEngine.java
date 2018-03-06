@@ -34,7 +34,7 @@ public class EntityEngine {
 					i--;
 				}
 				else
-					currentRoom.getItemList().get(i).push(player.getXSpeed(),player.getYSpeed(),player.getXPos(),player.getYPos());
+					currentRoom.getItemList().get(i).push(player.getSpeed(),checkAngle_E(player,currentRoom.getItemList().get(i)));
 
 			}
 		}
@@ -99,20 +99,37 @@ public class EntityEngine {
 	 * @return - whether or not the entity is colliding with the other entity
 	 */
 	public static boolean checkCollision_E(Entity entity, Entity entity2){
-		int x1 = entity.getXPos();
-		int y1 = entity.getYPos();
-		int x2 = entity2.getXPos();
-		int y2 = entity2.getYPos();
+
+		double xCenter1 = (entity.getXPos() + (entity.getWidth())/2);
+		double yCenter1 = (entity.getYPos() + (entity.getWidth())/2);
+		double xCenter2 = entity2.getXPos()+ entity2.getWidth()/2;
+		double yCenter2 = entity2.getYPos()+ entity2.getWidth()/2;
 		double r1 = entity.getWidth()/4;
 		double r2 = entity2.getWidth()/4;
-		double distance =((Math.abs(x1-x2)^2) + (Math.abs(y1-y2)^2));
-
+		double distance =Math.sqrt(Math.pow(Math.abs(xCenter1-xCenter2),2) + Math.pow(Math.abs(yCenter1-yCenter2),2));
+		System.out.println(distance);
 		if (distance<(r1+r2)){
 			System.out.println(distance);
 			System.out.println(r1+r2);
 			return true;
 		}
 		return false;
+		/*
+		//made some changes, your method seemed a bit off from my read over
+
+		double r1 = entity.getWidth()/2;
+		double r2 = entity2.getWidth()/2;
+		double distance =(Math.sqrt(Math.pow(Math.abs(xCenter1-xCenter2),2)) + (Math.pow(Math.abs(yCenter1-yCenter2),2)));
+		return distance < (r1 + r2);
+		*/
+	}
+	public static double checkAngle_E(Entity entity, Entity entity2) {
+		double xCenter1 = (entity.getXPos()*2 + entity.getWidth())/2;
+		double yCenter1 = (entity.getYPos()*2 + entity.getWidth())/2;
+		double xCenter2 = (entity2.getXPos()*2 + entity2.getWidth())/2;
+		double yCenter2 = (entity2.getYPos()*2 + entity2.getWidth())/2;
+		//return Math.atan2((yCenter2 - yCenter1),(xCenter2 - xCenter1));
+		return Math.atan2(entity2.getYPos() - entity.getYPos(), entity2.getXPos() - entity.getXPos());
 	}
 
 	/**

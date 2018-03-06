@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public abstract class Entity {
 	protected int maxHealth;
 	protected int health;
-	protected int speed;
+	protected double speed;
 	protected int animationInterval;
 	protected int animationCounter;
 	protected int currentAnimationIndex;
@@ -32,7 +32,7 @@ public abstract class Entity {
 	 * @param h - height of the entity
 	 * @param w - width of the entity
 	 */
-	public Entity(int mH, int sp, int aI, int xP, int yP, int h, int w) {
+	public Entity(int mH, double sp, int aI, int xP, int yP, int h, int w) {
 		//sets initial variables
 		this.maxHealth = mH;
 		this.speed = sp;
@@ -103,4 +103,5 @@ public abstract class Entity {
 		return this.health;
 	}
 	public int getMaxHealth() { return this.maxHealth;}
+	public double getSpeed() {return this.speed;}
 }

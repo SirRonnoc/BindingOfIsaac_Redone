@@ -59,7 +59,7 @@ public class Player extends Entity{
 	 */
 	public Player() {
 		// calls the entity constructor
-		super(6,10,5,300,500,leftAnimations[0].getWidth(),rightAnimations[1].getHeight());
+		super(6,3.3,5,300,500,leftAnimations[0].getWidth(),rightAnimations[1].getHeight());
 		
 		//sets the keylistener using the createKeyListener slave method
 		this.kL = this.createKeyListener();
@@ -106,7 +106,7 @@ public class Player extends Entity{
 	 */
 	public void managePosition() {
 		int tempX = this.xPos; int tempY = this.yPos;
-		this.xPos += xSpeed; this.yPos += ySpeed;
+		super.managePosition();
 		int colDir = EntityEngine.checkCollision_W(this);
 		
 		if (colDir == 3) { //horizontal and vertical collision
@@ -315,26 +315,25 @@ public class Player extends Entity{
 	 * moves the player to the left
 	 */
 	protected void moveLeft() {
-		this.xSpeed = - this.speed / 3;
+		this.xSpeed = - this.speed;
 	}
 	/**
 	 * moves the player to the right
 	 */
 	protected void moveRight() {
-		if (this.xSpeed<this.speed/3)
-			this.xSpeed += this.speed/5;
+		this.xSpeed = this.speed;
 	}
 	/**
 	 * moves the player down
 	 */
 	protected void moveDown() {
-		this.ySpeed = this.speed /3;
+		this.ySpeed = this.speed;
 	}
 	/**
 	 * moves the player up
 	 */
 	protected void moveUp() {
-		this.ySpeed = - this.speed / 3;
+		this.ySpeed = - this.speed;
 	}
 	/**
 	 * fires a tear to the left of the player, and changes the heads direction

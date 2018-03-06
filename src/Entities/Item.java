@@ -51,15 +51,9 @@ public abstract class Item extends Entity {
             }
         }
     }
-    public void push(double xS, double yS,int pX, int pY) {
-        if (pX < this.xPos && xS > 0)
-            this.xSpeed = xS;
-        else if (pX > this.xPos && xS < 0)
-            this.xSpeed = xS;
-        if (pY > this.yPos && yS < 0)
-            this.ySpeed = yS;
-        else if (pY < this.yPos && yS > 0)
-            this.ySpeed = yS;
+    public void push(double pS,double angle) {
+        this.xSpeed = Math.cos(angle)*pS*1.5;
+        this.ySpeed = Math.sin(angle)*pS*1.5;
 
     }
     public void update() {
@@ -67,10 +61,10 @@ public abstract class Item extends Entity {
         this.updateSpeed();
     }
     protected void updateSpeed() {
-        this.xSpeed += -this.xSpeed/this.DRIFT_FACTOR;
-        this.ySpeed += -this.ySpeed/this.DRIFT_FACTOR;
-        this.xSpeed = this.xSpeed < 0.1 ? 0 : this.xSpeed;
-        this.ySpeed = this.ySpeed < 0.1 ? 0 : this.ySpeed;
+        this.xSpeed -= this.xSpeed/this.DRIFT_FACTOR;
+        this.ySpeed -= this.ySpeed/this.DRIFT_FACTOR;
+        this.xSpeed = Math.abs(this.xSpeed) < 0.1 ? 0 : this.xSpeed;
+        this.ySpeed = Math.abs(this.ySpeed) < 0.1 ? 0 : this.ySpeed;
     }
     /**
      * picks up the item so that it is no longer on the ground

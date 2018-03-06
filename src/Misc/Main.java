@@ -120,11 +120,13 @@ public class Main extends JFrame{
 				EntityEngine.update();
 				for (Tear t : player.getTearList())
 					t.update();
-				repaint();
+				EntityEngine.checkCollision_Door(player);
 				for (Enemy enemy : currentRoom.getEnemyList())
 					enemy.update();
 				for (Item i : currentRoom.getItemList())
 					i.update();
+				repaint();
+
 			}
 			
 		};
@@ -140,13 +142,14 @@ public class Main extends JFrame{
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
 			this.paintRoom(g);
-			this.drawPlayer(g);
+
 			this.paintTears(g);
 			this.paintInterface(g);
 			this.paintItems(g);
 			for (Enemy e : currentRoom.getEnemyList())
 				g.drawImage(e.getDrawImage(), e.getXPos(), e.getYPos(), null);
-			EntityEngine.checkCollision_Door(player);
+			this.drawPlayer(g);
+
 
 			
 		}
