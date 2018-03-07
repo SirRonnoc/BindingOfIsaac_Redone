@@ -1,5 +1,7 @@
 package Entities;
 
+import Engines.EntityEngine;
+
 import java.awt.image.BufferedImage;
 /**
  * base class for enemies, player, tears and NPCs
@@ -42,10 +44,21 @@ public abstract class Entity {
 		this.width = w; this.height = h;
 	}
 	protected void managePosition() {
-		this.xPos += this.xSpeed + (int)this.savedXM;
+		int tempX = this.xPos; int tempY = this.yPos; //x and y pos before adding speed
+
+		this.xPos += this.xSpeed + (int)this.savedXM; //sets the position based on the speed
 		this.yPos += this.ySpeed + (int)this.savedYM;
 		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
 		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1;
+
+		int colDir = EntityEngine.checkCollision_W(this);
+		if (colDir == 3) { //horizontal and vertical collision
+			this.xPos = tempX; this.yPos = tempY;
+		}
+		else if (colDir == 2) //vertical
+			this.yPos = tempY;
+		else if (colDir ==1) //horizontal
+			this.xPos = tempX;
 	}
 	/**
 	 * returns the drawImage of the entity

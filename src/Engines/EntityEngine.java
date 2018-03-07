@@ -54,8 +54,6 @@ public class EntityEngine {
 	 */
 	private static void updateTears() {
 		for (Tear t : player.getTearList()) {
-			if (checkCollision_W(t) != 0) 
-				t.destroy();
 			for (Enemy e : currentRoom.getEnemyList())
 				if (checkCollision_E(t,e) && !t.getIsDestroyed()) {
 					e.damage(t.getDamage());

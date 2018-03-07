@@ -101,23 +101,6 @@ public class Player extends Entity{
 		}
 
 	}
-	/**
-	 * manages the speed of the player based on collision and other factors
-	 */
-	public void managePosition() {
-		int tempX = this.xPos; int tempY = this.yPos;
-		super.managePosition();
-		int colDir = EntityEngine.checkCollision_W(this);
-		
-		if (colDir == 3) { //horizontal and vertical collision
-			this.xPos = tempX; this.yPos = tempY;
-		}
-		else if (colDir == 2) //vertical
-			this.yPos = tempY;
-		else if (colDir ==1) //horizontal
-			this.xPos = tempX;
-		
-	}
 	
 	/**
 	 * deals with setting the current onscreen images of the player

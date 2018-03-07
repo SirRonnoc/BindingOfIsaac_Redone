@@ -2,6 +2,7 @@ package Entities;
 
 import java.awt.image.BufferedImage;
 
+import Engines.EntityEngine;
 import Tools.GameFileReader;
 
 public class Tear extends Entity{
@@ -57,6 +58,15 @@ public class Tear extends Entity{
 			break;
 		}
 		}
+	}
+	protected void managePosition() {
+		this.xPos += this.xSpeed + (int)this.savedXM; //sets the position based on the speed
+		this.yPos += this.ySpeed + (int)this.savedYM;
+		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
+		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1;
+		if (EntityEngine.checkCollision_W(this) != 0)
+			this.destroy = true;
+
 	}
 	/**
 	 * runs the update for the tear
