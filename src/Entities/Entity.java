@@ -34,7 +34,7 @@ public abstract class Entity {
 	 * @param h - height of the entity
 	 * @param w - width of the entity
 	 */
-	public Entity(int mH, double sp, int aI, int xP, int yP, int h, int w) {
+	public Entity(int mH, double sp, int aI, int xP, int yP, int w,int h) {
 		//sets initial variables
 		this.maxHealth = mH;
 		this.speed = sp;

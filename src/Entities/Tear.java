@@ -1,38 +1,35 @@
 package Entities;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import Engines.EntityEngine;
 import Tools.GameFileReader;
 
-public class Tear extends Entity{
+public abstract class Tear extends Entity{
 	protected int direction;
 	protected double originXSpeed;
 	protected double originYSPeed;
-	protected static BufferedImage drawImage_S;
 	protected boolean destroy;
-	protected boolean enemyOrigin;
 	protected int damage;
 	protected double knockback;
-	public Tear(Entity e, int dir, int damage, double kb) {
+	protected boolean destroyOnContact;
+	protected ArrayList<Enemy> enemiesHit;
+	public Tear(Entity e, int dir, int damage, double kb,int w,int h,boolean dOC, int aI) {
 		//call to the Entity constructor 
-		super(1,14,1,e.getXPos(),e.getYPos(),drawImage_S.getWidth(),drawImage_S.getHeight());
-		
+		super(1,14,aI,e.getXPos(),e.getYPos(),w,h);
+
 		//initializing variables
+		this.destroyOnContact = dOC;
+		this.enemiesHit = new ArrayList<Enemy>();
 		this.direction = dir;
 		this.originXSpeed = e.getXSpeed();
 		this.originYSPeed = e.getYSpeed();
-		this.drawImage = drawImage_S;
 		this.destroy = false;
-		this.enemyOrigin = e instanceof Player ? false : true;
 		this.damage = damage;
 		this.knockback = kb;
 		//setting the speed of the tear
 		this.setSpeed();
-	}
-	public static void init() {
-		BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/tears.png", 2.5, 2.5), 8, 4, 0, 0, 1, 1);
-		drawImage_S = temp[4];
 	}
 	/**
 	 * sets the x and y speeds of the bullet based on the speed of the origin of the bullet
@@ -98,5 +95,11 @@ public class Tear extends Entity{
 	public boolean getIsDestroyed() {
 		return this.destroy;
 	}
-	
+	public boolean getDestroyOnContact() {
+		return this.destroyOnContact;
+	}
+	public ArrayList<Enemy> getEnemiesHit() {
+		return this.enemiesHit;
+	}
+
 }

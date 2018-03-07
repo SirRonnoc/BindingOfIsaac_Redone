@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public class Magic_Mushroom extends Item {
     protected static BufferedImage image;
     public Magic_Mushroom(int x, int y) {
-        super(x,y,image.getHeight(),image.getWidth(),new String[] {"maxHealth","damage","healing"}, new int[] {1,2,2},"statBoost");
+        super(x,y,image.getWidth(),image.getHeight(),new String[] {"maxHealth","damage","healing"}, new int[] {1,2,2},"statBoost");
         this.drawImage = image;
     }
     public static void init() {

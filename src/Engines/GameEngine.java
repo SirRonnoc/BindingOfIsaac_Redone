@@ -5,6 +5,8 @@ import Entities.Enemies.Angry_Fly;
 import Entities.Enemies.Onetooth;
 import Entities.Items.Full_Heart_Pickup;
 import Entities.Items.Magic_Mushroom;
+import Entities.Tears.Basic_Tear;
+import Entities.Tears.Scythe_Tear;
 import Misc.UI;
 import Rooms.*;
 
@@ -19,12 +21,13 @@ public class GameEngine {
         BasementRoom.init();
         Room.init();
         Player.init();
-        Tear.init();
+        Basic_Tear.init();
         Angry_Fly.init();
         Onetooth.init();
         UI.init();
         Magic_Mushroom.init();
         Full_Heart_Pickup.init();
+        Scythe_Tear.init();
         init();
         
 

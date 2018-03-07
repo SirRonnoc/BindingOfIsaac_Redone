@@ -11,6 +11,17 @@ import Rooms.*;
 import javax.imageio.ImageIO;
 
 public class ImageHandler {
+    public static BufferedImage rotate(BufferedImage img,double xScale, double yScale,int degrees) {
+        AffineTransform aT = new AffineTransform();
+        aT.translate(img.getWidth() / 2, img.getHeight() / 2);
+        aT.rotate(Math.toRadians(degrees));
+        aT.translate(-img.getWidth() / 2, -img.getHeight() / 2);
+        AffineTransformOp op = new AffineTransformOp(aT, AffineTransformOp.TYPE_BILINEAR);
+        img = op.filter(img, null);
+        BufferedImage temp = new BufferedImage((int) (img.getWidth() * xScale), (int) (img.getHeight() * xScale), BufferedImage.TYPE_INT_ARGB);
+        temp.getGraphics().drawImage(img.getScaledInstance((int) (img.getWidth() * xScale), (int) (img.getHeight() * yScale), BufferedImage.SCALE_SMOOTH), 0, 0, null);
+        return temp;
+    }
     public static BufferedImage flipX(BufferedImage img){
         try {
 

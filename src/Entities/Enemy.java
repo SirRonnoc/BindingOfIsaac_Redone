@@ -26,8 +26,8 @@ public abstract class Enemy extends Entity{
 	 * @param rF - repulsion factor of the enemy
 	 * @param rST - red shift time of the enemy
 	 */
-	public Enemy(int mH, int sp, int aS, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF,int rST) {
-		super(mH,sp,aS,xP,yP,h,w);
+	public Enemy(int mH, int sp, int aS, int xP, int yP, int w, int h, int oHD, boolean iF, int dF, double rF,int rST) {
+		super(mH,sp,aS,xP,yP,w,h);
 		this.onHitDamage = oHD;
 		this.isFlying = iF;
 		this.driftFactor = dF;

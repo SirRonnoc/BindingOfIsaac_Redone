@@ -1,11 +1,12 @@
 package Entities;
 
 import java.awt.event.KeyEvent;
-import Engines.EntityEngine;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import Entities.Tears.Basic_Tear;
+import Entities.Tears.Scythe_Tear;
 import Tools.GameFileReader;
 /**
  * base class for the player, handles things such as keyboard events and movement
@@ -323,7 +324,7 @@ public class Player extends Entity{
 	 */
 	protected void shootLeft() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this, 1,this.tearDamage, this.tearKnockback));
+		this.tearList.add(new Scythe_Tear(this, 1,this.tearDamage, this.tearKnockback));
 		this.fireDir = 0;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -334,7 +335,7 @@ public class Player extends Entity{
 	 */
 	protected void shootUp() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this, 0,this.tearDamage,this.tearKnockback));
+		this.tearList.add(new Scythe_Tear(this, 0,this.tearDamage,this.tearKnockback));
 		this.fireDir = 1;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -345,7 +346,7 @@ public class Player extends Entity{
 	 */
 	protected void shootRight() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this, 3,this.tearDamage,this.tearKnockback));
+		this.tearList.add(new Scythe_Tear(this, 3,this.tearDamage,this.tearKnockback));
 		this.fireDir = 2;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -356,7 +357,7 @@ public class Player extends Entity{
 	 */
 	protected void shootDown() {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Tear(this, 2,this.tearDamage,this.tearKnockback));
+		this.tearList.add(new Scythe_Tear(this, 2,this.tearDamage,this.tearKnockback));
 		this.fireDir = 3;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -367,7 +368,7 @@ public class Player extends Entity{
 	 */
 	protected void checkTears() {
 		for (int i = 0; i < this.tearList.size();i++) 
-			if (this.tearList.get(i).destroy == true)
+			if (this.tearList.get(i).destroy)
 				this.tearList.remove(i);
 	}
 	public void takeDamage(int d) {
