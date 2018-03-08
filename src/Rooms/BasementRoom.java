@@ -4,6 +4,8 @@ import java.util.Random;
 
 import Entities.Enemies.Angry_Fly;
 import Entities.Enemies.Onetooth;
+import Entities.Items.Cupid_Arrow;
+import Entities.Items.Death_Touch;
 import Entities.Items.Magic_Mushroom;
 import Tools.GameFileReader;
 
@@ -47,7 +49,7 @@ public class BasementRoom extends Room {
         	this.enemyList.add(new Angry_Fly(rand.nextInt(800),rand.nextInt(600)));
         }
         for (int i = 0; i < rand.nextInt(3);i++)
-            this.itemList.add(new Magic_Mushroom(rand.nextInt(600) + 100,rand.nextInt(400) + 100));
+            this.itemList.add(new Cupid_Arrow(rand.nextInt(600) + 100,rand.nextInt(400) + 100));
 
     }
 

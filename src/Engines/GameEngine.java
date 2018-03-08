@@ -3,9 +3,12 @@ package Engines;
 import Entities.*;
 import Entities.Enemies.Angry_Fly;
 import Entities.Enemies.Onetooth;
+import Entities.Items.Cupid_Arrow;
+import Entities.Items.Death_Touch;
 import Entities.Items.Full_Heart_Pickup;
 import Entities.Items.Magic_Mushroom;
 import Entities.Tears.Basic_Tear;
+import Entities.Tears.Penetrating_Tear;
 import Entities.Tears.Scythe_Tear;
 import Misc.UI;
 import Rooms.*;
@@ -28,6 +31,9 @@ public class GameEngine {
         Magic_Mushroom.init();
         Full_Heart_Pickup.init();
         Scythe_Tear.init();
+        Death_Touch.init();
+        Cupid_Arrow.init();
+        Penetrating_Tear.init();
         init();
         
 

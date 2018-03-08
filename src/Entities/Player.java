@@ -3,6 +3,7 @@ package Entities;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import Entities.Tears.Basic_Tear;
@@ -37,6 +38,7 @@ public class Player extends Entity{
 	protected final int DAMAGE_IMMUNITY_TIME = 90;
 	protected int damageImmunityTimer;
 	protected boolean isDamageImmune;
+	protected Constructor<?> tearConstructor;
 	/**
 	 * sets all the static images for use by the player
 	 */
@@ -75,6 +77,10 @@ public class Player extends Entity{
 		this.timeSinceLastShot = this.headStayTime +1;
 		this.tearDamage = 2;
 		this.tearKnockback = 1.2;
+		//sets the tear constructor to basic tear
+		try {
+			this.tearConstructor = Basic_Tear.class.getConstructor(Entity.class, int.class, int.class, double.class);
+		} catch (Exception e) {}
 	}
 	/**
 	 * handles the update for the player object
@@ -195,11 +201,21 @@ public class Player extends Entity{
 				if (this.maxHealth == this.health)
 					return false;
 				break;
+			case "tearModifier":
+				pickUpTearModifier((Tear_Modifier_Item)i);
 		}
 		pickUpStatBoost(i);
+
 		return true;
 	}
-
+	protected void pickUpTearModifier(Tear_Modifier_Item i) {
+		try { //sets the new tear modifier
+			this.tearConstructor = i.getTearClass().getConstructor(Entity.class, int.class, int.class, double.class);
+			System.out.println(this.tearConstructor);
+		} catch (Exception e){
+			e.getCause().printStackTrace();
+		}
+	}
 	/**
 	 * checks and adds the stats boosted by a stat boost item
 	 * @param i - item that is being picked up
@@ -244,47 +260,51 @@ public class Player extends Entity{
 	 * the actual functionality of the key commands
 	 */
 	protected void fireKeyboardCommands() {
-		for (int i : this.keysPressed) {
-			//System.out.println(i);
-			switch(i) {
-			//A
-			case 65: {
-				this.moveLeft();
-				break;}
-			
-			//D
-			case 68: {
-				this.moveRight();
-				break;
+		try {
+			for (int i : this.keysPressed) {
+				//System.out.println(i);
+				switch (i) {
+					//A
+					case 65: {
+						this.moveLeft();
+						break;
+					}
+
+					//D
+					case 68: {
+						this.moveRight();
+						break;
+					}
+					//W
+					case 87: {
+						this.moveUp();
+						break;
+					}
+					//S
+					case 83: {
+						this.moveDown();
+						break;
+					}
+					case 37: { //Left Arrow
+						this.shootLeft();
+						break;
+					}
+					case 38: { //Up Arrow
+						this.shootUp();
+						break;
+					}
+					case 39: { //Right Arrow
+						this.shootRight();
+						break;
+					}
+					case 40: { //Down Arrow
+						this.shootDown();
+						break;
+					}
+				}
 			}
-			//W
-			case 87: {
-				this.moveUp();
-				break;
-			}
-			//S
-			case 83: {
-				this.moveDown();
-				break;
-			}
-			case 37: { //Left Arrow
-				this.shootLeft();
-				break;
-			}
-			case 38: { //Up Arrow
-				this.shootUp();
-				break;
-			}
-			case 39: { //Right Arrow
-				this.shootRight();
-				break;
-			}
-			case 40: { //Down Arrow
-				this.shootDown();
-				break;
-			}
-			}	
 		}
+		catch(Exception e) {System.out.println(e.getCause());}
 		//checks to see if neither key is pressed to make sure that a speed is not retained when the player is not pressing a key to move
 		this.fixSpeeds();
 	}
@@ -322,9 +342,9 @@ public class Player extends Entity{
 	/**
 	 * fires a tear to the left of the player, and changes the heads direction
 	 */
-	protected void shootLeft() {
+	protected void shootLeft() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Scythe_Tear(this, 1,this.tearDamage, this.tearKnockback));
+		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 1,this.tearDamage, this.tearKnockback));
 		this.fireDir = 0;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -333,9 +353,9 @@ public class Player extends Entity{
 	/**
 	 * fires a tear up from the player, and changes the heads direction
 	 */
-	protected void shootUp() {
+	protected void shootUp() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Scythe_Tear(this, 0,this.tearDamage,this.tearKnockback));
+		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 0,this.tearDamage,this.tearKnockback));
 		this.fireDir = 1;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -344,9 +364,9 @@ public class Player extends Entity{
 	/**
 	 * fires a tear to the right of the player, and changes the heads direction
 	 */
-	protected void shootRight() {
+	protected void shootRight() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Scythe_Tear(this, 3,this.tearDamage,this.tearKnockback));
+		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 3,this.tearDamage,this.tearKnockback));
 		this.fireDir = 2;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -355,9 +375,9 @@ public class Player extends Entity{
 	/**
 	 * fires a tear below the player, and changes the heads direction
 	 */
-	protected void shootDown() {
+	protected void shootDown() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add(new Scythe_Tear(this, 2,this.tearDamage,this.tearKnockback));
+		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 2,this.tearDamage,this.tearKnockback));
 		this.fireDir = 3;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
