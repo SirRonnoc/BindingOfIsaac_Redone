@@ -7,7 +7,7 @@ import Engines.EntityEngine;
 import Tools.GameFileReader;
 
 public abstract class Tear extends Entity{
-	protected int direction;
+	protected double angle;
 	protected double originXSpeed;
 	protected double originYSPeed;
 	protected boolean destroy;
@@ -15,14 +15,13 @@ public abstract class Tear extends Entity{
 	protected double knockback;
 	protected boolean destroyOnContact;
 	protected ArrayList<Enemy> enemiesHit;
-	public Tear(Entity e, int dir, int damage, double kb,int w,int h,boolean dOC, int aI) {
+	public Tear(Entity e,int xPos,int yPos, double a, int damage, double kb,int w,int h,boolean dOC, int aI) {
 		//call to the Entity constructor 
-		super(1,14,aI,e.getXPos(),e.getYPos(),w,h);
-
+		super(1,14,aI,xPos,yPos,w,h);
 		//initializing variables
 		this.destroyOnContact = dOC;
 		this.enemiesHit = new ArrayList<Enemy>();
-		this.direction = dir;
+		this.angle = a;
 		this.originXSpeed = e.getXSpeed();
 		this.originYSPeed = e.getYSpeed();
 		this.destroy = false;
@@ -37,32 +36,18 @@ public abstract class Tear extends Entity{
 	protected void setSpeed() {
 		this.xSpeed = this.originXSpeed;
 		this.ySpeed = this.originYSPeed;
-		switch(this.direction) {
-		case 0: { //up
-			this.ySpeed -= this.speed;
-			break;
-		}
-		case 1: { //left
-			this.xSpeed -= this.speed;
-			break;
-		}
-		case 2: { //down
-			this.ySpeed += this.speed;
-			break;
-		}
-		case 3: { //right 
-			this.xSpeed += this.speed;
-			break;
-		}
-		}
+		this.xSpeed += Math.cos(this.angle)*this.speed;
+		this.ySpeed += Math.sin(this.angle)*this.speed;
 	}
 	protected void managePosition() {
-		this.xPos += this.xSpeed + (int)this.savedXM; //sets the position based on the speed
-		this.yPos += this.ySpeed + (int)this.savedYM;
+		this.xPos += (int)(this.xSpeed + (int)this.savedXM); //sets the position based on the speed, casting to int before adding to fix an issue with the negative adding
+		this.yPos += (int)(this.ySpeed + (int)this.savedYM);
 		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
 		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1;
 		if (EntityEngine.checkCollision_W(this) != 0)
 			this.destroy = true;
+
+
 
 	}
 	/**

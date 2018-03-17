@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
 
 public class Scythe_Tear extends Tear {
     private static BufferedImage[] animations;
-    public Scythe_Tear(Entity e, int dir, int damage, double kb) {
-        super(e,dir,damage,kb,animations[0].getWidth(),animations[0].getHeight(),false,2);
+    public Scythe_Tear(Entity e,int xPos, int yPos, double a, int damage, double kb) {
+        super(e,xPos,yPos,a,damage,kb,animations[0].getWidth(),animations[0].getHeight(),false,2);
         this.drawImage = animations[0];
 
     }

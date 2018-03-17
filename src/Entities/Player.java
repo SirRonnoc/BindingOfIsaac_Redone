@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import Entities.Tears.Basic_Tear;
+import Entities.Tears.Penetrating_Tear;
 import Entities.Tears.Scythe_Tear;
 import Tools.GameFileReader;
 /**
@@ -14,21 +15,13 @@ import Tools.GameFileReader;
  * @author 20190
  *
  */
-public class Player extends Entity{
+public abstract class Player extends Entity{
 	protected KeyListener kL;
 	protected ArrayList<Integer> keysPressed; 
 	protected BufferedImage headImage;
 	protected ArrayList<Tear> tearList;
 	protected int tearDelay;
 	protected int tearDelayCounter;
-	protected static BufferedImage[] downAnimations;
-	protected static BufferedImage[] upAnimations;
-	protected static BufferedImage[] leftAnimations;
-	protected static BufferedImage[] rightAnimations;
-	protected static BufferedImage[] leftHeadAnimations;
-	protected static BufferedImage[] rightHeadAnimations;
-	protected static BufferedImage[] downHeadAnimations;
-	protected static BufferedImage[] upHeadAnimations;
 	protected int headStayTime;
 	protected int blinkTime;
 	protected int timeSinceLastShot;
@@ -36,37 +29,41 @@ public class Player extends Entity{
 	protected int tearDamage;
 	protected double tearKnockback;
 	protected final int DAMAGE_IMMUNITY_TIME = 90;
+	protected final double SHOT_SPREAD = Math.PI/32;
+	protected final int SHOT_SPREAD_DF = 3;
 	protected int damageImmunityTimer;
 	protected boolean isDamageImmune;
 	protected Constructor<?> tearConstructor;
-	/**
-	 * sets all the static images for use by the player
-	 */
-	public static void init() {
-		//sets all animations that do not require an inverted read of the image
-				BufferedImage[] temp = GameFileReader.split(GameFileReader.readImg("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
-				downAnimations = new BufferedImage[] {temp[6],temp[7],temp[12],temp[13],temp[14],temp[15],temp[16],temp[17],temp[18],temp[19]};
-				upAnimations = new BufferedImage[] {temp[19], temp[18], temp[17], temp[16], temp[15], temp[14], temp[13], temp[12], temp[7], temp[6]};
-				rightAnimations = new BufferedImage[] {temp[24],temp[25],temp[26],temp[27],temp[28],temp[29],temp[30],temp[31]};
-				rightHeadAnimations = new BufferedImage[] {temp[2],temp[3]};
-				upHeadAnimations = new BufferedImage[] {temp[4],temp[5]};
-				downHeadAnimations = new BufferedImage[] {temp[0],temp[1]};
-				
-				//sets the left animations which require a horizontal flip of the spritesheet
-				temp = GameFileReader.split(GameFileReader.readImgInvertedX("resources/gfx/characters/costumes/character_001_isaac.png", 2.5, 2.5), 12, 10, 0, 0, 1, 1);
-				leftAnimations = new BufferedImage[] {temp[35],temp[34],temp[33],temp[32],temp[31],temp[30],temp[29],temp[28]};
-				leftHeadAnimations = new BufferedImage[] {temp[9],temp[8]};
-	}
+	protected int spiritHealth;
+	protected BufferedImage[] downAnimations;
+	protected BufferedImage[] upAnimations;
+	protected BufferedImage[] leftAnimations;
+	protected BufferedImage[] rightAnimations;
+	protected BufferedImage[] leftHeadAnimations;
+	protected BufferedImage[] rightHeadAnimations;
+	protected BufferedImage[] downHeadAnimations;
+	protected BufferedImage[] upHeadAnimations;
+	protected int tearsPerShot;
 	/**
 	 * constructor, handles the creation of a player object, currently not being passed into by anything, will be updated at a later date
 	 */
-	public Player() {
+	public Player(int mH, double sp, int aI, int dmg,int xP, int yP, int w, int h,BufferedImage[] dA,BufferedImage[] uA,BufferedImage[] lA,BufferedImage[] rA,BufferedImage[] dHA,BufferedImage[] uHA,BufferedImage[] lHA,BufferedImage[] rHA) {
 		// calls the entity constructor
-		super(6,3.3,5,300,500,leftAnimations[0].getWidth(),rightAnimations[1].getHeight());
+		super(mH,sp,aI,xP,yP,w,h);
 		
 		//sets the keylistener using the createKeyListener slave method
 		this.kL = this.createKeyListener();
-		
+
+		//initializes animations for the player
+		this.rightAnimations = rA;
+		this.leftAnimations = lA;
+		this.upAnimations = uA;
+		this.downAnimations = dA;
+		this.leftHeadAnimations = lHA;
+		this.rightHeadAnimations = rHA;
+		this.downHeadAnimations = dHA;
+		this.upHeadAnimations = uHA;
+
 		//initializing other variables
 		this.keysPressed = new ArrayList<Integer>();
 		this.animationCounter = this.animationInterval;
@@ -75,11 +72,13 @@ public class Player extends Entity{
 		this.headStayTime = 10;
 		this.blinkTime = 2;
 		this.timeSinceLastShot = this.headStayTime +1;
-		this.tearDamage = 2;
+		this.tearDamage = dmg;
 		this.tearKnockback = 1.2;
+		this.spiritHealth = 6;
+		this.tearsPerShot = 3;
 		//sets the tear constructor to basic tear
 		try {
-			this.tearConstructor = Basic_Tear.class.getConstructor(Entity.class, int.class, int.class, double.class);
+			this.tearConstructor = Basic_Tear.class.getConstructor(Entity.class,int.class,int.class, double.class, int.class, double.class);
 		} catch (Exception e) {}
 	}
 	/**
@@ -108,16 +107,15 @@ public class Player extends Entity{
 		}
 
 	}
-	
 	/**
 	 * deals with setting the current onscreen images of the player
 	 */
 	public void animate() {
 		//deals with the animation counter and the currentAnimationIndex
 		if (this.animationCounter >= this.animationInterval) {
-			
-			this.currentAnimationIndex = this.currentAnimationIndex < rightAnimations.length-1 ? this.currentAnimationIndex+1 : 0;
-			
+
+			this.currentAnimationIndex = this.currentAnimationIndex < this.rightAnimations.length-1 ? this.currentAnimationIndex+1 : 0;
+
 			//sets the images
 			this.setBodyAnimations();
 			this.setHeadAnimations();
@@ -125,28 +123,28 @@ public class Player extends Entity{
 			this.animationCounter = 0;
 		}
 		this.animationCounter +=1;
-		
+
 	}
 	/**
-	 * sets the current body image for the player 
+	 * sets the current body image for the player
 	 */
 	public void setBodyAnimations() {
 		if (this.ySpeed < 0) { //up
-			this.drawImage = upAnimations[this.currentAnimationIndex];
+			this.drawImage = this.upAnimations[this.currentAnimationIndex];
 		}
 		else if (this.ySpeed > 0){ //down
-			this.drawImage = downAnimations[this.currentAnimationIndex];
+			this.drawImage = this.downAnimations[this.currentAnimationIndex];
 		}
 		else if (this.xSpeed < 0) { //left
-			this.drawImage = leftAnimations[this.currentAnimationIndex];
-		}	
+			this.drawImage = this.leftAnimations[this.currentAnimationIndex];
+		}
 		else if (this.xSpeed > 0){ //right
-			this.drawImage = rightAnimations[this.currentAnimationIndex];
+			this.drawImage = this.rightAnimations[this.currentAnimationIndex];
 		}
 		else {
-			this.drawImage = downAnimations[2];
+			this.drawImage = this.downAnimations[2];
 		}
-		
+
 	}
 	/**
 	 * sets the current head animation for the player
@@ -162,33 +160,33 @@ public class Player extends Entity{
 				anim = 0;
 			//sets the shooting animations
 			if (this.fireDir == 0)
-				this.headImage = leftHeadAnimations[anim];
+				this.headImage = this.leftHeadAnimations[anim];
 			else if (this.fireDir == 1)
-				this.headImage = upHeadAnimations[anim];
+				this.headImage = this.upHeadAnimations[anim];
 			else if (this.fireDir == 2)
-				this.headImage = rightHeadAnimations[anim];
+				this.headImage = this.rightHeadAnimations[anim];
 			else
-				this.headImage = downHeadAnimations[anim];
+				this.headImage = this.downHeadAnimations[anim];
 		}
 		else { //sets the animations if the player is not shooting
 		if (this.ySpeed < 0) { //up
-			this.headImage = upHeadAnimations[0];
+			this.headImage = this.upHeadAnimations[0];
 		}
 		else if (this.ySpeed > 0){ //down
-			this.headImage = downHeadAnimations[0];
+			this.headImage = this.downHeadAnimations[0];
 		}
 		else if (this.xSpeed < 0) { //left
-			this.headImage = leftHeadAnimations[0];
-		}	
+			this.headImage = this.leftHeadAnimations[0];
+		}
 		else if (this.xSpeed > 0){ //right
-			this.headImage = rightHeadAnimations[0];
+			this.headImage = this.rightHeadAnimations[0];
 		}
 		else {
-			this.headImage = downHeadAnimations[0];
+			this.headImage = this.downHeadAnimations[0];
 		}
 		}
-		
-		
+
+
 	}
 
 	/**
@@ -210,8 +208,7 @@ public class Player extends Entity{
 	}
 	protected void pickUpTearModifier(Tear_Modifier_Item i) {
 		try { //sets the new tear modifier
-			this.tearConstructor = i.getTearClass().getConstructor(Entity.class, int.class, int.class, double.class);
-			System.out.println(this.tearConstructor);
+			this.tearConstructor = i.getTearClass().getConstructor(Entity.class,int.class,int.class, double.class, int.class, double.class);
 		} catch (Exception e){
 			e.getCause().printStackTrace();
 		}
@@ -224,6 +221,7 @@ public class Player extends Entity{
 		this.maxHealth += i.getMaxHealthGiven()*2;
 		this.heal(i.getHealing());
 		this.tearDamage += i.getDamageGiven();
+		this.tearsPerShot += i.getTearsPerShotAdded();
 	}
 	/**
 	 * slave method that returns the keylistener used in the player class. Used to clean up
@@ -304,7 +302,7 @@ public class Player extends Entity{
 				}
 			}
 		}
-		catch(Exception e) {System.out.println(e.getCause());}
+		catch(Exception e) {System.out.println(e.getCause().getStackTrace());}
 		//checks to see if neither key is pressed to make sure that a speed is not retained when the player is not pressing a key to move
 		this.fixSpeeds();
 	}
@@ -344,7 +342,7 @@ public class Player extends Entity{
 	 */
 	protected void shootLeft() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 1,this.tearDamage, this.tearKnockback));
+		this.fireTear(Math.PI);
 		this.fireDir = 0;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -355,7 +353,7 @@ public class Player extends Entity{
 	 */
 	protected void shootUp() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 0,this.tearDamage,this.tearKnockback));
+		this.fireTear(Math.PI*1.5);
 		this.fireDir = 1;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -366,7 +364,7 @@ public class Player extends Entity{
 	 */
 	protected void shootRight() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 3,this.tearDamage,this.tearKnockback));
+		this.fireTear(0);
 		this.fireDir = 2;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
@@ -377,11 +375,40 @@ public class Player extends Entity{
 	 */
 	protected void shootDown() throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
 		if (this.tearDelayCounter >= this.tearDelay) {
-		this.tearList.add((Tear)this.tearConstructor.newInstance(this, 2,this.tearDamage,this.tearKnockback));
+		this.fireTear(Math.PI/2);
 		this.fireDir = 3;
 		this.timeSinceLastShot = 0;
 		this.tearDelayCounter = 0;
 		}
+	}
+
+	/**
+	 * fires a tear when the player fires one in any direction
+	 * @param angle - the angle at which to fire the tear
+	 * @throws java.lang.IllegalAccessException
+	 * @throws java.lang.InstantiationException
+	 * @throws java.lang.reflect.InvocationTargetException
+	 */
+	protected void fireTear(double angle) throws java.lang.IllegalAccessException,java.lang.InstantiationException,java.lang.reflect.InvocationTargetException {
+		int offX = 0; int offY = 0;
+		if (this.tearsPerShot > 1) {
+			offX = (angle == Math.PI / 2 || angle == Math.PI) ? this.width / (this.SHOT_SPREAD_DF*2) : -this.width / (this.SHOT_SPREAD_DF*2); //fixing an issue with the tears being placed wrong for their angle for down and left fire
+			offY = (angle == Math.PI / 2 || angle == Math.PI) ? this.height / (this.SHOT_SPREAD_DF*2) : -this.height / (this.SHOT_SPREAD_DF*2);
+		}
+		for (int i = 1; i < this.tearsPerShot + 1;i++) {
+
+			if ((this.tearsPerShot % 2 == 0 && (i == this.tearsPerShot/2 || i == this.tearsPerShot/2 +1)) || i == (int)(this.tearsPerShot/2) + 1)
+				this.tearList.add((Tear) this.tearConstructor.newInstance(this, (angle == Math.PI/2 || angle == (Math.PI/2)*3) ? this.xPos + offX : this.xPos ,(angle == Math.PI || angle ==0) ? this.yPos + offY : this.yPos, angle, this.tearDamage, this.tearKnockback));
+			else
+				this.tearList.add((Tear) this.tearConstructor.newInstance(this, (angle == Math.PI / 2 || angle == (Math.PI / 2) * 3) ? this.xPos + offX : this.xPos, (angle == Math.PI || angle == 0) ? this.yPos + offY : this.yPos, (angle - (this.SHOT_SPREAD / 2) + (this.SHOT_SPREAD * ((double)(i - 1) / (this.tearsPerShot-1)))) , this.tearDamage, this.tearKnockback));
+
+			if (this.tearsPerShot > 1) { //if there is more than one tear, sets the offset
+				offX = (angle == Math.PI/2 || angle == Math.PI) ? offX - (this.width/this.SHOT_SPREAD_DF) / (this.tearsPerShot) : offX + (this.width/this.SHOT_SPREAD_DF) / (this.tearsPerShot); //accounting for the reverse tear cycle for left and down fire
+				offY = (angle == Math.PI/2 || angle == Math.PI) ? offY - (this.height/this.SHOT_SPREAD_DF) / (this.tearsPerShot) : offY + (this.height/this.SHOT_SPREAD_DF) / (this.tearsPerShot);
+
+			}
+		}
+
 	}
 	/**
 	 * checks to see if any of the tears in the players tearList are destroyed and then removes them from the game
@@ -393,7 +420,10 @@ public class Player extends Entity{
 	}
 	public void takeDamage(int d) {
 		if (!this.isDamageImmune) {
-			this.health -= d;
+			if (this.spiritHealth > 0)
+				this.spiritHealth -=1;
+			else
+				this.health -= d;
 			this.isDamageImmune = true;
 			this.damageImmunityTimer = this.DAMAGE_IMMUNITY_TIME;
 		}
@@ -426,6 +456,22 @@ public class Player extends Entity{
 	 */
 	public void heal(int amount) {
 		this.health = this.health + amount > this.maxHealth ? this.maxHealth : this.health + amount;
+	}
+
+	/**
+	 * returns the players spirit health
+	 * @return - spirit health of the player (half hearts)
+	 */
+	public int getSpiritHealth() {
+		return this.spiritHealth;
+	}
+
+	/**
+	 * adds spirit hearts to the player's health
+	 * @param amount - spirit health to add in half hearts
+	 */
+	public void addSpiritHealth(int amount) {
+		this.spiritHealth += amount;
 	}
 	
 	

@@ -46,8 +46,8 @@ public abstract class Entity {
 	protected void managePosition() {
 		int tempX = this.xPos; int tempY = this.yPos; //x and y pos before adding speed
 
-		this.xPos += this.xSpeed + (int)this.savedXM; //sets the position based on the speed
-		this.yPos += this.ySpeed + (int)this.savedYM;
+		this.xPos += (int)(this.xSpeed + (int)this.savedXM); //sets the position based on the speed, casting to int before adding to fix an issue with the negative adding
+		this.yPos += (int)(this.ySpeed + (int)this.savedYM);
 		this.savedXM = (this.savedXM % 1) + this.xSpeed% 1; //adds the remainder of speed for x
 		this.savedYM = (this.savedYM % 1) + this.ySpeed % 1;
 

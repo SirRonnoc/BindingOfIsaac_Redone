@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 
 public class Basic_Tear extends Tear {
     private static BufferedImage drawImage_S;
-    public Basic_Tear(Entity e, int dir, int damage, double kb) {
-        super(e,dir,damage,kb,drawImage_S.getWidth(),drawImage_S.getHeight(),true,2);
+    public Basic_Tear(Entity e, int xPos, int yPos, double a, int damage, double kb) {
+        super(e,xPos,yPos,a,damage,kb,drawImage_S.getWidth(),drawImage_S.getHeight(),true,2);
         this.drawImage = drawImage_S;
     }
     public static void init() {
