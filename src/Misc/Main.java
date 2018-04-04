@@ -15,6 +15,7 @@ import Engines.GameEngine;
 import Entities.Enemy;
 import Entities.Item;
 import Entities.Player;
+import Entities.Players.Player_Isaac;
 import Entities.Tear;
 import Entities.Enemies.Angry_Fly;
 import Rooms.BasementRoom;
@@ -47,7 +48,7 @@ public class Main extends JFrame{
 		this.windowX = xSize; this.windowY = ySize;
 		
 		//initializes other variables
-		this.player = new Player();
+		this.player = new Player_Isaac(300,500);
 		EntityEngine.setPlayer(this.player);
 		this.userInterface = new UI(this.player);
 
@@ -159,6 +160,8 @@ public class Main extends JFrame{
 		}
 		public void paintInterface(Graphics g) {
 			for (UIObject o : userInterface.getHearts())
+				g.drawImage(o.getDrawImage(),o.getXPos(),o.getYPos(),null);
+			for (UIObject o : userInterface.getSpiritHearts())
 				g.drawImage(o.getDrawImage(),o.getXPos(),o.getYPos(),null);
 		}
 		/**

@@ -13,6 +13,7 @@ public abstract class Item extends Entity {
     protected int darkHealthGiven;
     protected int damageGiven;
     protected int healing;
+    protected int tearsPerShotAdded;
     protected final double DRIFT_FACTOR = 20;
     /**
      * constructs the item with basic variables
@@ -47,6 +48,9 @@ public abstract class Item extends Entity {
                     break;
                 case "healing":
                     this.healing = effectData[i];
+                    break;
+                case "tearsGiven":
+                    this.tearsPerShotAdded = effectData[i];
                     break;
             }
         }
@@ -136,5 +140,11 @@ public abstract class Item extends Entity {
     public int getHealing() {
         return this.healing;
     }
+
+    /**
+     * returns the amount of tears per shot the item increases
+     * @return - tears per shot added (int)
+     */
+    public int getTearsPerShotAdded() {return this.tearsPerShotAdded;}
 
 }

@@ -3,8 +3,11 @@ package Engines;
 import Entities.*;
 import Entities.Enemies.Angry_Fly;
 import Entities.Enemies.Onetooth;
-import Entities.Items.Full_Heart_Pickup;
-import Entities.Items.Magic_Mushroom;
+import Entities.Items.*;
+import Entities.Players.Player_Isaac;
+import Entities.Tears.Basic_Tear;
+import Entities.Tears.Penetrating_Tear;
+import Entities.Tears.Scythe_Tear;
 import Misc.UI;
 import Rooms.*;
 
@@ -18,13 +21,18 @@ public class GameEngine {
     public static void start(){
         BasementRoom.init();
         Room.init();
-        Player.init();
-        Tear.init();
+        Player_Isaac.init();
+        Basic_Tear.init();
         Angry_Fly.init();
         Onetooth.init();
         UI.init();
         Magic_Mushroom.init();
         Full_Heart_Pickup.init();
+        Scythe_Tear.init();
+        Death_Touch.init();
+        Cupid_Arrow.init();
+        Penetrating_Tear.init();
+        Double_Shot.init();
         init();
         
 

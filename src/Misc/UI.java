@@ -10,9 +10,13 @@ public class UI {
     protected static BufferedImage redHeart;
     protected static BufferedImage halfRedHeart;
     protected static BufferedImage emptyHeart;
+    protected static BufferedImage spiritHeart;
+    protected static BufferedImage halfSpiritHeart;
     protected Player player;
     protected UIObject[] hearts;
+    protected UIObject[] spiritHearts;
     protected int numHearts;
+    protected int numSpiritHearts;
     protected int heartWidth, heartYOff,heartXOff;
 
     /**
@@ -21,11 +25,14 @@ public class UI {
      */
     public UI(Player p) {
         this.player = p;
-        this.numHearts = p.getHealth();
+        this.numHearts = this.player.getHealth();
+        this.numSpiritHearts = this.player.getSpiritHealth();
         this.heartWidth = redHeart.getWidth();
-        this.hearts = new UIObject[(int)(numHearts/2) + numHearts % 2];
+        this.hearts = new UIObject[(int)(this.numHearts/2) + this.numHearts % 2];
+        this.spiritHearts = new UIObject[(int)(this.numSpiritHearts/2) + this.numSpiritHearts % 2];
         this.heartXOff = 30;
         this.heartYOff = 50;
+
     }
 
     /**
@@ -35,6 +42,9 @@ public class UI {
         this.numHearts = this.player.getHealth();
         int temp = (int)(this.player.getMaxHealth()/2) + this.player.getMaxHealth() % 2;
         this.hearts = this.hearts.length !=  temp ? new UIObject[temp] : this.hearts;
+        temp = (int)(this.player.getSpiritHealth()/2) + this.player.getSpiritHealth() % 2;
+        this.spiritHearts = this.spiritHearts.length != temp ? new UIObject[temp] : this.spiritHearts;
+        this.numSpiritHearts = this.player.getSpiritHealth();
         this.setHearts();
     }
 
@@ -44,13 +54,24 @@ public class UI {
     protected void setHearts() {
 
         int ctr = 1;
-        while (ctr -1< hearts.length) {
+        while (ctr -1< this.hearts.length) {
             if (ctr*2 <= this.numHearts)
-                hearts[ctr-1] = new UIObject(redHeart,this.heartWidth*ctr + this.heartXOff,this.heartYOff);
+                this.hearts[ctr-1] = new UIObject(redHeart,this.heartWidth*ctr + this.heartXOff,this.heartYOff);
             else if (ctr*2 -1 == this.numHearts)
-                hearts[ctr -1] = new UIObject(halfRedHeart,this.heartWidth*ctr + this.heartXOff,this.heartYOff);
+                this.hearts[ctr -1] = new UIObject(halfRedHeart,this.heartWidth*ctr + this.heartXOff,this.heartYOff);
             else
-                hearts[ctr-1] = new UIObject(emptyHeart,this.heartWidth*ctr + this.heartXOff,this.heartYOff);
+                this.hearts[ctr-1] = new UIObject(emptyHeart,this.heartWidth*ctr + this.heartXOff,this.heartYOff);
+            ctr ++;
+        }
+        ctr = 1;
+
+        while (ctr -1< this.spiritHearts.length) {
+            if (ctr*2 <= this.numSpiritHearts)
+                this.spiritHearts[ctr-1] = new UIObject(spiritHeart,this.heartWidth*ctr + this.hearts[this.hearts.length-1].getXPos(),this.heartYOff);
+            else if (ctr*2 -1 == this.numSpiritHearts)
+                this.spiritHearts[ctr -1] = new UIObject(halfSpiritHeart,this.heartWidth*ctr + this.hearts[this.hearts.length-1].getXPos(),this.heartYOff);
+            else
+                this.spiritHearts[ctr-1] = new UIObject(emptyHeart,this.heartWidth*ctr + this.hearts[this.hearts.length-1].getXPos(),this.heartYOff);
             ctr ++;
         }
     }
@@ -63,6 +84,9 @@ public class UI {
         redHeart = temp[0];
         halfRedHeart = temp[1];
         emptyHeart = temp[2];
+        spiritHeart = temp[5];
+        halfSpiritHeart = temp[6];
+
     }
 
     /**
@@ -72,4 +96,5 @@ public class UI {
     public UIObject[] getHearts() {
         return this.hearts;
     }
+    public UIObject[] getSpiritHearts() {return this.spiritHearts;}
 }

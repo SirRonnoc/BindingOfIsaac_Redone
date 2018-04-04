@@ -55,11 +55,13 @@ public class EntityEngine {
 	private static void updateTears() {
 		for (Tear t : player.getTearList()) {
 			for (Enemy e : currentRoom.getEnemyList())
-				if (checkCollision_E(t,e) && !t.getIsDestroyed()) {
+				if (checkCollision_E(t,e) && !t.getIsDestroyed() && !t.getEnemiesHit().contains(e)) { //checks collision conditions
 					e.damage(t.getDamage());
 					e.knockback(t.getXSpeed(), t.getYSpeed(), t.getKnockback());
 					e.setLastHitTimer();
-					t.destroy();
+					t.getEnemiesHit().add(e);
+					if (t.getDestroyOnContact())
+						t.destroy();
 				}
 			
 		}

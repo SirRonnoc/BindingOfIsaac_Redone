@@ -16,8 +16,8 @@ public abstract class Melee_Enemy extends Enemy{
 	 * @param rF - repulsion factor of the enemy
 	 * @param rST - red shift time of the enemy
 	 */
-	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int h, int w, int oHD, boolean iF, int dF, double rF, int rST) {
-		super(mH,sp,aI,xP,yP,h,w,oHD,iF,dF,rF,rST);
+	public Melee_Enemy(int mH, int sp, int aI, int xP, int yP, int w, int h, int oHD, boolean iF, int dF, double rF, int rST) {
+		super(mH,sp,aI,xP,yP,w,h,oHD,iF,dF,rF,rST);
 		
 	}
 	/**
