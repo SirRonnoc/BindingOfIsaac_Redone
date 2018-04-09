@@ -1,23 +1,37 @@
 package Rooms;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Floor {
 
     public Room[][] floorLayout = new Room[30][30];
     private ArrayList<Integer[]> okRooms;
+    private ArrayList<Integer[]> specialOkRooms;
     private Integer[] temp;
+    private Stack<Room> rooms = new Stack();
 
     /**
      * Constructor for Floor
      * @param numRooms - How many rooms in the floor
      */
     public Floor(int numRooms){
-        floorLayout[15][15] = new BasementRoom(1,1);
-        okRooms = new ArrayList<>(0);
-        okRooms.add(new Integer[] {15,15});
+        floorLayout[15][15] = new BasementRoom();
+        okRooms = new ArrayList<>(0); specialOkRooms = new ArrayList<>(0);
+        okRooms.add(new Integer[] {15,15}); specialOkRooms.add(new Integer[] {15,15});
+        setupQueue(numRooms);
         createFloorLayout(numRooms);
+
+    }
+
+    public void setupQueue(int numRooms){
+        while (rooms.size()<numRooms){
+            if (rooms.size()==0){
+                rooms.add(new BossRoom());
+            }else if (rooms.size()==1) {
+                rooms.add(new ItemRoom());
+            }else{
+                rooms.add(new BasementRoom());
+            }
+        }
     }
 
     /**
@@ -28,17 +42,18 @@ public class Floor {
         Random rand = new Random();
         for (int i = 0; i<numRooms;i++){
             // Picks which room to branch from a list of rooms that are not already all covered
-            temp = okRooms.get(rand.nextInt(okRooms.size()));
+            if (rooms.peek() instanceof BasementRoom) {
+                temp = okRooms.get(rand.nextInt(okRooms.size()));
+            }else{
+                temp = specialOkRooms.get(rand.nextInt(specialOkRooms.size()));
+            }
 
             // Randomly picks a direction to branch using a switch and a random number
             switch (rand.nextInt(4)){
                 case 0:
                     if (floorLayout[temp[0]+1][temp[1]]==null) {
-                        if (i+1==numRooms){
-                            floorLayout[temp[0]+1][temp[1]] = new BossRoom(1, 1,false,false,false,true);
-                        }else {
-                            floorLayout[temp[0] + 1][temp[1]] = new BasementRoom(1, 1, false, false, false, true);
-                        }
+                        floorLayout[temp[0]+1][temp[1]] = rooms.pop();
+                        floorLayout[temp[0]+1][temp[1]].setDoors(false,false,false,true);
                         checkAdjacent(temp[0]+1,temp[1]);
                         checkOkRooms();
                     }else{
@@ -46,27 +61,23 @@ public class Floor {
 
                     }
                     break;
+
                 case 1:
                     if (floorLayout[temp[0]-1][temp[1]]==null) {
-                        if (i+1==numRooms){
-                            floorLayout[temp[0]-1][temp[1]] = new BossRoom(1, 1,false,false,false,true);
-                        }else {
-                            floorLayout[temp[0] - 1][temp[1]] = new BasementRoom(1, 1, false, true, false, false);
-                        }
-                        checkAdjacent(temp[0]-1,temp[1]);
+                        floorLayout[temp[0] - 1][temp[1]] = rooms.pop();
+                        floorLayout[temp[0] - 1][temp[1]].setDoors(false, true, false, false);
+                        checkAdjacent(temp[0] - 1, temp[1]);
                         checkOkRooms();
-                    }else{
-                        i--;
 
+                    } else{
+                        i--;
                     }
                     break;
+
                 case 2:
                     if (floorLayout[temp[0]][temp[1]+1]==null) {
-                        if (i+1==numRooms){
-                            floorLayout[temp[0]][temp[1]+1] = new BossRoom(1, 1,false,false,false,true);
-                        }else {
-                            floorLayout[temp[0]][temp[1] + 1] = new BasementRoom(1, 1, true, false, false, false);
-                        }
+                        floorLayout[temp[0]][temp[1]+1] = rooms.pop();
+                        floorLayout[temp[0]][temp[1] + 1].setDoors(true, false, false, false);
                         checkAdjacent(temp[0],temp[1]+1);
                         checkOkRooms();
                     }else{
@@ -74,28 +85,21 @@ public class Floor {
 
                     }
                     break;
+
                 case 3:
                     if (floorLayout[temp[0]][temp[1]-1]==null) {
-                        if (i+1==numRooms){
-                            floorLayout[temp[0]][temp[1]-1] = new BossRoom(1, 1,false,false,false,true);
-                        }else {
-                            floorLayout[temp[0]][temp[1] - 1] = new BasementRoom(1, 1, false, false, true, false);
-                        }
+                        floorLayout[temp[0]][temp[1]-1] = rooms.pop();
+                        floorLayout[temp[0]][temp[1] - 1].setDoors(false, false, true, false);
                         checkAdjacent(temp[0],temp[1]-1);
                         checkOkRooms();
-
-
                     }else{
                         i--;
-
                     }
                     break;
-
             }
 
-            System.out.print(Arrays.deepToString(okRooms.toArray())+"\n");
-
         }
+        System.out.println(Arrays.deepToString(specialOkRooms.toArray()));
 
     }
 
@@ -120,6 +124,7 @@ public class Floor {
     }
     protected void checkOkRooms(){
         okRooms.clear();
+        specialOkRooms.clear();
         int connectedRooms;
         for (int i = 0; i<30;i++){
             for (int j = 0; j<30; j++){
@@ -133,7 +138,10 @@ public class Floor {
                         connectedRooms++;
                     if (floorLayout[i][j].doorBot)
                         connectedRooms++;
-                    if (!(connectedRooms > 2)) {
+                    if (!(connectedRooms > 1)) {
+                        specialOkRooms.add(new Integer[]{i, j});
+                        okRooms.add(new Integer[]{i, j});
+                    }else if(!(connectedRooms > 2)){
                         okRooms.add(new Integer[]{i, j});
                     }
                 }

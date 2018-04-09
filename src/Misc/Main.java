@@ -19,6 +19,7 @@ import Entities.Players.Player_Isaac;
 import Entities.Tear;
 import Entities.Enemies.Angry_Fly;
 import Rooms.BasementRoom;
+import Rooms.BossRoom;
 import Rooms.Room;
 
 public class Main extends JFrame{
@@ -28,7 +29,7 @@ public class Main extends JFrame{
 	private Timer mainUpdate;
 	private ActionListener updateFunction;
 	private Player player;
-	private BasementRoom currentRoom;
+	private Room currentRoom;
 	private UI userInterface;
 
 	/**
@@ -91,7 +92,7 @@ public class Main extends JFrame{
 						GameEngine.moveRoom("D");
 						break;
 				}
-				//GameEngine.printFloor();
+				GameEngine.printFloor();
 			}
 
 			@Override
@@ -114,7 +115,7 @@ public class Main extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentRoom.checkRoomClear();
-				currentRoom = (BasementRoom) GameEngine.getCurrentRoom();
+				currentRoom = GameEngine.getCurrentRoom();
 				player.update();
 				userInterface.update();
 				EntityEngine.setCurrentRoom(currentRoom);
@@ -142,7 +143,9 @@ public class Main extends JFrame{
 	 */
 	private class Draw extends JComponent {
 		public void paint(Graphics g) {
-			this.paintRoom(g);
+			try {
+				this.paintRoom(g);
+			}catch(java.lang.NullPointerException e){}
 
 			this.paintTears(g);
 			this.paintInterface(g);
@@ -176,37 +179,61 @@ public class Main extends JFrame{
 
             if (currentRoom.isRoomClear()) {
 				if (currentRoom.getDoors()[0]) {
-
-					g.drawImage(currentRoom.getDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+					if (!(GameEngine.getRoom("U") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("U").getDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+					}
 				}
 				if (currentRoom.getDoors()[1]) {
-
-					g.drawImage(currentRoom.getDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+					if (!(GameEngine.getRoom("R") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("R").getDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+					}
 				}
 				if (currentRoom.getDoors()[2]) {
-
-					g.drawImage(currentRoom.getDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+					if (!(GameEngine.getRoom("D") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("D").getDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+					}
 				}
 				if (currentRoom.getDoors()[3]) {
-
-					g.drawImage(currentRoom.getDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+					if (!(GameEngine.getRoom("L") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("L").getDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+					}
 				}
 			}else {
 				if (currentRoom.getDoors()[0]) {
-
-					g.drawImage(currentRoom.getClosedDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+					if (!(GameEngine.getRoom("U") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("U").getClosedDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getClosedDoorImgTop(), Room.getTopDoorPos()[0], Room.getTopDoorPos()[1], null);
+					}
 				}
 				if (currentRoom.getDoors()[1]) {
-
-					g.drawImage(currentRoom.getClosedDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+					if (!(GameEngine.getRoom("R") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("R").getClosedDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getClosedDoorImgRight(), Room.getRightDoorPos()[0], Room.getRightDoorPos()[1], null);
+					}
 				}
 				if (currentRoom.getDoors()[2]) {
-
-					g.drawImage(currentRoom.getClosedDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+					if (!(GameEngine.getRoom("D") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("D").getClosedDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getClosedDoorImgBot(), Room.getBotDoorPos()[0], Room.getBotDoorPos()[1], null);
+					}
 				}
 				if (currentRoom.getDoors()[3]) {
-
-					g.drawImage(currentRoom.getClosedDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+					if (!(GameEngine.getRoom("L") instanceof BasementRoom)){
+						g.drawImage(GameEngine.getRoom("L").getClosedDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+					}else {
+						g.drawImage(currentRoom.getClosedDoorImgLeft(), Room.getLeftDoorPos()[0], Room.getLeftDoorPos()[1], null);
+					}
 				}
 			}
 

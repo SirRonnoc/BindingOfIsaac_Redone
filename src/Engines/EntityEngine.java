@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import Entities.*;
 import Entities.Items.Full_Heart_Pickup;
-import Rooms.BasementRoom;
+import Rooms.Room;
 import Rooms.Room;
 
 public class EntityEngine {
@@ -107,10 +107,7 @@ public class EntityEngine {
 		double r1 = entity.getWidth()/4;
 		double r2 = entity2.getWidth()/4;
 		double distance =Math.sqrt(Math.pow(Math.abs(xCenter1-xCenter2),2) + Math.pow(Math.abs(yCenter1-yCenter2),2));
-		System.out.println(distance);
 		if (distance<(r1+r2)){
-			System.out.println(distance);
-			System.out.println(r1+r2);
 			return true;
 		}
 		return false;
@@ -124,10 +121,10 @@ public class EntityEngine {
 		*/
 	}
 	public static double checkAngle_E(Entity entity, Entity entity2) {
-		double xCenter1 = (entity.getXPos()*2 + entity.getWidth())/2;
-		double yCenter1 = (entity.getYPos()*2 + entity.getWidth())/2;
-		double xCenter2 = (entity2.getXPos()*2 + entity2.getWidth())/2;
-		double yCenter2 = (entity2.getYPos()*2 + entity2.getWidth())/2;
+		//double xCenter1 = (entity.getXPos()*2 + entity.getWidth())/2;
+		//double yCenter1 = (entity.getYPos()*2 + entity.getWidth())/2;
+		//double xCenter2 = (entity2.getXPos()*2 + entity2.getWidth())/2;
+		//double yCenter2 = (entity2.getYPos()*2 + entity2.getWidth())/2;
 		//return Math.atan2((yCenter2 - yCenter1),(xCenter2 - xCenter1));
 		return Math.atan2(entity2.getYPos() - entity.getYPos(), entity2.getXPos() - entity.getXPos());
 	}
@@ -150,7 +147,7 @@ public class EntityEngine {
 	// we can probably make these into one function, will look at later
 	private static boolean rightWallCol(Entity focus){
 		if (GameEngine.checkRoom("R")&&GameEngine.getCurrentRoom().isRoomClear()) {
-			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (BasementRoom.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
+			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (Room.getDoorWidth())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
 				return false;
 			} else if (focus.getXPos() + focus.getWidth() >= 990) {
 				return true;
@@ -163,7 +160,7 @@ public class EntityEngine {
 
 	private static boolean topWallCol(Entity focus){
 		if (GameEngine.checkRoom("U")&&GameEngine.getCurrentRoom().isRoomClear()) {
-			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (BasementRoom.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (BasementRoom.getDoorImgTop().getWidth())))) {
+			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (Room.getDoorWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (Room.getDoorWidth())))) {
 				return false;
 			} else if (focus.getYPos() <= 100) {
 				return true;
@@ -176,7 +173,7 @@ public class EntityEngine {
 
 	private static boolean leftWallCol(Entity focus){
 		if (GameEngine.checkRoom("L")&&GameEngine.getCurrentRoom().isRoomClear()) {
-			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (BasementRoom.getDoorImgRight().getHeight())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
+			if (((player.getYPos()+player.getHeight() < Room.getRightDoorPos()[1] + (Room.getDoorWidth())) && (player.getYPos()+10 > Room.getRightDoorPos()[1]))) {
 				return false;
 			} else if (focus.getXPos() <= 100) {
 				return true;
@@ -189,7 +186,7 @@ public class EntityEngine {
 
 	private static boolean botWallCol(Entity focus){
 		if (GameEngine.checkRoom("D")&&GameEngine.getCurrentRoom().isRoomClear()) {
-			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (BasementRoom.getDoorImgTop().getWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (BasementRoom.getDoorImgTop().getWidth())))) {
+			if (((player.getXPos() - (player.getWidth()) > Room.getTopDoorPos()[0] - (Room.getDoorWidth() / 2)) && (player.getXPos() + (player.getWidth()) < Room.getTopDoorPos()[0] + (Room.getDoorWidth())))) {
 				return false;
 			} else if (focus.getYPos() +focus.getHeight() >= 620) {
 				return true;
@@ -204,18 +201,22 @@ public class EntityEngine {
 		if(player.getYPos()<100){
 			GameEngine.moveRoom("U");
 			player.setYPos(620-player.getHeight());
+			player.clearTearList();
 		}
 		else if(player.getYPos()+player.getHeight()>625){
 			GameEngine.moveRoom("D");
 			player.setYPos(105);
+			player.clearTearList();
 		}
 		else if(player.getXPos()+player.getWidth()>995){
 			GameEngine.moveRoom("R");
 			player.setXPos(105);
+			player.clearTearList();
 		}
 		else if(player.getXPos()<100){
 			GameEngine.moveRoom("L");
 			player.setXPos(990-player.getWidth());
+			player.clearTearList();
 		}
 	}
 	public static void setCurrentRoom(Room room) {

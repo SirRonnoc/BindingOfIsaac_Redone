@@ -15,7 +15,7 @@ public class Player_Isaac extends Player {
     private static BufferedImage[] downHeadAnimations;
     private static BufferedImage[] upHeadAnimations;
     public Player_Isaac(int xP,int yP) {
-        super(6,3.3,5,2,xP,yP,leftAnimations[0].getWidth(),leftAnimations[0].getHeight(),downAnimations,upAnimations,leftAnimations,rightAnimations,downHeadAnimations,upHeadAnimations,leftHeadAnimations,rightHeadAnimations);
+        super(6,6,5,2,xP,yP,leftAnimations[0].getWidth(),leftAnimations[0].getHeight(),downAnimations,upAnimations,leftAnimations,rightAnimations,downHeadAnimations,upHeadAnimations,leftHeadAnimations,rightHeadAnimations);
     }
     public static void init() {
         //sets all animations that do not require an inverted read of the image

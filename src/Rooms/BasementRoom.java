@@ -27,33 +27,34 @@ public class BasementRoom extends Room {
      * @param x
      * @param y
      */
-    public BasementRoom(int x, int y) {
-        super(x, y);
-    }
 
     /**
      *  BasementRoom Constructor
-     * @param x
-     * @param y
      * @param top
      * @param right
      * @param bot
      * @param left
      */
-    public BasementRoom(int x, int y,boolean top,boolean right,boolean bot, boolean left) {
-        super(x, y,top,right,bot,left);
-        Random rand = new Random();
-        for (int i = 0; i < rand.nextInt(3);i++) {
-        	this.enemyList.add(new Onetooth(rand.nextInt(600) + 100,rand.nextInt(400) + 100));
-        }
-        for (int i = 0; i < rand.nextInt(5);i++) {
-        	this.enemyList.add(new Angry_Fly(rand.nextInt(600) + 100,rand.nextInt(400) + 100));
-        }
-        for (int i = 0; i < rand.nextInt(3);i++)
-            this.itemList.add(new Double_Shot(rand.nextInt(600) + 100,rand.nextInt(400) + 100));
-
+    public BasementRoom(boolean top,boolean right,boolean bot, boolean left) {
+        super(top,right,bot,left);
+        addEnemies();
+    }
+    public BasementRoom(){
+        super();
+        addEnemies();
     }
 
+    public void addEnemies(){
+        Random rand = new Random();
+        for (int i = 0; i < rand.nextInt(3);i++) {
+            this.enemyList.add(new Onetooth(rand.nextInt(600) + this.wallWidth,rand.nextInt(400) + this.wallWidth));
+        }
+        for (int i = 0; i < rand.nextInt(5);i++) {
+            this.enemyList.add(new Angry_Fly(rand.nextInt(600) + this.wallWidth,rand.nextInt(400) + this.wallWidth));
+        }
+        for (int i = 0; i < rand.nextInt(3);i++)
+            this.itemList.add(new Double_Shot(rand.nextInt(600) + this.wallWidth,rand.nextInt(400) + this.wallWidth));
+    }
     /**
      * Sets all variables that are static for all Basement Rooms. Called in GameEngine start method
      */
@@ -87,7 +88,7 @@ public class BasementRoom extends Room {
      * Returns all roomImages in a list (0: top-left, 1: top-right, 2: bot-left, 3: bot-right)
      * @return roomImages
      */
-    public static BufferedImage[] getRoomImages() {
+    public BufferedImage[] getRoomImages() {
         return roomImages ;
     }
 
@@ -96,7 +97,7 @@ public class BasementRoom extends Room {
      * Returns the top door image
      * @return doorImageTop
      */
-    public static BufferedImage getDoorImgTop() {
+    public BufferedImage getDoorImgTop() {
         return doorImgTop;
     }
 
@@ -104,7 +105,7 @@ public class BasementRoom extends Room {
      * Returns the right door image
      * @return doorImageRight
      */
-    public static BufferedImage getDoorImgRight() {
+    public BufferedImage getDoorImgRight() {
         return doorImgRight;
     }
 
@@ -112,7 +113,7 @@ public class BasementRoom extends Room {
      * Returns the bot door image
      * @return doorImageBot
      */
-    public static BufferedImage getDoorImgBot() {
+    public BufferedImage getDoorImgBot() {
         return doorImgBot;
     }
 
@@ -120,23 +121,23 @@ public class BasementRoom extends Room {
      * Returns the left door image
      * @return doorImageLeft
      */
-    public static BufferedImage getDoorImgLeft() {
+    public BufferedImage getDoorImgLeft() {
         return doorImgLeft;
     }
 
-    public static BufferedImage getClosedDoorImgTop(){
+    public BufferedImage getClosedDoorImgTop(){
         return closedDoorImgTop;
     }
 
-    public static BufferedImage getClosedDoorImgBot() {
+    public BufferedImage getClosedDoorImgBot() {
         return closedDoorImgBot;
     }
 
-    public static BufferedImage getClosedDoorImgLeft() {
+    public BufferedImage getClosedDoorImgLeft() {
         return closedDoorImgLeft;
     }
 
-    public static BufferedImage getClosedDoorImgRight() {
+    public BufferedImage getClosedDoorImgRight() {
         return closedDoorImgRight;
     }
 }

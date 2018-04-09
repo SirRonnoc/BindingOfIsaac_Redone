@@ -117,4 +117,6 @@ public abstract class Entity {
 	}
 	public int getMaxHealth() { return this.maxHealth;}
 	public double getSpeed() {return this.speed;}
+	public void clearTearList(){return;}
+
 }

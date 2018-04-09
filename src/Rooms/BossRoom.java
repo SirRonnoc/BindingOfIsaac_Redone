@@ -19,9 +19,11 @@ public class BossRoom extends Room {
     protected static String background;
 
 
-    public BossRoom(int x, int y,boolean top,boolean right,boolean bot,boolean left){
-        super(x,y,top,right,bot,left);
+    public BossRoom(boolean top,boolean right,boolean bot,boolean left){
+        super(top,right,bot,left);
     }
+
+    public BossRoom(){super();}
 
     private void chooseBoss(){
         Random rand = new Random();
@@ -46,25 +48,25 @@ public class BossRoom extends Room {
     public static void setImages(double scale){
 
         //Grabs the images and puts them in static variables so each room does not make its own image wasting ram and power.
-        roomImages[0] = GameFileReader.split(GameFileReader.readImg(background, 1, 1), 2, 3, 0, 0, scale, scale)[0];
-        roomImages[1] = GameFileReader.split(GameFileReader.readImgInvertedX(background, 1, 1), 0, 3, 0, 0, scale, scale)[1];
-        roomImages[2] = GameFileReader.split(GameFileReader.readImgInvertedY(background, 1, 1), 2, 3, 0, 0, scale, scale)[4];
-        roomImages[3] = GameFileReader.split(GameFileReader.readImgInvertedXY(background, 1, 1), 2, 3, 0, 0, scale, scale)[5];
-        doorImgTop = GameFileReader.readImg("resources/gfx/grid/NormalDoorOpen.png",scale,scale);
-        doorImgBot = GameFileReader.readImgInvertedY("resources/gfx/grid/NormalDoorOpen.png",scale,scale);
-        doorImgRight = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorOpen.png",scale,scale,90);
-        doorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorOpen.png",scale,scale,270);
-        closedDoorImgTop = GameFileReader.readImg("resources/gfx/grid/NormalDoorClosed.png",scale,scale);
-        closedDoorImgBot = GameFileReader.readImgInvertedY("resources/gfx/grid/NormalDoorClosed.png",scale,scale);
-        closedDoorImgRight = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorClosed.png",scale,scale,90);
-        closedDoorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/NormalDoorClosed.png",scale,scale,270);
+        roomImages[0] = GameFileReader.split(GameFileReader.readImg(background, 1, 1), 2, 3, 0, 0, scale, scale)[3];
+        roomImages[1] = GameFileReader.split(GameFileReader.readImgInvertedX(background, 1, 1), 2, 3, 0, 0, scale, scale)[2];
+        roomImages[2] = GameFileReader.split(GameFileReader.readImgInvertedY(background, 1, 1), 2, 3, 0, 0, scale, scale)[3];
+        roomImages[3] = GameFileReader.split(GameFileReader.readImgInvertedXY(background, 1, 1), 2, 3, 0, 0, scale, scale)[2];
+        doorImgTop = GameFileReader.readImg("resources/gfx/grid/BossDoorOpen.png",scale,scale);
+        doorImgBot = GameFileReader.readImgInvertedY("resources/gfx/grid/BossDoorOpen.png",scale,scale);
+        doorImgRight = GameFileReader.readImgRotated("resources/gfx/grid/BossDoorOpen.png",scale,scale,90);
+        doorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/BossDoorOpen.png",scale,scale,270);
+        closedDoorImgTop = GameFileReader.readImg("resources/gfx/grid/BossDoorClosed.png",scale,scale);
+        closedDoorImgBot = GameFileReader.readImgInvertedY("resources/gfx/grid/BossDoorClosed.png",scale,scale);
+        closedDoorImgRight = GameFileReader.readImgRotated("resources/gfx/grid/BossDoorClosed.png",scale,scale,90);
+        closedDoorImgLeft = GameFileReader.readImgRotated("resources/gfx/grid/BossDoorClosed.png",scale,scale,270);
     }
 
     /**
      * Returns all roomImages in a list (0: top-left, 1: top-right, 2: bot-left, 3: bot-right)
      * @return roomImages
      */
-    public static BufferedImage[] getRoomImages() {
+    public BufferedImage[] getRoomImages() {
         return roomImages ;
     }
 
@@ -73,7 +75,7 @@ public class BossRoom extends Room {
      * Returns the top door image
      * @return doorImageTop
      */
-    public static BufferedImage getDoorImgTop() {
+    public BufferedImage getDoorImgTop() {
         return doorImgTop;
     }
 
@@ -81,7 +83,7 @@ public class BossRoom extends Room {
      * Returns the right door image
      * @return doorImageRight
      */
-    public static BufferedImage getDoorImgRight() {
+    public BufferedImage getDoorImgRight() {
         return doorImgRight;
     }
 
@@ -89,7 +91,7 @@ public class BossRoom extends Room {
      * Returns the bot door image
      * @return doorImageBot
      */
-    public static BufferedImage getDoorImgBot() {
+    public BufferedImage getDoorImgBot() {
         return doorImgBot;
     }
 
@@ -97,23 +99,23 @@ public class BossRoom extends Room {
      * Returns the left door image
      * @return doorImageLeft
      */
-    public static BufferedImage getDoorImgLeft() {
+    public BufferedImage getDoorImgLeft() {
         return doorImgLeft;
     }
 
-    public static BufferedImage getClosedDoorImgTop(){
+    public BufferedImage getClosedDoorImgTop(){
         return closedDoorImgTop;
     }
 
-    public static BufferedImage getClosedDoorImgBot() {
+    public BufferedImage getClosedDoorImgBot() {
         return closedDoorImgBot;
     }
 
-    public static BufferedImage getClosedDoorImgLeft() {
+    public BufferedImage getClosedDoorImgLeft() {
         return closedDoorImgLeft;
     }
 
-    public static BufferedImage getClosedDoorImgRight() {
+    public BufferedImage getClosedDoorImgRight() {
         return closedDoorImgRight;
     }
 }

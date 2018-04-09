@@ -18,25 +18,27 @@ import Entities.Enemies.Angry_Fly;
  */
 public abstract class Room {
     protected int dimensionX, dimensionY;
-    public static int pieceSize=156;
     protected boolean doorTop,doorRight,doorBot,doorLeft;
     protected static int wallWidth=90;
-    static int[] topDoorPos= new int[2];
-    static int[] botDoorPos= new int[2];
-    static int[] leftDoorPos= new int[2];
-    static int[] rightDoorPos= new int[2];
+    protected static int[] topDoorPos= new int[2];
+    protected static int[] botDoorPos= new int[2];
+    protected static int[] leftDoorPos= new int[2];
+    protected static int[] rightDoorPos= new int[2];
     protected ArrayList<Enemy> enemyList;
     protected ArrayList<Item> itemList;
     protected Boolean roomClear;
-
+    static int roomPieceHeight;
+    static int roomPieceWidth;
+    static int doorWidth;
+    static int doorHeight;
     /**
      * Room Constructor
-     * @param x Horizontal size of the room
-     * @param y Vertical size of the room
+     * @param top - Boolean for top door
+     * @param right - Boolean for right door
+     * @param bot - Boolean for bot door
+     * @param left - Boolean for left door
      */
-    public Room(int x, int y,boolean top,boolean right,boolean bot,boolean left){
-        this.dimensionX=x;
-        this.dimensionY=y;
+    public Room(boolean top,boolean right,boolean bot,boolean left){
         this.doorTop=top;this.doorRight=right;this.doorBot=bot;this.doorLeft=left;
         this.enemyList = new ArrayList<Enemy>();
         this.itemList = new ArrayList<Item>();
@@ -45,12 +47,9 @@ public abstract class Room {
 
     /**
      * Room Constructor
-     * @param x
-     * @param y
+     * Generic Constructor (all doors set to false)
      */
-    public Room(int x, int y){
-        this.dimensionX=x;
-        this.dimensionY=y;
+    public Room(){
         this.enemyList = new ArrayList<Enemy>();
         this.itemList = new ArrayList<Item>();
         this.roomClear = false;
@@ -60,14 +59,20 @@ public abstract class Room {
      * Called in the GameEngine start method loads in all variables that are common through all rooms
      */
     public static void init(){
-        topDoorPos[0]= BasementRoom.getRoomImages()[0].getWidth()-BasementRoom.getDoorImgTop().getWidth()/2;
+
+        roomPieceWidth = 540;
+        roomPieceHeight = 360;
+        doorWidth = 150;
+        doorHeight = 110;
+        topDoorPos[0]= roomPieceWidth-doorWidth/2;
         topDoorPos[1]=25;
-        rightDoorPos[0]= BasementRoom.getRoomImages()[0].getWidth()*2-154;
-        rightDoorPos[1]=BasementRoom.getRoomImages()[0].getHeight()-64;
-        botDoorPos[0]= BasementRoom.getRoomImages()[0].getWidth()-BasementRoom.getDoorImgTop().getWidth()/2;
-        botDoorPos[1]=BasementRoom.getRoomImages()[0].getHeight()*2-135;
+        rightDoorPos[0]= roomPieceWidth*2-154;
+        rightDoorPos[1]= roomPieceHeight-64;
+        botDoorPos[0]= roomPieceWidth-doorWidth/2;
+        botDoorPos[1]=roomPieceHeight*2-135;
         leftDoorPos[0]= 10;
-        leftDoorPos[1]= BasementRoom.getRoomImages()[0].getHeight()-58;
+        leftDoorPos[1]=roomPieceHeight-58;
+        System.out.println(roomPieceHeight+"  Width: "+roomPieceWidth);
     }
 
     /**
@@ -84,6 +89,11 @@ public abstract class Room {
         return this.dimensionY;
     }
 
+    public static int getDoorWidth(){return doorWidth;}
+
+    public static int getDoorHeight() {
+        return doorHeight;
+    }
 
     public static int[] getBotDoorPos() {
         return botDoorPos;
@@ -108,9 +118,18 @@ public abstract class Room {
     public static int getWallWidth() {
         return wallWidth;
     }
+
     public ArrayList<Enemy> getEnemyList() {
     	return this.enemyList;
     }
+
+    public void setDoors(boolean u, boolean r, boolean b, boolean l){
+        doorTop=u;
+        doorRight=r;
+        doorBot=b;
+        doorLeft=l;
+    }
+
     public void checkRoomClear(){
         if (enemyList.size()==0){
             this.roomClear=true;
@@ -121,7 +140,40 @@ public abstract class Room {
     public boolean isRoomClear(){
         return roomClear;
     }
+
     public ArrayList<Item> getItemList() {
         return this.itemList;
     }
+    public abstract BufferedImage[] getRoomImages();
+    /**
+     * Returns the top door image
+     * @return doorImageTop
+     */
+    public abstract BufferedImage getDoorImgTop();
+
+    /**
+     * Returns the right door image
+     * @return doorImageRight
+     */
+    public abstract BufferedImage getDoorImgRight();
+
+    /**
+     * Returns the bot door image
+     * @return doorImageBot
+     */
+    public abstract BufferedImage getDoorImgBot();
+
+    /**
+     * Returns the left door image
+     * @return doorImageLeft
+     */
+    public abstract BufferedImage getDoorImgLeft();
+
+    public abstract BufferedImage getClosedDoorImgTop();
+
+    public abstract BufferedImage getClosedDoorImgBot();
+
+    public abstract BufferedImage getClosedDoorImgLeft();
+
+    public abstract BufferedImage getClosedDoorImgRight();
 }

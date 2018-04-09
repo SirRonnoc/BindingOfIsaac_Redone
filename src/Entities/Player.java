@@ -223,6 +223,14 @@ public abstract class Player extends Entity{
 		this.tearDamage += i.getDamageGiven();
 		this.tearsPerShot += i.getTearsPerShotAdded();
 	}
+
+	/**
+	 * Clears tear list (used when switching rooms)
+	 */
+	public void clearTearList(){
+		tearList.clear();
+	}
+
 	/**
 	 * slave method that returns the keylistener used in the player class. Used to clean up
 	 * the constructor

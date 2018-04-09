@@ -20,6 +20,8 @@ public class GameEngine {
      */
     public static void start(){
         BasementRoom.init();
+        BossRoom.init();
+        ItemRoom.init();
         Room.init();
         Player_Isaac.init();
         Basic_Tear.init();
@@ -47,7 +49,7 @@ public class GameEngine {
         floorNum = 0;
         floorList = new Floor[1];
         for(int i = 0;i<floorList.length;i++){
-            floorList[i]=new Floor(Math.round(15*((i+1))));
+            floorList[i]=new Floor(Math.round(7*((i+1))));
         }
     }
 
@@ -60,6 +62,7 @@ public class GameEngine {
         if (direction.equals("U")) {
             if (floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] - 1] != null) {
                 currentCoord[1]--;
+
                 return true;
             }
         } else if (direction.equals("R")) {
@@ -87,7 +90,29 @@ public class GameEngine {
      * @param direction - Direction to check
      * @return - True if there is a room in direction given
      */
-    public static boolean checkRoom(String direction) {
+    public static Room getRoom(String direction) {
+        if (direction.equals("U")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] - 1] != null) {
+                return floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] - 1];
+            }
+        } else if (direction.equals("R")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0] + 1][currentCoord[1]] != null) {
+                return floorList[floorNum].floorLayout[currentCoord[0] + 1][currentCoord[1]];
+            }
+        } else if (direction.equals("D")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] + 1] != null) {
+                return floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] + 1];
+            }
+        } else if (direction.equals("L")) {
+            if (floorList[floorNum].floorLayout[currentCoord[0] - 1][currentCoord[1]] != null) {
+                return floorList[floorNum].floorLayout[currentCoord[0] - 1][currentCoord[1]];
+            }
+        }
+
+        return null;
+    }
+
+    public static Boolean checkRoom(String direction) {
         if (direction.equals("U")) {
             if (floorList[floorNum].floorLayout[currentCoord[0]][currentCoord[1] - 1] != null) {
                 return true;
@@ -119,11 +144,16 @@ public class GameEngine {
                 if (x==currentCoord[0]&&y==currentCoord[1]){
                     System.out.print("S");
                 }
-                else if (getCurrentFloor().floorLayout[x][y]==null){
+                else if (getCurrentFloor().floorLayout[x][y]==null) {
                     System.out.print("O");
+                }else if(floorList[0].floorLayout[x][y] instanceof ItemRoom) {
+                    System.out.print("I");
+                }else if(floorList[0].floorLayout[x][y] instanceof BossRoom){
+                    System.out.print("B");
                 }else{
                     System.out.print("X");
                 }
+                System.out.print(" ");
             }
         }
     }
